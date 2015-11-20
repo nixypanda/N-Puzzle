@@ -135,6 +135,7 @@ Board.prototype = {
 
 /////////////////////// Test \\\\\\\\\\\\\\\\\\\\\\\\\\
 function BoardTest() {
+    console.log('Testing Board');
     var b = new Board([8, 1, 3, 4, 0, 2, 7, 6, 5]);
     console.log(b.toString());
     console.log(b.N);                 // 9
@@ -146,4 +147,5 @@ function BoardTest() {
 
     var fin = new Board([1, 2, 3, 0]);
     console.log(fin.isGoal());
+    console.log('End Test');
 }
