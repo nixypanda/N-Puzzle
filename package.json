@@ -1,0 +1,29 @@
+{
+  "name": "n_puzzle",
+  "version": "1.0.0",
+  "description": "Solver to genralised 8-puzzle problem using A* search algorithm",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "/home/shinigami/Dropbox/PersonalProjects/"
+  },
+  "author": "Sherub Thakur",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^3.3.6",
+    "browserify": "^12.0.1",
+    "gulp": "^3.9.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-connect": "^2.2.0",
+    "gulp-open": "^1.0.0",
+    "jquery": "^2.1.4",
+    "lodash": "^3.10.1",
+    "react": "^0.14.3",
+    "react-dom": "^0.14.3",
+    "reactify": "^1.1.1",
+    "vinyl-source-stream": "^1.1.0"
+  }
+}
