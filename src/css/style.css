@@ -1,0 +1,27 @@
+.board {
+  margin: 40px;
+  position: relative;
+  padding: 10px;
+  cursor: default;
+  box-sizing: border-box;
+  width: 500px;
+  height: 500px;
+}
+
+.board-row {
+  width: 480px;
+  height: 110px;
+  margin: 5px;
+  position: relative;
+  display: block;
+  padding: 1px;
+}
+
+.board-cell {
+  width: 105px;
+  height: 105px;
+  margin: 5px;
+  float: left;
+  text-align: center;
+  vertical-align: middle;
+}
