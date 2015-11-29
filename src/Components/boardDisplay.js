@@ -40,7 +40,9 @@ var BoardDisplay = React.createClass({
 
     // returning the markup
     return (
-      <div className='board'>{board}</div>
+      <div className='board'>
+        {board}
+      </div>
     );
   }
 });

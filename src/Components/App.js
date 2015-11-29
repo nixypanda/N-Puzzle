@@ -12,6 +12,7 @@ var App = React.createClass({
     return (
       <div>
         <TopBar />
+        <br />
         <TheBoard />
         <ButtonFrame />
       </div>

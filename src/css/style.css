@@ -22,7 +22,7 @@
   height: 105px;
   margin: 5px;
   float: left;
-  font-size: 50px;
+  font-size: 30px;
   text-align: center;
 }
 
@@ -32,4 +32,35 @@
   -webkit-transform: translateY(-50%);
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
+}
+
+.counter {
+  width: 150px;
+  height: 50px;
+  font-size: 20px;
+  text-align: center;
+  margin-left: 0px;
+  margin-right: 200px;
+  position: relative;
+  display: inline-block;
+}
+
+.counter p {
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.misc {
+  width: 500px;
+  height: 50px;
+  margin: auto;
+  padding-left: 25px;
+  padding-right: 25px;
+}
+
+.reset-button {
+  margin-left: auto;
+  margin-right: 0px;
 }

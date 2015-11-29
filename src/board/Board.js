@@ -1,6 +1,6 @@
 "use strict"
 
-var Array.prototype.equlas = require('../helpers/ArrayExtras');
+var equals = require('../helpers/ArrayExtras');
 
 /**
 * The board class represents the state of the board at a given

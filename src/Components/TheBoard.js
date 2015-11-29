@@ -4,6 +4,7 @@ var React = require('react');
 
 var BoardDisplay = require('./boardDisplay');
 var BoardFactory = require('../board/BoardFactory');
+var Counter = require('./Counter');
 
 var TheBoard = React.createClass({
   componentDidMount: function() {
@@ -36,7 +37,6 @@ var TheBoard = React.createClass({
     }
 
     this.setState({board: board, count: count});
-    console.log(this.state.count);
   },
 
   getInitialState: function initialBoardState() {
@@ -45,9 +45,16 @@ var TheBoard = React.createClass({
     return { board: board, count: 0};
   },
 
+  reset: function reset() {
+    this.replaceState(this.getInitialState());
+  },
+
   render: function renderBoard() {
     return (
-      <BoardDisplay N={4} board={this.state.board.board} />
+      <div>
+          <Counter reset={this.reset} count={this.state.count} />
+        <BoardDisplay N={4} board={this.state.board.board} />
+      </div>
     );
   }
 });
