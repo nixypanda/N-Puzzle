@@ -66,6 +66,15 @@ Board.prototype = {
     return true;
   },
 
+  equals: function equals(that) {
+    for (var i = 0; i < this.board.length; i++) {
+      if (this.board[i] !== that.board[i]) {
+        return false;
+      }
+    }
+    return true;
+  },
+
   /**
   * Returns a board that is the copy of the board with two tiles swaped.
   * (tiles belong to the same row)
@@ -76,7 +85,7 @@ Board.prototype = {
     var x = condition ? 0 : this.N;
     var y = condition ? 1 : this.N + 1;
 
-    return this._exchBoard(x, y);
+    return this.__exchBoard__(x, y);
   },
 
   /**
@@ -88,32 +97,25 @@ Board.prototype = {
     var i = this.board.indexOf(0);
 
     if (i > this.N - 1) {
-      neighbours.push(this._exchBoard(i, i - this.N));
+      neighbours.push(this.__exchBoard__(i, i - this.N));
     }
     if (i % this.N != 0) {
-      neighbours.push(this._exchBoard(i, i - 1));
+      neighbours.push(this.__exchBoard__(i, i - 1));
     }
     if (i < this.board.length - this.N) {
-      neighbours.push(this._exchBoard(i, i + this.N));
+      neighbours.push(this.__exchBoard__(i, i + this.N));
     }
     if (i % this.N != this.N - 1) {
-      neighbours.push(this._exchBoard(i, i + 1));
+      neighbours.push(this.__exchBoard__(i, i + 1));
     }
 
     return neighbours;
   },
 
-  /**
-  * Checks for the equality of the board
-  */
-  equals : function equals(that) {
-    return this.board.equals(that.board);
-  },
-
   // swaps the given tiles of the original board and returns the resulting
   // board
-  _exchBoard : function _exchBoard(i, j) {
-    var newBoard = new Board(this.board.clone());
+  __exchBoard__ : function exchBoard(i, j) {
+    var newBoard = new Board(this.board.slice(0));
 
     var temp = newBoard.board[i];
     newBoard.board[i] = newBoard.board[j];
@@ -185,21 +187,22 @@ Board.prototype = {
   }
 }
 
-module.exports = Board;
-
 /////////////////////// Test \\\\\\\\\\\\\\\\\\\\\\\\\\
 function BoardTest() {
   console.log('Testing Board');
   var b = new Board([8, 1, 3, 4, 0, 2, 7, 6, 5]);
+  var b1 = new Board([8, 1, 3, 4, 0, 2, 7, 6, 5]);
   console.log(b.toString());
   console.log(b.N);                 // 9
-  console.log(b.goal);              // [1, 2, 3, 4, 5, 6, 7, 8, 0]
   console.log(b.isGoal());          // false
   console.log(b.hamming());         // 5
   console.log(b.manhattan());       // 10
   console.log(b.twin().toString());
+  console.log(b.equals(b1));
 
   var fin = new Board([1, 2, 3, 0]);
   console.log(fin.isGoal());
   console.log('End Test');
 }
+
+module.exports = Board;
