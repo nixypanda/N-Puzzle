@@ -10,10 +10,12 @@ $ npm install
 $ gulp
 ```
 and you are done.
+
 The game will launch in the web-browser on localhost:9055. (If some application is using that port just simply change the port in gulpfile.js -> conifg -> port).
 
 ## Usage
-Use the arrow keys to move the tiles and if you can't solve it just hit the solve button the computer will do it for you in the lest number of moves.
+Use the arrow keys to move the tiles and if you can't solve it just hit the solve button the computer will do it for you in the lest number of moves.(Then use space to make a move).
+
 **How? you ask**
 It uses the [A\* search algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm) for doing so.
 
