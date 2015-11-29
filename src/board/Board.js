@@ -11,19 +11,9 @@ var equals = require('../helpers/ArrayExtras');
 function Board(arr) {
   this.N = Math.sqrt(arr.length);
   this.board = arr;
-  this._setUpGoal();
 }
 
 Board.prototype = {
-  // Sets up the goal state
-  // e.g. [1, 3, 0, 2] -> [1, 2, 3, 0]
-  _setUpGoal:function _setUpGoal() {
-    this.goal = this.board.slice(0);
-    this.goal.sort();
-    this.goal = this.goal.slice(1);
-    this.goal.push(0);
-  },
-
   /**
   * Calculate the hamming distance to the goal state (i.e. the number
   * of tiles out of place)
@@ -68,7 +58,12 @@ Board.prototype = {
   * Check if the board has reached the final goal state
   */
   isGoal : function isGoal() {
-    return this.board.equals(this.goal);
+    for (var i = 1; i < this.board.length; i++) {
+      if (i !== this.board[i - 1]) {
+        return false;
+      }
+    }
+    return true;
   },
 
   /**

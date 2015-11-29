@@ -14,7 +14,8 @@ var Counter = React.createClass({
         <Paper className='counter' zDepth={1}>
           <p >Moves: {this.props.count}</p>
         </Paper>
-        <RaisedButton className='reset-button' onClick={this.props.reset} label='Reset' primary={true}/>
+        <RaisedButton className='reset-button'
+          onClick={this.props.reset} label='Reset' primary={true}/>
       </div>
     );
   }
