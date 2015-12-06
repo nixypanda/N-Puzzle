@@ -9,7 +9,7 @@ const Paper = require('material-ui/lib/paper');
 var Counter = React.createClass({
 
   render: function() {
-    return (
+      return (
       <div className='misc'>
         <Paper className='counter' zDepth={1}>
           <p >Moves: {this.props.count}</p>

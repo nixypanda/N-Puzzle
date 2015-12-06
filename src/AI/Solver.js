@@ -16,11 +16,11 @@ function Solver(board) {
     var pq = new PriorityQueue();
     var pqt = new PriorityQueue();
 
-    this._aStar(sn, snt, pq, pqt);
+    this.__aStar__(sn, snt, pq, pqt);
 }
 
 Solver.prototype = {
-    _aStar : function aStar(sn, snt, pq, pqt) {
+    __aStar__ : function aStar(sn, snt, pq, pqt) {
         pq.push(sn, sn.priority);
         pqt.push(snt, snt.priority);
 
@@ -37,8 +37,8 @@ Solver.prototype = {
             if (snt.board.isGoal())
                 break;
 
-            this._addNeighbours(sn, pq);
-            this._addNeighbours(snt, pqt);
+            this.__addNeighbours__(sn, pq);
+            this.__addNeighbours__(snt, pqt);
         }
 
         if (this.solvable) {
@@ -49,7 +49,7 @@ Solver.prototype = {
         }
     },
 
-    _addNeighbours : function _addNeighbours(sn, pq) {
+    __addNeighbours__ : function __addNeighbours__(sn, pq) {
         var neighbours = sn.board.neighbours();
 
         for (var i = 0; i < neighbours.length; i++) {
