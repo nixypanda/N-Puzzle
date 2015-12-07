@@ -14,6 +14,9 @@ $ npm install
 $ gulp
 ```
 and you are done.
+**NOTE** If you are using gulp for the first time you would also need to do 
+```$ npm install -g gulp```
+before running the other commands
 
 The game will launch in the web-browser on localhost:9055. (If some application is using that port just simply change the port in gulpfile.js -> conifg -> port).
 
