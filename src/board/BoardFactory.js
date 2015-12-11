@@ -5,8 +5,38 @@ var Board = require('./Board');
 var BoardFactory = function() {}
 
 BoardFactory.prototype.getBoard = function () {
-  var b = new Board([14, 13, 5, 3, 0, 1, 8, 12, 6, 2, 4, 10, 11, 9, 15, 7]);
-  return b;
+    // Maximum number of moves is thus MAX_MOVES + MIN_MOVES
+    var MAX_MOVES = 165;
+    var MIN_MOVES = 50;
+
+    // Start with a solved board
+    var board = new Board([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0]);
+    // generate a random number this will be the number of moves that the
+    // board will make
+    var moves = Math.floor((Math.random() * MAX_MOVES) + MIN_MOVES);
+
+    // randomly choose UP, DOWN, LEFT, RIGHT $(MOVES) number of times
+    for (var i = 1; i < moves; i++) {
+        var where = Math.floor((Math.random() * 4) + 1);
+        switch (where) {
+            case 1: 
+                board.moveLeft();
+                break;
+            case 2:
+                board.moveRight();
+                break;
+            case 3:
+                board.moveUp();
+                break;
+            case 4:
+                board.moveDown();
+                break;
+            default:
+                break;
+        }
+    }
+
+    return board;
 };
 
 
