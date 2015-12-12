@@ -35,7 +35,7 @@ Solver.prototype = {
             }
 
             if (snt.board.isGoal())
-                break;
+            break;
 
             this.__addNeighbours__(sn, pq);
             this.__addNeighbours__(snt, pqt);
@@ -56,7 +56,7 @@ Solver.prototype = {
             var board = neighbours[i];
             var n = new SearchNode(board, sn);
             if (sn.prev == null || !n.board.equals(sn.prev.board))
-                pq.push(n, n.priority);
+            pq.push(n, n.priority);
         }
     },
 
@@ -67,13 +67,14 @@ Solver.prototype = {
 }
 
 function SolverTest() {
-    var board = new Board([14, 13, 5, 3, 0, 1, 8, 12, 6, 2, 4, 10, 11, 9, 15, 7]);
+    var list = [14, 13, 5, 3, 0, 1, 8, 12, 6, 2, 4, 10, 11, 9, 15, 7];
+    var board = new Board(list);
     var solver = new Solver(board);
 
-    console.log("The solution for the problem is in " + solver.solution().length);
+    console.log("The solution is in " + solver.solution().length + "steps");
     var solution = solver.solution();
     for (var i = 0; i < solution.length; i++)
-        console.log(solution[i].toString());
+    console.log(solution[i].toString());
 }
 
 module.exports = Solver;

@@ -10,7 +10,8 @@ BoardFactory.prototype.getBoard = function () {
     var MIN_MOVES = 50;
 
     // Start with a solved board
-    var board = new Board([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0]);
+    var list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0];
+    var board = new Board(list);
     // generate a random number this will be the number of moves that the
     // board will make
     var moves = Math.floor((Math.random() * MAX_MOVES) + MIN_MOVES);
@@ -19,25 +20,29 @@ BoardFactory.prototype.getBoard = function () {
     for (var i = 1; i < moves; i++) {
         var where = Math.floor((Math.random() * 4) + 1);
         switch (where) {
-            case 1: 
+            case 1: {
                 board.moveLeft();
                 break;
-            case 2:
+            }
+            case 2: {
                 board.moveRight();
                 break;
-            case 3:
+            }
+            case 3: {
                 board.moveUp();
                 break;
-            case 4:
+            }
+            case 4: {
                 board.moveDown();
                 break;
-            default:
+            }
+            default: {
                 break;
+            }
         }
     }
 
     return board;
 };
-
 
 module.exports = BoardFactory;
