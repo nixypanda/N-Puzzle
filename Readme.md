@@ -6,16 +6,23 @@ The N-puzzle is the generalised version of the [8-puzzle problem](https://en.wik
 Here is how it will look like
 ![N-Puzzle](https://raw.githubusercontent.com/jck-d-rpr/N-Puzzle/master/previews/n-puzzle.png)
 
-## Install
+## Install (Only use)
+Just download the zip file. All you need is the dist folder (You can delete everythign else). Double-click on the index.html and you should be good to go.
+
+## Install (Development)
 Just copy everything to some folder and then
+
 ```shell
 $ npm install
 
 $ gulp
 ```
 and you are done.
+
 **NOTE** If you are using gulp for the first time you would also need to do 
-```$ npm install -g gulp```
+```
+$ npm install -g gulp
+```
 before running the other commands
 
 The game will launch in the web-browser on localhost:9055. (If some application is using that port just simply change the port in gulpfile.js -> conifg -> port).

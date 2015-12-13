@@ -9,6 +9,9 @@ var reactify = require('reactify'); // JSX -> JS
 var source = require('vinyl-source-stream'); // use of text-stream in gulp
 var concat = require('gulp-concat');
 
+var uglify = require('gulp-uglify'); // js minification
+var streamify = require('gulp-streamify');
+
 /** @type {Configuration}
 *[It contains basic variables that are required troughout the gulpfile]
 */
@@ -59,7 +62,8 @@ gulp.task('js', function bundleJS() {
     .transform(reactify)
     .bundle()
     .on('error', console.error.bind(console))
-    .pipe(source('bundle.js'))
+    .pipe(source('bundle.min.js'))
+    .pipe(streamify(uglify()))
     .pipe(gulp.dest(config.paths.dist + '/scripts'))
     .pipe(connect.reload());
 });
