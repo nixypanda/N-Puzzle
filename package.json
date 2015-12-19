@@ -13,6 +13,7 @@
   "author": "Sherub Thakur",
   "license": "ISC",
   "dependencies": {
+    "babel-preset-react": "^6.3.13",
     "bootstrap": "^3.3.6",
     "browserify": "^12.0.1",
     "gulp": "^3.9.0",

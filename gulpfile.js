@@ -6,6 +6,7 @@ var open = require('gulp-open'); // opens URL in borowser
 
 var browserify = require('browserify'); // bundles javascript files
 var reactify = require('reactify'); // JSX -> JS
+var babelify = require('babelify');
 var source = require('vinyl-source-stream'); // use of text-stream in gulp
 var concat = require('gulp-concat');
 
@@ -59,7 +60,7 @@ gulp.task('html', function exeHTML() {
 /** bundle all js to /scripts/bundle.js */
 gulp.task('js', function bundleJS() {
     browserify(config.paths.mainJS)
-    .transform(reactify)
+    .transform("babelify", {presets: ["es2015", "react"]})
     .bundle()
     .on('error', console.error.bind(console))
     .pipe(source('bundle.min.js'))
