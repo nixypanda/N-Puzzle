@@ -1,9 +1,8 @@
-$ = jQuery = require('jquery')
+import {$} from 'jquery';
 
-var React = require('react');
-var ReactDOM = require('react-dom');
-var PropTypes = React.PropTypes;
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-var App = require('./Components/App');
+import App from './Components/App';
 
 ReactDOM.render(<App />, document.getElementById('n_puzzle'));

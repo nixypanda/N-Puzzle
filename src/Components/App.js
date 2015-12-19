@@ -1,35 +1,69 @@
 "use strict";
 
-var React = require('react');
+import React, {Component} from 'react';
+import jQuery from 'jquery';
+var $ = jQuery;
 
-var TopBar = require('../Common/TopBar');
+// Display imports
+import TopBar from '../Common/TopBar';
+import Counter from './Counter';
 var BoardDisplay = require('./boardDisplay');
-var Counter = require('./Counter');
-var BottomFrame = require('./BottomFrame');
+import BottomFrame from './BottomFrame';
 
+// Logic imports
 var BoardFactory = require('../board/BoardFactory');
 var Board = require('../board/Board');
 var Solver = require('../AI/Solver');
 
-var App = React.createClass({
-    /**
-    * Polling keydown event
-    */
-    componentDidMount: function() {
-        $(document.body).on('keydown', this.handleKeyDown);
-    },
-
-    componentWillUnmount: function() {
-        $(document.body).off('keydown', this.handleKeyDown);
-    },
+export class App extends Component {
 
     /**
-    * Calls the appropriate method in board class on keydown event if the
-    * key pressed is one of the arrow keys.
-    *
-    * @param  {event} e An event object.
-    */
-    handleKeyDown: function(e) {
+     * Initaial state of the game. The board generation is given to factory.
+     * @return {JSON} A dict of key value pairs
+     */
+    constructor() {
+        super();
+        let bf = new BoardFactory();
+        let board = new bf.getBoard();
+
+        this.state = {
+            board: board,
+            count: 0,
+            won: false,
+            autosolve: false,
+            solution: null,
+            solutionIndex: 1,
+            processing: false
+        }
+
+        // In es6 there is no autobinding
+        this.handleKeyDown = this.handleKeyDown.bind(this);
+        this.reset = this.reset.bind(this);
+        this.activateAutoSolve = this.activateAutoSolve.bind(this);
+    }
+
+    /**
+     * Start Polling keydown event
+     */
+    componentDidMount() {
+        jQuery(document.body).on('keydown', this.handleKeyDown);
+    }
+
+    /**
+     * Stop Polling keydown event
+     */
+    componentWillUnmount() {
+        jQuery(document.body).off('keydown', this.handleKeyDown);
+    }
+
+    /**
+     * Calls the appropriate method in board class on keydown event if the
+     * key pressed is one of the arrow keys.
+     *
+     * @param  {event} e An event object.
+     */
+    handleKeyDown(e) {
+
         if (this.state.autosolve) {
             var SPACE = 32;
             if (e.keyCode === 32 && !this.state.won) {
@@ -59,7 +93,11 @@ var App = React.createClass({
                 this.state.board.moveUp();
                 this.state.count += 1;
             }
-            this.setState({board: this.state.board, count: this.state.count});
+
+            this.setState({
+                board: this.state.board,
+                count: this.state.count
+            });
         }
 
         if (this.state.board.isGoal()) {
@@ -68,17 +106,17 @@ var App = React.createClass({
         else {
             this.setState({won: false});
         }
-    },
-
+    }
 
     /**
-    * Initaial state of the game. The board generation is given to factory.
-    * @return {JSON} A dict of key value pairs
-    */
-    getInitialState: function initialBoardState() {
-        var bf = new BoardFactory();
-        var board = bf.getBoard();
-        return {
+     * Resets the game to it's original configuration.
+     * The arrangement of tiles is randomised
+     */
+    reset() {
+        let bf = new BoardFactory();
+        let board = new bf.getBoard();
+
+        this.state = {
             board: board,
             count: 0,
             won: false,
@@ -86,37 +124,39 @@ var App = React.createClass({
             solution: null,
             solutionIndex: 1,
             processing: false
-        };
-    },
+        }
 
-    /**
-    * Resets the game to it's original configuration.
-    * The arrangement of tiles is randomised
-    */
-    reset: function reset() {
-        this.replaceState(this.getInitialState());
-    },
+        this.forceUpdate();
+    }
 
-    activateAutoSolve: function activateAutoSolve() {
+    activateAutoSolve() {
+        this.__getThatSpinyThings__()
+        this.__actulySolveTheProblem__()
+    }
+
+    __getThatSpinyThings__() {
         this.setState({
             autosolve: true,
             processing: true
         });
+        this.forceUpdate();
+    }
 
+    __actulySolveTheProblem__() {
         var solver = new Solver(this.state.board);
 
         this.setState({
             solution: solver.solution(),
             processing: false
         });
-        console.log('The solution has arrived');
-    },
+
+    }
 
     /**
-    * Render method
-    * @return {React class} Returns a react class
-    */
-    render: function renderBoard() {
+     * Render method
+     * @return {React class} Returns a react class
+     */
+    render() {
         return (
             <div>
                 <TopBar />
@@ -130,6 +170,6 @@ var App = React.createClass({
             </div>
         );
     }
-});
+}
 
 module.exports = App;

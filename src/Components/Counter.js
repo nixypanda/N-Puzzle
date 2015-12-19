@@ -1,14 +1,13 @@
 "use strict";
 
-var React = require('react');
-var PropTypes = React.PropTypes;
+import React, {Component} from 'react';
 
-const RaisedButton = require('material-ui/lib/raised-button');
-const Paper = require('material-ui/lib/paper');
+import RaisedButton from 'material-ui/lib/raised-button';
+import Paper from 'material-ui/lib/paper';
 
-var Counter = React.createClass({
+export default class Counter extends Component {
 
-    render: function() {
+    render() {
         return (
             <div className='misc'>
                 <Paper className='counter' zDepth={1}>
@@ -20,6 +19,4 @@ var Counter = React.createClass({
         );
     }
 
-});
-
-module.exports = Counter;
+}
