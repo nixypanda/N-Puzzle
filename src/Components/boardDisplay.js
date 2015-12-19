@@ -1,19 +1,20 @@
 "use strict";
 
-var React = require('react');
-const Paper = require('material-ui/lib/paper');
+import React, {Component} from 'react';
+import Paper from 'material-ui/lib/paper';
 
 /**
 * This class handles the markup for the board class.
 */
-var BoardDisplay = React.createClass({
+export default class BoardDisplay extends Component {
     /**
     * Return the markup of the board class
     * @return {<div className='board'>{board}</div>}
     * The markup for a N by N board
     */
-    render: function() {
+    render() {
         var makeMove = this.props.makeMove;
+
         // conversion of the 1-d array to 2-d
         var oldBoard = this.props.board.slice(0);
         var newBoard = [];
@@ -45,6 +46,4 @@ var BoardDisplay = React.createClass({
             </div>
         );
     }
-});
-
-module.exports = BoardDisplay;
+}

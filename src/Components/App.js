@@ -7,11 +7,11 @@ var $ = jQuery;
 // Display imports
 import TopBar from '../Common/TopBar';
 import Counter from './Counter';
-var BoardDisplay = require('./boardDisplay');
+import BoardDisplay from './boardDisplay';
 import BottomFrame from './BottomFrame';
 
 // Logic imports
-var BoardFactory = require('../board/BoardFactory');
+import BoardFactory from '../board/BoardFactory';
 var Board = require('../board/Board');
 var Solver = require('../AI/Solver');
 
@@ -23,10 +23,12 @@ export class App extends Component {
      */
     constructor() {
         super();
-        let bf = new BoardFactory();
-        let board = new bf.getBoard();
+        let size = 4;
+        let bf = new BoardFactory(size);
+        let board = bf.getBoard();
 
         this.state = {
+            N: size,
             board: board,
             count: 0,
             won: false,
@@ -113,10 +115,10 @@ export class App extends Component {
      * The arrangement of tiles is randomised
      */
     reset() {
-        let bf = new BoardFactory();
-        let board = new bf.getBoard();
+        let bf = new BoardFactory(this.state.N);
+        let board = bf.getBoard();
 
-        this.state = {
+        this.setState({
             board: board,
             count: 0,
             won: false,
@@ -124,7 +126,7 @@ export class App extends Component {
             solution: null,
             solutionIndex: 1,
             processing: false
-        }
+        });
 
         this.forceUpdate();
     }
@@ -162,7 +164,7 @@ export class App extends Component {
                 <TopBar />
                 <br />
                 <Counter reset={this.reset} count={this.state.count} />
-                <BoardDisplay N={4} board={this.state.board.board} />
+                <BoardDisplay N={this.state.N} board={this.state.board.board} />
                 <BottomFrame won={this.state.won}
                     activateAI={this.activateAutoSolve}
                     autosolve={this.state.autosolve}
