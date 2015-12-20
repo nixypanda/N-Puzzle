@@ -1,11 +1,13 @@
 "use strict";
 
 import React, {Component} from 'react'
+
 /** Importing the appbar from material-ui */
 import AppBar from 'material-ui/lib/app-bar';
 
 /**
- * React class to display a top bar
+ * React class to display a top bar that at the moment only displays the name 
+ * of the application.
  */
 export default class TopBar extends Component {
     /**

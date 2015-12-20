@@ -1,34 +1,34 @@
 "use strict"
 
 /** Internal node used as elements of the priority queue
-*  Contatins 2 fields one to store data and one for it's priority
-*/
-function Node (data, priority) {
-    this.data = data;
-    this.priority = priority;
+ *  Contatins 2 fields one to store data and one for it's priority
+ */
+class Node {
+    constructor (data, priority) {
+        this.data = data;
+        this.priority = priority;
+    }
+
+    // Returns the string representation of the node
+    toString() {
+        return this.priority;
+    }
 }
 
 /**
-* This method was created only for testing purposes only
-*/
-Node.prototype.toString = function(){
-    return this.priority;
-}
-
-/**
-* The Constructor for the priority queue.
-* Using the Heap Implementation which performs push, pull in lograthmic time.
-*/
+ * The Constructor for the priority queue.
+ * Using the Heap Implementation which performs push, pull in lograthmic time.
+ */
 function PriorityQueue (arr) {
     this.heap = [null];
 }
 
 PriorityQueue.prototype = {
     /**
-    * Push a data entry(with a given priority) into the priority queue.
-    * Takes time equivalent to O(log n) where n is the number of elements
-    * currently in the queue.
-    */
+     * Push a data entry(with a given priority) into the priority queue.
+     * Takes time equivalent to O(log n) where n is the number of elements
+     * currently in the queue.
+     */
     push: function(data, priority) {
         var node = new Node(data, priority);
         // append the element to the end of the list and then bubble it
@@ -37,14 +37,14 @@ PriorityQueue.prototype = {
     },
 
     /**
-    * Removes and returns the data of highest priority (i.e. one with the
-    * lowest value).
-    * Takes time proportional to O(log n).
-    */
+     * Removes and returns the data of highest priority (i.e. one with the
+     * lowest value).
+     * Takes time proportional to O(log n).
+     */
     pop: function() {
         // throw an error if list is [null].
         if (this.heap.length < 2)
-        throw 'Underflow';
+            throw 'Underflow';
 
         // get the value of the top element
         var topVal = this.heap[1].data;
@@ -52,18 +52,18 @@ PriorityQueue.prototype = {
         // pop the last element and put it on the top then sink it down hence
         //  maintaining the heap invarient.
         if (this.heap.length > 2)
-        this.heap[1] = this.heap.pop();
+            this.heap[1] = this.heap.pop();
         else
-        this.heap.pop();
+            this.heap.pop();
 
         this.sink(1);
         return topVal;
     },
 
     /**
-    * bubbles node i up the binary tree based on
-    * priority until heap conditions are restored
-    */
+     * bubbles node i up the binary tree based on
+     * priority until heap conditions are restored
+     */
     bubble: function(i) {
         // while the index of the element is greater than 1 and it has
         // higher priority compared to it's parent then exchange them
@@ -74,19 +74,19 @@ PriorityQueue.prototype = {
     },
 
     /**
-    * Sinks a low priority element down to it's place until the heap invarient
-    * is restored.
-    */
+     * Sinks a low priority element down to it's place until the heap invarient
+     * is restored.
+     */
     sink: function(i) {
         // while ith node has a child
         while (i*2 < this.heap.length) {
             var j = 2 * i;
             // pick the child with the higher priority
             if (j < this.heap.length - 1 && this.isHigherPriority(j, j + 1))
-            j++;
+                j++;
             // compare priority to it's parent
             if (!(this.isHigherPriority(i, j)))
-            break;
+                break;
             // swap if parent has low priority
             this.swap(i, j);
             i = j;

@@ -1,71 +1,103 @@
 "use strict";
 
 var Board = require('../board/Board');
-var SearchNode = require('./SearchNode');
+import SearchNode from './SearchNode';
 var PriorityQueue = require('../helpers/PriorityQueue');
 
-function Solver(board) {
-    this.b = board;
-    this.solvable = false;
-    this.moves = 0;
-    this.stack = [];
+/**
+ * This is the class that implements the ever popular A* Search. The heuristic
+ * that I am using here is the manhattan distance with the current number of
+ * moves. The lower the number the more likly is the node next up for 
+ * exploration. 
+ */
+export default class Solver {
 
-    var sn = new SearchNode(this.b, null);
-    var snt = new SearchNode(this.b.twin(), null);
+    /**
+     * The constructor initializes the various variables and also calls the 
+     * method that runs the A* search. Now here I have gone for a naive 
+     * implementation where I am keeping track of both the actual board and its
+     * twin so I can check if the board is solvable or not. (Not that it's 
+     * required but just in case for future expansion).
+     */
+    constructor(board) {
+        this.b = board;
+        this.solvable = false;
+        this.moves = 0;
+        this.stack = [];
 
-    var pq = new PriorityQueue();
-    var pqt = new PriorityQueue();
+        // starting point for the solution of the actual board 
+        var sn = new SearchNode(this.b, null);
+        // starting point fot the solution of the twin board
+        var snt = new SearchNode(this.b.twin(), null);
 
-    this.__aStar__(sn, snt, pq, pqt);
-}
+        // priority queue for the actual board
+        var pq = new PriorityQueue();
+        // priority queue for the twin board
+        var pqt = new PriorityQueue();
 
-Solver.prototype = {
-    __aStar__ : function aStar(sn, snt, pq, pqt) {
+        this.__aStar__(sn, snt, pq, pqt);
+    }
+
+    // Private helper: The A* search algorithm
+    __aStar__(sn, snt, pq, pqt) {
         pq.push(sn, sn.priority);
         pqt.push(snt, snt.priority);
 
         while (true) {
+            // pop both the queues to get the next highest priority board
             sn = pq.pop();
             snt = pqt.pop();
 
+            // check if already goal then quit
             if (sn.board.isGoal()) {
                 this.moves = sn.moves;
                 this.solvable = true;
                 break;
             }
 
+            // check if twin is in goal state
             if (snt.board.isGoal())
-            break;
+                break;
 
+            // add neighbours to the priority queue for both the cases
             this.__addNeighbours__(sn, pq);
             this.__addNeighbours__(snt, pqt);
         }
 
+        // if a solution exists retrace it (check docs of search node)
+        // achieved by maintaing a pointer to the board that lead to the 
+        // current board
         if (this.solvable) {
             while (sn != null) {
                 this.stack.push(sn.board);
                 sn = sn.prev;
             }
         }
-    },
+    }
 
-    __addNeighbours__ : function __addNeighbours__(sn, pq) {
+    // adds neighbouring boards of a given search-node to the priority-queue
+    // that is passed.
+    __addNeighbours__(sn, pq) {
         var neighbours = sn.board.neighbours();
 
         for (var i = 0; i < neighbours.length; i++) {
             var board = neighbours[i];
             var n = new SearchNode(board, sn);
             if (sn.prev == null || !n.board.equals(sn.prev.board))
-            pq.push(n, n.priority);
+                pq.push(n, n.priority);
         }
-    },
+    }
 
-    solution : function solution() {
+    /**
+     * Returns the solution of the board.
+     */
+    solution() {
         this.stack.reverse();
         return this.stack;
     }
 }
 
+//////////////// Test Cases \\\\\\\\\\\\\\\\\\\\\\\\\
 function SolverTest() {
     var list = [14, 13, 5, 3, 0, 1, 8, 12, 6, 2, 4, 10, 11, 9, 15, 7];
     var board = new Board(list);
@@ -76,5 +108,3 @@ function SolverTest() {
     for (var i = 0; i < solution.length; i++)
     console.log(solution[i].toString());
 }
-
-module.exports = Solver;

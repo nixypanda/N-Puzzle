@@ -13,7 +13,7 @@ import BottomFrame from './BottomFrame';
 // Logic imports
 import BoardFactory from '../board/BoardFactory';
 var Board = require('../board/Board');
-var Solver = require('../AI/Solver');
+import Solver from '../AI/Solver';
 
 export class App extends Component {
 
