@@ -60,7 +60,7 @@ gulp.task('html', function exeHTML() {
 /** bundle all js to /scripts/bundle.js */
 gulp.task('js', function bundleJS() {
     browserify(config.paths.mainJS)
-    .transform("babelify", {presets: ["es2015", "react"]})
+    .transform("babelify", {presets: ["es2015", "react", 'stage-0']})
     .bundle()
     .on('error', console.error.bind(console))
     .pipe(source('bundle.min.js'))
