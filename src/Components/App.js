@@ -7,7 +7,7 @@ var $ = jQuery;
 // Display imports
 import TopBar from '../Common/TopBar';
 import Counter from './Counter';
-import BoardDisplay from './boardDisplay';
+import BoardLayout from './boardDisplay';
 import BottomFrame from './BottomFrame';
 
 // Logic imports
@@ -23,7 +23,7 @@ export class App extends Component {
      */
     constructor() {
         super();
-        let size = 4;
+        let size = 3;
         let bf = new BoardFactory(size);
         let board = bf.getBoard();
 
@@ -164,7 +164,7 @@ export class App extends Component {
                 <TopBar />
                 <br />
                 <Counter reset={this.reset} count={this.state.count} />
-                <BoardDisplay N={this.state.N} board={this.state.board.board} />
+                <BoardLayout N={this.state.N} board={this.state.board.board} />
                 <BottomFrame won={this.state.won}
                     activateAI={this.activateAutoSolve}
                     autosolve={this.state.autosolve}
