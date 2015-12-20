@@ -23,7 +23,7 @@ export class App extends Component {
      */
     constructor() {
         super();
-        let size = 3;
+        let size = 4;
         let bf = new BoardFactory(size);
         let board = bf.getBoard();
 
@@ -42,6 +42,7 @@ export class App extends Component {
         this.handleKeyDown = this.handleKeyDown.bind(this);
         this.reset = this.reset.bind(this);
         this.activateAutoSolve = this.activateAutoSolve.bind(this);
+        this.changeGame = this.changeGame.bind(this);
     }
 
     /**
@@ -131,27 +132,26 @@ export class App extends Component {
         this.forceUpdate();
     }
 
+    // TODO: GOD DAMM STUPID SHIT JUST WON"T WORK
     activateAutoSolve() {
-        this.__getThatSpinyThingy__()
-        this.__actulySolveTheProblem__()
-    }
-
-    __getThatSpinyThingy__() {
         this.setState({
             autosolve: true,
             processing: true
+        }, function(newState) {
+            let solver = new Solver(this.state.board);
+            this.setState({
+                solution: solver.solution(),
+                processing: false
+            })
         });
-        this.forceUpdate();
     }
 
-    __actulySolveTheProblem__() {
-        let solver = new Solver(this.state.board);
-
-        this.setState({
-            solution: solver.solution(),
-            processing: false
-        });
-
+    // Imediate change in state is trigerred like this (synchronos operation)
+    changeGame(n) {
+        this.setState({N: n}, function(newState){
+            console.log(this.state.N);
+            this.reset();
+        }); 
     }
 
     /**
@@ -161,7 +161,7 @@ export class App extends Component {
     render() {
         return (
             <div>
-                <TopBar N={this.state.N}/>
+                <TopBar N={this.state.N} changeGame={this.changeGame}/>
                 <br />
                 <Counter reset={this.reset}
                     count={this.state.count}

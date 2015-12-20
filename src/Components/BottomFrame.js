@@ -1,6 +1,7 @@
 "use strict";
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import RaisedButton from 'material-ui/lib/raised-button'; 
+import CircularProgress from 'material-ui/lib/circular-progress';
 
 class BottomText extends Component {
     render() {
@@ -36,38 +37,38 @@ class BottomText extends Component {
  *  This class handles the button that the app displays
  */
 export default class BottomFrame extends Component {
+
+    static propTypes = {
+        autosolve: PropTypes.bool.isRequired,
+        processing: PropTypes.bool.isRequired,
+        activateAI: PropTypes.func.isRequired
+    }
+
     /**
      * Handles the rendering of the button.
      * @return button The markup for the button
      */
     render() {
-        let msg = (this.props.autosolve) ? 'And That\'s how you solve it..' : 'YOU WON!!' ;
-
-        if (! this.props.won) {
-            if (this.props.processing) {
-                return <p>Processing</p>
-            }
-            else {
-                return (
-                    <div className='centered text-center'>
-                        <BottomText />
-                        <div className='col-sm-12'>
-                            <RaisedButton label='Solve' primary={true}
-                                disabled={this.props.autosolve}
-                                onClick={this.props.activateAI.bind(null, true)} />
-                        </div>
+        if (this.props.processing) {
+            return (<CircularProgress mode="indeterminate" />);
+        }
+        else if (! this.props.won) {
+            return (
+                <div className='centered text-center'>
+                    <BottomText />
+                    <div className='col-sm-12'>
+                        <RaisedButton label='Solve' primary={true}
+                            disabled={this.props.autosolve}
+                            onClick={this.props.activateAI.bind(null, true)} />
                     </div>
+                </div>
 
-                );
-            }
+            );
         }
 
         else {
-            return (
-                <h2 className='centered text-center'>
-                    {msg}
-                </h2>
-            );
+            let msg = this.props.autosolve ? 'And That\'s how you solve it..' : 'YOU WON!!';
+            return (<h2 className='centered text-center'>{msg}</h2>);
         }
     }
 }
