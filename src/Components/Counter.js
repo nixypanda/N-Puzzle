@@ -1,6 +1,6 @@
 "use strict";
 
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 
 import RaisedButton from 'material-ui/lib/raised-button';
 import Paper from 'material-ui/lib/paper';
@@ -10,13 +10,21 @@ import Paper from 'material-ui/lib/paper';
  * board.
  */
 export default class Counter extends Component {
+    static porpTypes = {
+        cellWidth: PropTypes.number
+    }
+
+    static defaultProps = {
+        cellWidth: 100
+    }
+
     /**
      * Returns the styling for the div enclosing the counter and the reset
      * button
      */
     __topFrameStyle__() {
         return {
-            width: this.props.N * 100,
+            width: this.props.N * this.props.cellWidth,
             height: 50,
             margin: 'auto'
         }
@@ -30,7 +38,7 @@ export default class Counter extends Component {
             width: 100,
             height: 40,
             textAlign: 'center',
-            marginRight: this.props.N * 100 - 200,
+            marginRight: (this.props.N - 2) * this.props.cellWidth,
             position: 'relative',
             display: 'inline-block'
         }

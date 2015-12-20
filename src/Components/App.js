@@ -132,11 +132,11 @@ export class App extends Component {
     }
 
     activateAutoSolve() {
-        this.__getThatSpinyThings__()
+        this.__getThatSpinyThingy__()
         this.__actulySolveTheProblem__()
     }
 
-    __getThatSpinyThings__() {
+    __getThatSpinyThingy__() {
         this.setState({
             autosolve: true,
             processing: true
@@ -161,7 +161,7 @@ export class App extends Component {
     render() {
         return (
             <div>
-                <TopBar />
+                <TopBar N={this.state.N}/>
                 <br />
                 <Counter reset={this.reset}
                     count={this.state.count}
