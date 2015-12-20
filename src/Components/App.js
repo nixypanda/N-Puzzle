@@ -23,7 +23,7 @@ export class App extends Component {
      */
     constructor() {
         super();
-        let size = 3;
+        let size = 5;
         let bf = new BoardFactory(size);
         let board = bf.getBoard();
 
@@ -163,7 +163,9 @@ export class App extends Component {
             <div>
                 <TopBar />
                 <br />
-                <Counter reset={this.reset} count={this.state.count} />
+                <Counter reset={this.reset}
+                    count={this.state.count}
+                    N={this.state.N} />
                 <BoardLayout N={this.state.N} board={this.state.board.board} />
                 <BottomFrame won={this.state.won}
                     activateAI={this.activateAutoSolve}

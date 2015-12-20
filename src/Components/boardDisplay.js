@@ -3,12 +3,15 @@
 import React, {Component} from 'react';
 import Paper from 'material-ui/lib/paper';
 
+/**
+ * CellLayout handles the layout of every cell.
+ */
 class CellLayout extends Component {
     constructor(props) {
         super(props);
     }
 
-    cellStyle() {
+    __cellStyle__() {
         return {
             width: 90,
             height: 90,
@@ -22,13 +25,13 @@ class CellLayout extends Component {
     render() {
         if (this.props.element !== 0) {
             return (
-                <Paper zDepth={1} style={this.cellStyle()}>
+                <Paper zDepth={1} style={this.__cellStyle__()}>
                     <p className='center' >{this.props.element}</p>
                 </Paper>
             );
         }
         else {
-            return (<div style={this.cellStyle()}></div>);
+            return (<div style={this.__cellStyle__()}></div>);
         }
 
     }
@@ -39,7 +42,7 @@ class RowLayout extends Component {
         super(props);
     }
 
-    rowStyle() {
+    __rowStyle__() {
         return {
             width: this.props.N * 100,
             height: 100,
@@ -52,7 +55,7 @@ class RowLayout extends Component {
         var rowMarkup = this.props.row.map(function (element) {
             return (<CellLayout key={element} element={element} />);
         });
-        return (<row style={this.rowStyle()}>{rowMarkup}</row>);
+        return (<row style={this.__rowStyle__()}>{rowMarkup}</row>);
     }
 
 }
@@ -62,7 +65,7 @@ export default class BoardLayout extends Component {
         super(props);
     }
 
-    gridStyle() {
+    __gridStyle__() {
         return {
             margin: 'auto',
             position: 'relative',
@@ -90,7 +93,7 @@ export default class BoardLayout extends Component {
         });
 
         return (
-            <div style={this.gridStyle()} >{board}</div>
+            <div style={this.__gridStyle__()} >{board}</div>
         );
     }
 }
