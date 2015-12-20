@@ -2,7 +2,7 @@
 
 import React, {Component} from 'react';
 import jQuery from 'jquery';
-var $ = jQuery;
+let $ = jQuery;
 
 // Display imports
 import TopBar from '../Common/TopBar';
@@ -12,7 +12,7 @@ import BottomFrame from './BottomFrame';
 
 // Logic imports
 import BoardFactory from '../board/BoardFactory';
-var Board = require('../board/Board');
+import Board from '../board/Board';
 import Solver from '../AI/Solver';
 
 export class App extends Component {
@@ -23,7 +23,7 @@ export class App extends Component {
      */
     constructor() {
         super();
-        let size = 5;
+        let size = 3;
         let bf = new BoardFactory(size);
         let board = bf.getBoard();
 
@@ -67,7 +67,7 @@ export class App extends Component {
     handleKeyDown(e) {
 
         if (this.state.autosolve) {
-            var SPACE = 32;
+            let SPACE = 32;
             if (e.keyCode === 32 && !this.state.won) {
                 this.setState({
                     board: this.state.solution[this.state.solutionIndex],
@@ -77,7 +77,7 @@ export class App extends Component {
             }
         }
         else {
-            var LEFT = 37, UP = 38, RIGHT = 39, DOWN = 40;
+            let LEFT = 37, UP = 38, RIGHT = 39, DOWN = 40;
 
             if(e.keyCode === LEFT) {
                 this.state.board.moveRight();
@@ -145,7 +145,7 @@ export class App extends Component {
     }
 
     __actulySolveTheProblem__() {
-        var solver = new Solver(this.state.board);
+        let solver = new Solver(this.state.board);
 
         this.setState({
             solution: solver.solution(),

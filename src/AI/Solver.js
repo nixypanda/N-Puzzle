@@ -1,8 +1,8 @@
 "use strict";
 
-var Board = require('../board/Board');
+import Board from '../board/Board';
 import SearchNode from './SearchNode';
-var PriorityQueue = require('../helpers/PriorityQueue');
+import PriorityQueue from '../helpers/PriorityQueue';
 
 /**
  * This is the class that implements the ever popular A* Search. The heuristic
@@ -26,14 +26,14 @@ export default class Solver {
         this.stack = [];
 
         // starting point for the solution of the actual board 
-        var sn = new SearchNode(this.b, null);
+        let sn = new SearchNode(this.b, null);
         // starting point fot the solution of the twin board
-        var snt = new SearchNode(this.b.twin(), null);
+        let snt = new SearchNode(this.b.twin(), null);
 
         // priority queue for the actual board
-        var pq = new PriorityQueue();
+        let pq = new PriorityQueue();
         // priority queue for the twin board
-        var pqt = new PriorityQueue();
+        let pqt = new PriorityQueue();
 
         this.__aStar__(sn, snt, pq, pqt);
     }
@@ -78,11 +78,11 @@ export default class Solver {
     // adds neighbouring boards of a given search-node to the priority-queue
     // that is passed.
     __addNeighbours__(sn, pq) {
-        var neighbours = sn.board.neighbours();
+        let neighbours = sn.board.neighbours();
 
-        for (var i = 0; i < neighbours.length; i++) {
-            var board = neighbours[i];
-            var n = new SearchNode(board, sn);
+        for (let i = 0; i < neighbours.length; i++) {
+            let board = neighbours[i];
+            let n = new SearchNode(board, sn);
             if (sn.prev == null || !n.board.equals(sn.prev.board))
                 pq.push(n, n.priority);
         }
@@ -99,12 +99,12 @@ export default class Solver {
 
 //////////////// Test Cases \\\\\\\\\\\\\\\\\\\\\\\\\
 function SolverTest() {
-    var list = [14, 13, 5, 3, 0, 1, 8, 12, 6, 2, 4, 10, 11, 9, 15, 7];
-    var board = new Board(list);
-    var solver = new Solver(board);
+    let list = [14, 13, 5, 3, 0, 1, 8, 12, 6, 2, 4, 10, 11, 9, 15, 7];
+    let board = new Board(list);
+    let solver = new Solver(board);
 
     console.log("The solution is in " + solver.solution().length + "steps");
-    var solution = solver.solution();
-    for (var i = 0; i < solution.length; i++)
+    let solution = solver.solution();
+    for (let i = 0; i < solution.length; i++)
     console.log(solution[i].toString());
 }

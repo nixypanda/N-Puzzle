@@ -1,6 +1,6 @@
 "use strict"
 
-var Board = require('../board/Board');
+import Board from '../board/Board';
 
 /**
  * The Search node class consists of the board and the search node that led
@@ -24,17 +24,17 @@ export default class SearchNode {
 ////////////////// TEST \\\\\\\\\\\\\\\\\\\\\\\\
 
 function SearchNodeTest() {
-    var b = new Board([8, 1, 3, 4, 0, 2, 7, 6, 5]);
+    let b = new Board([8, 1, 3, 4, 0, 2, 7, 6, 5]);
     console.log(b.toString());
-    var sn = new SearchNode(b, null);
+    let sn = new SearchNode(b, null);
 
     console.log(sn.board);
     console.log(sn.prev);
     console.log(sn.moves);
     console.log(sn.priority);
 
-    var bAfter = new Board([8, 1, 3, 0, 4, 2, 7, 6, 5]);
-    var snNext = new SearchNode(bAfter, sn);
+    let bAfter = new Board([8, 1, 3, 0, 4, 2, 7, 6, 5]);
+    let snNext = new SearchNode(bAfter, sn);
 
     console.log(snNext.board);
     console.log(snNext.prev);

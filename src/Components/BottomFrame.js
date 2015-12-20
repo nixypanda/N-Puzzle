@@ -12,7 +12,7 @@ export default class BottomFrame extends Component {
      */
     render() {
         // permanently disable the solve button if the user clicks it
-        var disabled = false;
+        let disabled = false;
         if (this.props.autosolve) {
             disabled = true;
         }

@@ -52,7 +52,7 @@ class RowLayout extends Component {
     }
 
     render() {
-        var rowMarkup = this.props.row.map(function (element) {
+        let rowMarkup = this.props.row.map(function (element) {
             return (<CellLayout key={element} element={element} />);
         });
         return (<row style={this.__rowStyle__()}>{rowMarkup}</row>);
@@ -81,14 +81,14 @@ export default class BoardLayout extends Component {
         let N = this.props.N;
 
         // conversion of the 1-d array to 2-d
-        var oldBoard = this.props.board.slice(0);
-        var newBoard = [];
+        let oldBoard = this.props.board.slice(0);
+        let newBoard = [];
         while(oldBoard.length) {
             newBoard.push(oldBoard.splice(0, this.props.N));
         }
 
         // generating the markup for the 2-d array
-        var board = newBoard.map(function boardMarkup(row) {
+        let board = newBoard.map(function boardMarkup(row) {
             return (<RowLayout row={row} key={row} N={N} />);
         });
 
