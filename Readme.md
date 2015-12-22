@@ -6,8 +6,8 @@ The N-puzzle is the generalised version of the [8-puzzle problem](https://en.wik
 Here is how it will look like
 ![N-Puzzle](https://raw.githubusercontent.com/jck-d-rpr/N-Puzzle/master/previews/n-puzzle.png)
 
-## Install (Only use)
-Just download the zip file. All you need is the dist folder (You can delete everythign else). Double-click on the index.html and you should be good to go.
+##Demo
+Here take a look at the demo [N-Puzzle](http://jck-d-rpr.github.io/N-Puzzle/)
 
 ## Install (Development)
 Just copy everything to some folder and then
