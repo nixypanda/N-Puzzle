@@ -1,7 +1,7 @@
 "use strict";
 
 import React, {Component, PropTypes} from 'react';
-import Paper from 'material-ui/lib/paper';
+import MUI, {Paper} from 'material-ui';
 
 /**
  * CellLayout handles the layout of every cell.
@@ -60,6 +60,7 @@ class CellLayout extends Component {
                 <Paper 
                     onMouseOver={this.__handleMouseOver__}
                     onMouseOut={this.__handleMouseOut__}
+                    onClick={this.props.onMouseClick.bind(null, this.props.element)}
                     zDepth={zDepth}
                     style={this.__cellStyle__()}>
                     <p className='center' >{this.props.element}</p>
@@ -110,10 +111,12 @@ class RowLayout extends Component {
     render() {
         // this is stupid
         let width = this.props.width, height = this.props.height, margin = this.props.margin, fontSize = this.props.fontSize;
+        let onMouseClick = this.props.onMouseClick;
         let rowMarkup = this.props.row.map(function (element) {
             return (
                 <CellLayout
                     key={element} element={element} 
+                    onMouseClick={onMouseClick}
                     width={width} height={height} margin={margin} fontSize={fontSize} />
             );
         });
@@ -170,6 +173,7 @@ export default class BoardLayout extends Component {
 
         // this is stupid
         let width = this.props.width, height = this.props.height, margin = this.props.margin, fontSize = this.props.fontSize;
+        let onMouseClick = this.props.onMouseClick;
 
         // conversion of the 1-d array to 2-d
         let oldBoard = this.props.board.slice(0);
@@ -183,6 +187,7 @@ export default class BoardLayout extends Component {
             return (
                 <RowLayout 
                     row={row} key={row} N={N} 
+                    onMouseClick={onMouseClick}
                     width={width} height={height} margin={margin} fontSize={fontSize} />
             );
         });

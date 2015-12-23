@@ -40,6 +40,7 @@ export default class App extends Component {
 
         // In es6 there is no autobinding
         this.handleKeyDown = this.handleKeyDown.bind(this);
+        this.handleMouseClick = this.handleMouseClick.bind(this);
         this.reset = this.reset.bind(this);
         this.activateAutoSolve = this.activateAutoSolve.bind(this);
         this.changeGame = this.changeGame.bind(this);
@@ -100,6 +101,24 @@ export default class App extends Component {
     }
 
     /**
+     * Calls the move method on the board class when any of the numbers are pressed
+     * on by the mouse.
+     *
+     * @param {Integer} number the number that is pressed
+     */
+    handleMouseClick(number) {
+        if (this.state.won || this.state.autosolve) {
+           return;
+        }
+
+        let moved = this.state.board.move(number);
+        this.setState({
+            board: this.state.board,
+            count: this.state.count + (moved ? 1 : 0)
+        });
+    }
+
+    /**
      * Resets the game to it's original configuration.
      * The arrangement of tiles is randomised
      */
@@ -123,27 +142,38 @@ export default class App extends Component {
         this.forceUpdate();
     }
 
-
+    /**
+     * This function autosolves the game on the screen and stores the result in
+     * solution (state variable) and then calls the helper to present the moves
+     * to the user
+     */
     activateAutoSolve() {
         this.setState({autosolve: true }, function(newState) {
+            // Calling the AI to solve the problem
             let solver = new Solver(this.state.board);
+            // Scnchronously calll the helper after setting the state with the 
+            // solution
             this.setState({ solution: solver.solution()}, function(newState) {
                 this.__autosolveTheGame__()
             })
         });
     }
 
+    // Helper: Reads the boards in solution one by one and renders then on to 
+    // the screen one-by-one.
     __autosolveTheGame__() {
         let _this = this;
         let i = 1;
         let length = this.state.solution.length;
 
+        // display the next board after a second interval
         _this.AIPlayingTheGame = setInterval(() => {
             _this.setState({
                 board: _this.state.solution[i],
                 count: _this.state.count + 1
             });
 
+            // quit on reaching the solved state
             if (++i === length) {
                 _this.setState({ won: true });
                 clearInterval(_this.AIPlayingTheGame);
@@ -173,7 +203,8 @@ export default class App extends Component {
                 <Counter reset={this.reset}
                     count={this.state.count}
                     N={this.state.N} />
-                <BoardLayout N={this.state.N} board={this.state.board.board} />
+                <BoardLayout N={this.state.N} board={this.state.board.board}
+                    onMouseClick={this.handleMouseClick} />
                 <BottomFrame won={this.state.won}
                     activateAI={this.activateAutoSolve}
                     autosolve={this.state.autosolve} />

@@ -81,6 +81,24 @@ export default class Board {
         }
     }
 
+    /**
+     * Makes an appropriate move based on the key 
+     * that is passed to it
+     */
+    move(key) {
+        // Get the index of zero and the clicked number
+        let keyIndex = this.board.indexOf(key);
+        let indexZero = this.board.indexOf(0);
+
+        let diff = Math.abs(indexZero - keyIndex);
+
+        if (diff === 1 || diff === this.N) {
+            this.__makeMove__(indexZero, keyIndex)
+            return true;
+        }
+        return false;
+    }
+
     //////////////////////////////
     /// AI (A*) Helper methods ///
     /////////////////////////////
