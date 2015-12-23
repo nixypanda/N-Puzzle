@@ -15,7 +15,7 @@ import BoardFactory from '../board/BoardFactory';
 import Board from '../board/Board';
 import Solver from '../AI/Solver';
 
-export class App extends Component {
+export default class App extends Component {
 
     /**
      * Initaial state of the game. The board generation is given to factory.
@@ -66,48 +66,36 @@ export class App extends Component {
      * @param  {event} e An event object.
      */
     handleKeyDown(e) {
-
-        if (this.state.autosolve) {
-            let SPACE = 32;
-            if (e.keyCode === 32 && !this.state.won) {
-                this.setState({
-                    board: this.state.solution[this.state.solutionIndex],
-                    solutionIndex: this.state.solutionIndex + 1,
-                    count: this.state.count + 1,
-                });
-            }
+        if (this.state.won || this.state.autosolve) {
+            return;
         }
-        else {
-            let LEFT = 37, UP = 38, RIGHT = 39, DOWN = 40;
 
-            if(e.keyCode === LEFT) {
-                this.state.board.moveRight();
-                this.state.count += 1;
-            }
-            else if (e.keyCode === UP) {
-                this.state.board.moveDown();
-                this.state.count += 1;
-            }
-            else if (e.keyCode === RIGHT) {
-                this.state.board.moveLeft();
-                this.state.count += 1;
-            }
-            else if (e.keyCode === DOWN) {
-                this.state.board.moveUp();
-                this.state.count += 1;
-            }
+        let LEFT = 37, UP = 38, RIGHT = 39, DOWN = 40;
 
-            this.setState({
-                board: this.state.board,
-                count: this.state.count
-            });
+        if(e.keyCode === LEFT) {
+            this.state.board.moveRight();
+            this.state.count += 1;
         }
+        else if (e.keyCode === UP) {
+            this.state.board.moveDown();
+            this.state.count += 1;
+        }
+        else if (e.keyCode === RIGHT) {
+            this.state.board.moveLeft();
+            this.state.count += 1;
+        }
+        else if (e.keyCode === DOWN) {
+            this.state.board.moveUp();
+            this.state.count += 1;
+        }
+
+        this.setState({
+            board: this.state.board,
+            count: this.state.count
+        });
 
         if (this.state.board.isGoal()) {
             this.setState({won: true});
-        }
-        else {
-            this.setState({won: false});
         }
     }
 
@@ -119,37 +107,56 @@ export class App extends Component {
         let bf = new BoardFactory(this.state.N);
         let board = bf.getBoard();
 
+        // VERY IMPORTANT: to clear the setInterval otherwise reseting
+        // will have two solutions to pick from and it's not preety
+        clearInterval(this.AIPlayingTheGame);
+
         this.setState({
             board: board,
             count: 0,
             won: false,
             autosolve: false,
             solution: null,
-            solutionIndex: 1,
-            processing: false
+            solutionIndex: 1
         });
 
         this.forceUpdate();
     }
 
-    // TODO: GOD DAMM STUPID SHIT JUST WON"T WORK
+
     activateAutoSolve() {
-        this.setState({
-            autosolve: true,
-            processing: true
-        }, function(newState) {
+        this.setState({autosolve: true }, function(newState) {
             let solver = new Solver(this.state.board);
-            this.setState({
-                solution: solver.solution(),
-                processing: false
+            this.setState({ solution: solver.solution()}, function(newState) {
+                this.__autosolveTheGame__()
             })
         });
     }
 
-    // Imediate change in state is trigerred like this (synchronos operation)
+    __autosolveTheGame__() {
+        let _this = this;
+        let i = 1;
+        let length = this.state.solution.length;
+
+        _this.AIPlayingTheGame = setInterval(() => {
+            _this.setState({
+                board: _this.state.solution[i],
+                count: _this.state.count + 1
+            });
+
+            if (++i === length) {
+                _this.setState({ won: true });
+                clearInterval(_this.AIPlayingTheGame);
+            }
+        }, 1000);
+    }
+
+    /**
+     * Changes the game to different n-by-n grid 
+     */
     changeGame(n) {
-        this.setState({N: n}, function(newState){
-            console.log(this.state.N);
+        // Imediate change in state is trigerred like this (synchronos operation)
+        this.setState({N: n}, function (newState) {
             this.reset();
         }); 
     }
@@ -169,11 +176,8 @@ export class App extends Component {
                 <BoardLayout N={this.state.N} board={this.state.board.board} />
                 <BottomFrame won={this.state.won}
                     activateAI={this.activateAutoSolve}
-                    autosolve={this.state.autosolve}
-                    processing={this.state.processing} />
+                    autosolve={this.state.autosolve} />
             </div>
         );
     }
 }
-
-module.exports = App;

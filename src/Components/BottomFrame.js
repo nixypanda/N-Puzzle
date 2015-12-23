@@ -10,20 +10,16 @@ class BottomText extends Component {
                 <div className='col-sm-3'></div>
                 <div className='col-sm-6'>
                     <p>
-                        <b>Instructions:</b> Use the arrow keys to move
-                        tiles. Space to reset. On clicking solve you
-                        will get the solution in shortest number of
-                        moves. Which can be accessed move-by-move
-                        using the space key.
+                        <b>Instructions:</b> Use the arrow keys to move tiles. 
+                        On clicking solve you will get the solution in 
+                        shortest number of moves.
                     </p>
                     <p>
-                        Hitting the button bellow will make
-                        the computer to automaticaly solve the
-                        problem and find the lowest number of moves
-                        that are required to solve the puzzle. In
-                        some cases the computer will find it hard to
-                        solve the problem, it will respond by
-                        not-responding.
+                        Hitting the button bellow will make the computer to 
+                        automaticaly solve the problem and find the lowest 
+                        number of moves that are required to solve the puzzle.
+                        In some cases the computer will find it hard to solve 
+                        the problem, it will respond by not-responding.
                     </p>
                     <h5><b>You have been warned!!</b></h5>
                 </div>
@@ -40,7 +36,6 @@ export default class BottomFrame extends Component {
 
     static propTypes = {
         autosolve: PropTypes.bool.isRequired,
-        processing: PropTypes.bool.isRequired,
         activateAI: PropTypes.func.isRequired
     }
 
@@ -49,10 +44,7 @@ export default class BottomFrame extends Component {
      * @return button The markup for the button
      */
     render() {
-        if (this.props.processing) {
-            return (<CircularProgress mode="indeterminate" />);
-        }
-        else if (! this.props.won) {
+       if (! this.props.won) {
             return (
                 <div className='centered text-center'>
                     <BottomText />

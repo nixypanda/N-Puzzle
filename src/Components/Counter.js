@@ -24,7 +24,7 @@ export default class Counter extends Component {
      */
     __topFrameStyle__() {
         return {
-            width: this.props.N * this.props.cellWidth,
+            width: this.props.N * this.props.cellWidth + 20,
             height: 50,
             margin: 'auto'
         }
@@ -38,7 +38,7 @@ export default class Counter extends Component {
             width: 100,
             height: 40,
             textAlign: 'center',
-            marginRight: (this.props.N - 2) * this.props.cellWidth,
+            marginRight: (this.props.N - 2) * this.props.cellWidth + 20,
             position: 'relative',
             display: 'inline-block'
         }
