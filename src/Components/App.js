@@ -115,7 +115,11 @@ export default class App extends Component {
         this.setState({
             board: this.state.board,
             count: this.state.count + (moved ? 1 : 0)
-        });
+       });
+ 
+        if (this.state.board.isGoal()) {
+            this.setState({won: true});
+        }
     }
 
     /**
