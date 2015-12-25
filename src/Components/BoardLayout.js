@@ -1,3 +1,4 @@
+
 import React, {PropTypes, Component} from 'react';
 import {range} from 'lodash';
 import {Motion, spring} from 'react-motion';
@@ -9,25 +10,30 @@ export default class BoardLayout extends Component {
         super(props);
     }
 
+    /**
+     * On mounting create a layout map for transitions.
+     */
     componentWillMount() {
         this.layout = range(0, this.props.N * this.props.N).map(n => {
 
             const row = Math.floor(n / this.props.N);
             const col = n % this.props.N; 
 
-            return [(this.props.width + 2 * this.props.margin + 2) * col, 
-                (this.props.height + 2 * this.props.margin + 2) * row];
+            return [(this.props.width + 2 * this.props.margin + 2) * col, (this.props.height + 2 * this.props.margin + 2) * row];
         });
     }
 
+    /**
+     * On update also genterate the layout so that when the game changes e.g. 
+     * 8 -> 16 the layout also changes.(need a better way)
+     */
     componentWillUpdate () {
         this.layout = range(0, this.props.N * this.props.N).map(n => {
 
             const row = Math.floor(n / this.props.N);
             const col = n % this.props.N; 
 
-            return [(this.props.width + 2 * this.props.margin + 2) * col, 
-                (this.props.height + 2 * this.props.margin + 2) * row];
+            return [(this.props.width + 2 * this.props.margin + 2) * col, (this.props.height + 2 * this.props.margin + 2) * row];
         });
     }
 
@@ -66,6 +72,7 @@ export default class BoardLayout extends Component {
         }
     }
 
+    // css for the individual grids (non-zero)
     __cellStyle__() {
         return {
             width: this.props.width,
@@ -77,6 +84,7 @@ export default class BoardLayout extends Component {
         }
     }
 
+    // css for the cell with 0 in it
     __emptyCellStyle__() {
         return {
             opacity: 0
@@ -86,6 +94,7 @@ export default class BoardLayout extends Component {
     render() {
         let _this = this;
 
+        // Generating the layout for the board
         var board = this.props.board.map((i, key) => {
             let cellStyle = (key === 0) ? this.__emptyCellStyle__() : this.__cellStyle__();
             let x, y;
@@ -98,7 +107,7 @@ export default class BoardLayout extends Component {
                     {({tX, tY}) => 
                         <div
                             style={{width: _this.props.width + 2 * _this.props.margin, transform: `translate3d(${tX}px,${tY}px,0) scale(1.1)`}}>
-                            <Paper style={cellStyle} className='text-center' onClick={_this.props.onMouseClick.bind(null, this.props.element)} >
+                            <Paper style={cellStyle} className='text-center' onClick={_this.props.onMouseClick.bind(null, key)} >
                                 <p className='center'>{key}</p>
                             </Paper>
                         </div>}

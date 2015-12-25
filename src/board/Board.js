@@ -92,7 +92,12 @@ export default class Board {
 
         let diff = Math.abs(indexZero - keyIndex);
 
-        if (diff === 1 || diff === this.N) {
+        //bugfix:
+        if ((Math.min(keyIndex, indexZero) % this.N === this.N - 1) && (Math.max(keyIndex, indexZero) % this.N === 0) ) {
+            return false;
+        }
+
+        if (diff === 1 || diff === this.N)  {
             this.__makeMove__(indexZero, keyIndex)
             return true;
         }
