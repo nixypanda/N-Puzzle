@@ -7,7 +7,7 @@ let $ = jQuery;
 // Display imports
 import TopBar from '../Common/TopBar';
 import Counter from './Counter';
-import BoardLayout from './boardDisplay';
+import BoardLayout from './BoardLayout';
 import BottomFrame from './BottomFrame';
 
 // Logic imports
