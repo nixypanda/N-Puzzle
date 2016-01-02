@@ -7,7 +7,6 @@ class BottomText extends Component {
     render() {
         let msg = 'On clicking solve you will get the solution in shortest number of moves.';
         msg = this.props.N < 5 ? msg : null;
-
         return (
             <div className='centered text-center'>
                 <div className='col-sm-3'></div>
