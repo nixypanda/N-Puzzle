@@ -109,6 +109,42 @@ export default class Board {
     /////////////////////////////
 
     /**
+     * Finds if the given board is solvable or not in tiem proportional O(n^4)
+     * where n is the size of the board
+     */
+    isSolvable() {
+        let inversions = this.__countInversions__();
+        let zeroLoc = this.N - Math.floor(this.board.indexOf(0) / this.N);
+
+        if (this.N % 2 === 1) {
+            return inversions % 2 === 0;
+        }
+        else {
+            if (zeroLoc % 2 === 1) {
+                return (inversions % 2 === 0);
+            }
+            else {
+                return (inversions % 2 === 1);
+            }
+        }
+    }
+
+    // returns the count of the number of inversions that are present in the board
+    __countInversions__() {
+        let invCount = 0;
+        for (let i = 0; i < this.board.length - 1; i++) {
+            for (let j = i + 1; j < this.board.length; j++) {
+                // if i and j are not zero and i is greater than j
+                if (this.board[i] && this.board[j] && this.board[i] > this.board[j]) {
+                    invCount++;
+                }
+            }
+        }
+
+        return invCount;
+    }
+
+    /**
      * Calculate the hamming distance to the goal state (i.e. the number
      * of tiles out of place)
      * e.g [8, 1, 3, 4, 0, 2, 7, 6, 5] : 5
@@ -148,6 +184,7 @@ export default class Board {
         return man;
     }
 
+    // Obselete
     /**
      * Returns a board that is the copy of the board with two tiles swaped.
      * (tiles belong to the same row)

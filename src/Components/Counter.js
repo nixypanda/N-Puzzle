@@ -1,9 +1,8 @@
 "use strict";
 
 import React, {Component, PropTypes} from 'react';
-
-import RaisedButton from 'material-ui/lib/raised-button';
-import Paper from 'material-ui/lib/paper';
+import MUI, {RaisedButton, Paper} from 'material-ui';
+import {Motion, spring} from 'react-motion';
 
 /**
  * This class displays the counter and the reset button at the top of the
@@ -65,7 +64,7 @@ export default class Counter extends Component {
                 <Paper style={this.__counterStyle__()} zDepth={1}>
                     <p className='center'>Moves: {this.props.count}</p>
                 </Paper>
-                <div className='center' style={this.__resetButtonStyle__()} >
+                <div className='center' style={this.__resetButtonStyle__()}>
                     <RaisedButton style={this.__resetButtonStyle__()} 
                         onClick={this.props.reset} label='Reset' primary={true}/>
                 </div>

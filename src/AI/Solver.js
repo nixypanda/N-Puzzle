@@ -27,26 +27,22 @@ export default class Solver {
 
         // starting point for the solution of the actual board 
         let sn = new SearchNode(this.b, null);
-        // starting point fot the solution of the twin board
-        let snt = new SearchNode(this.b.twin(), null);
 
         // priority queue for the actual board
         let pq = new PriorityQueue();
-        // priority queue for the twin board
-        let pqt = new PriorityQueue();
 
-        this.__aStar__(sn, snt, pq, pqt);
+        if (this.b.isSolvable) {
+            this.__aStar__(sn, pq);
+        }
     }
 
     // Private helper: The A* search algorithm
-    __aStar__(sn, snt, pq, pqt) {
+    __aStar__(sn, pq) {
         pq.push(sn, sn.priority);
-        pqt.push(snt, snt.priority);
 
         while (true) {
             // pop both the queues to get the next highest priority board
             sn = pq.pop();
-            snt = pqt.pop();
 
             // check if already goal then quit
             if (sn.board.isGoal()) {
@@ -55,13 +51,8 @@ export default class Solver {
                 break;
             }
 
-            // check if twin is in goal state
-            if (snt.board.isGoal())
-                break;
-
-            // add neighbours to the priority queue for both the cases
+            // add neighbours to the priority queue
             this.__addNeighbours__(sn, pq);
-            this.__addNeighbours__(snt, pqt);
         }
 
         // if a solution exists retrace it (check docs of search node)

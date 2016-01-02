@@ -5,7 +5,7 @@ import Board from './Board';
 export default class BoardFactory {
     constructor(N) { 
         // Maximum number of moves is thus MAX_MOVES + MIN_MOVES
-        let MAX_MOVES = 165;
+        let MAX_MOVES = N * N * N * N;
         let MIN_MOVES = 50;
 
         // Start with a solved board
@@ -41,9 +41,8 @@ export default class BoardFactory {
                     break;
             }
         }
-
-
     }
+
     getBoard() {
         return this.board;
     }

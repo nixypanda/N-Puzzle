@@ -5,23 +5,17 @@ import CircularProgress from 'material-ui/lib/circular-progress';
 
 class BottomText extends Component {
     render() {
+        let msg = 'On clicking solve you will get the solution in shortest number of moves.';
+        msg = this.props.N < 5 ? msg : null;
+
         return (
             <div className='centered text-center'>
                 <div className='col-sm-3'></div>
                 <div className='col-sm-6'>
                     <p>
                         <b>Instructions:</b> Use the arrow keys to move tiles. 
-                        On clicking solve you will get the solution in 
-                        shortest number of moves.
-                    </p>
-                    <p>
-                        Hitting the button bellow will make the computer to 
-                        automaticaly solve the problem and find the lowest 
-                        number of moves that are required to solve the puzzle.
-                        In some cases the computer will find it hard to solve 
-                        the problem, it will respond by not-responding.
-                    </p>
-                    <h5><b>You have been warned!!</b></h5>
+                        {msg}
+                        </p>
                 </div>
                 <div className='col-sm-3'></div>
             </div>
@@ -44,23 +38,29 @@ export default class BottomFrame extends Component {
      * @return button The markup for the button
      */
     render() {
-       if (! this.props.won) {
+
+        if (! this.props.won) {
+            let solver = (
+                <div className='col-sm-12'>
+                    <RaisedButton label='Solve' primary={true}
+                        disabled={this.props.autosolve || !this.props.solvable}
+                        onClick={this.props.activateAI.bind(null, true)} />
+                </div>
+            );
+            let button = this.props.N < 5 ? solver : (<div></div>);
+            let m = !this.props.solvable? 'This puzzle is not solvable' : <BottomText N={this.props.N} />
             return (
                 <div className='centered text-center'>
-                    <BottomText />
-                    <div className='col-sm-12'>
-                        <RaisedButton label='Solve' primary={true}
-                            disabled={this.props.autosolve}
-                            onClick={this.props.activateAI.bind(null, true)} />
-                    </div>
+                    {m} 
+                    {button}
                 </div>
 
             );
         }
 
         else {
-            let msg = this.props.autosolve ? 'And That\'s how you solve it..' : 'YOU WON!!';
-            return (<h2 className='centered text-center'>{msg}</h2>);
+            let m = this.props.autosolve ? "And That's how you solve it." : 'YOU WON!';
+            return (<h2 className='centered text-center'>{m}</h2>);
         }
     }
 }

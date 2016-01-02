@@ -34,7 +34,7 @@ export default class App extends Component {
             won: false,
             autosolve: false,
             solution: null,
-            solutionIndex: 1,
+            solvable: true,
             processing: false
         }
 
@@ -141,6 +141,8 @@ export default class App extends Component {
             autosolve: false,
             solution: null,
             solutionIndex: 1
+        }, function(newState) {
+            this.setState({solvable: this.state.board.isSolvable()});
         });
 
         this.forceUpdate();
@@ -189,6 +191,8 @@ export default class App extends Component {
      * Changes the game to different n-by-n grid 
      */
     changeGame(n) {
+        console.log('game change called');
+        this.setState({solvable: this.state.board.isSolvable()});
         // Imediate change in state is trigerred like this (synchronos operation)
         this.setState({N: n}, function (newState) {
             this.reset();
@@ -210,6 +214,8 @@ export default class App extends Component {
                 <BoardLayout N={this.state.N} board={this.state.board.board}
                     onMouseClick={this.handleMouseClick} />
                 <BottomFrame won={this.state.won}
+                    N={this.state.N}
+                    solvable={this.state.solvable}
                     activateAI={this.activateAutoSolve}
                     autosolve={this.state.autosolve} />
             </div>
