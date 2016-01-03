@@ -1,12 +1,9 @@
 "use strict";
 
-import React, {Component, PropTypes} from 'react'
+import React, {Component, PropTypes} from 'react';
 
-/** Importing the appbar from material-ui */
-import AppBar from 'material-ui/lib/app-bar';
-import IconMenu from 'material-ui/lib/menus/icon-menu';
-import IconButton from 'material-ui/lib/icon-button';
-import MenuItem from 'material-ui/lib/menus/menu-item';
+import MUI, {AppBar, IconMenu, IconButton, MenuItem} from 'material-ui';
+
 import NavigationMenu from'material-ui/lib/svg-icons/navigation/menu';
 import Colors from 'material-ui/lib/styles/colors';
 

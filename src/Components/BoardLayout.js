@@ -22,7 +22,7 @@ export default class BoardLayout extends Component {
             return [(this.props.width + 2 * this.props.margin + 2) * col, (this.props.height + 2 * this.props.margin + 2) * row];
         });
     }
-
+ 
     /**
      * On update also genterate the layout so that when the game changes e.g. 
      * 8 -> 16 the layout also changes.(need a better way)

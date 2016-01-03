@@ -1,24 +1,30 @@
 "use strict";
 
 var gulp        = require('gulp');
-var concat      = require('gulp-concat');
-var connect     = require('gulp-connect');
 var open        = require('gulp-open');
+var gutil       = require('gulp-util');
+var concat      = require('gulp-concat');
 var uglify      = require('gulp-uglify');
+var connect     = require('gulp-connect');
 var streamify   = require('gulp-streamify');
 var htmlreplace = require('gulp-html-replace');
 
-var browserify  = require('browserify');
 var watchify    = require('watchify');
 var babelify    = require('babelify');
+var browserify  = require('browserify');
 
 var source      = require('vinyl-source-stream');
 
+var argv        = require('yargs').argv;
+
+
 /** Local development server information */
 var config = {
-    PORT: 9055,
+    // USAGE: gulp --port <number>
+    PORT: argv.port ? argv.port : 9055,
     URL: 'http://localhost'
 };
+
 
 /** All the paths */
 var path = {
@@ -36,9 +42,19 @@ var path = {
     ]
 };
 
+
+////////////////////
+// non gulp-tasks //
+////////////////////
+
+function consoleLog(data) {
+    gutil.log(data);
+}
+
 ///////////////////////////////////////////////
 // Independent of development and production //
 ///////////////////////////////////////////////
+
 
 /** Creates a local dev server */
 gulp.task('connect', function connectToServer() {
@@ -72,12 +88,15 @@ gulp.task('css', function bundleCSS() {
 // Development Tasks //
 ///////////////////////
 
+
 /** Take index.html page and copy it over to dist folder. */
 gulp.task('copy', function(){
     gulp.src(path.HTML)
     .pipe(gulp.dest(path.DEST));
 });
 
+
+/** Bundle all js to /scripts/build.js also show the source-maps */
 gulp.task('watch', ['copy'], function() {
     gulp.watch(path.HTML, ['copy']);
     gulp.watch(path.CSS, ['css']);
@@ -101,12 +120,15 @@ gulp.task('watch', ['copy'], function() {
     .pipe(gulp.dest(path.DEST_SRC));
 });
 
+
 gulp.task('default', ['watch', 'css', 'open']);
+
 
 
 //////////////////////
 // Production Tasks //
 //////////////////////
+
 
 /** bundle all js to /scripts/build.min.js */
 gulp.task('build', function(){
@@ -120,6 +142,7 @@ gulp.task('build', function(){
     .pipe(gulp.dest(path.DEST_BUILD));
 });
 
+
 /** replaces script tags on the index.html file to point to single minified
  * javascript file
  */
@@ -130,6 +153,7 @@ gulp.task('replaceHTML', function(){
     }))
     .pipe(gulp.dest(path.DEST));
 });
+
 
 // Runs the required tasks to setup the production code
 gulp.task('production', ['css', 'replaceHTML', 'build']);

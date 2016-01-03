@@ -1,8 +1,10 @@
 "use strict";
 
 import React, {Component, PropTypes} from 'react';
-import MUI, {RaisedButton, Paper} from 'material-ui';
-import {Motion, spring} from 'react-motion';
+import MUI, {RaisedButton, Paper, Toolbar, ToolbarGroup, ToolbarTitle} from 'material-ui';
+
+import Colors from 'material-ui/lib/styles/colors';
+
 
 /**
  * This class displays the counter and the reset button at the top of the
@@ -23,9 +25,9 @@ export default class Counter extends Component {
      */
     __topFrameStyle__() {
         return {
-            width: this.props.N * this.props.cellWidth + 20,
-            height: 50,
-            margin: 'auto'
+            width: this.props.N * this.props.cellWidth + 80,
+            margin: 'auto',
+            backgroundColor: Colors.grey50 
         }
     }
 
@@ -34,23 +36,10 @@ export default class Counter extends Component {
      */
     __counterStyle__() {
         return {
+            display: 'inline-block',
             width: 100,
             height: 40,
             textAlign: 'center',
-            marginRight: (this.props.N - 2) * this.props.cellWidth + 20,
-            position: 'relative',
-            display: 'inline-block'
-        }
-    }
-
-    /**
-     * Returns the styling fo the reset-button.
-     */
-    __resetButtonStyle__() {
-        return {
-            marginTop: 0,
-            display: 'inline-block',
-            width: 100
         }
     }
 
@@ -59,16 +48,16 @@ export default class Counter extends Component {
      * reset button).
      */
     render() {
+
         return (
-            <div style={this.__topFrameStyle__()}> 
-                <Paper style={this.__counterStyle__()} zDepth={1}>
-                    <p className='center'>Moves: {this.props.count}</p>
-                </Paper>
-                <div className='center' style={this.__resetButtonStyle__()}>
-                    <RaisedButton style={this.__resetButtonStyle__()} 
-                        onClick={this.props.reset} label='Reset' primary={true}/>
-                </div>
-            </div>
+            <Toolbar style={this.__topFrameStyle__()} > 
+                <ToolbarGroup firstChild={true} float="left">
+                    <RaisedButton label={'Moves: ' + this.props.count} />
+                </ToolbarGroup>
+                <ToolbarGroup lastChild={true} float="right">
+                    <RaisedButton onClick={this.props.reset} label='Reset' primary={true}/>
+                </ToolbarGroup>
+            </Toolbar>
         );
     }
 

@@ -2,8 +2,9 @@ import {$} from 'jquery';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import injectTapEventPlugin from 'react-tap-event-plugin';
 import App from './Components/App';
+
+import injectTapEventPlugin from 'react-tap-event-plugin';
 
 // Needed for onTouchTap
 // Can go away when react 1.0 release
