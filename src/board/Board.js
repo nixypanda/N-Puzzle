@@ -1,7 +1,5 @@
 "use strict"
 
-let equals = require('../helpers/ArrayExtras');
-
 /**
  * The board class represents the state of the board at a given
  * point of time it also contains functions compute the neighbours of the
@@ -13,6 +11,18 @@ export default class Board {
     constructor(arr) {
         this.N = Math.sqrt(arr.length);
         this.board = arr;
+
+        let list = new Array(this.N * this.N);
+        for (let i = 1; i < list.length; i++)
+        list[i - 1] = i;
+        list[list.length - 1] = 0;
+
+        this.goal = list;
+
+        this.manhattan_matrix = new Array(this.N);
+        for (let i = 0; i < this.N; i++) {
+            this.manhattan_matrix[i] = new Set(this.__manhattan_level_matrix__(i + 1));
+        }
     }
 
 
@@ -23,6 +33,23 @@ export default class Board {
         for (let i = 1; i < this.board.length; i++) {
             if (i !== this.board[i - 1]) {
                 return false;
+            }
+        }
+        return true;
+    }
+
+    partialIsGoal(level) {
+        for (let i = level - 1; i < level; i++) {
+            for (let j = i; j < this.N; j++) {
+                if (this.board[i * this.N + j] !== this.goal[i * this.N + j]) {
+                    return false;
+                }
+            }
+
+            for (let j = i; j < this.N; j++) {
+                if (this.board[j * this.N + i] !== this.goal[j * this.N + i]) {
+                    return false;
+                }
             }
         }
         return true;
@@ -158,8 +185,28 @@ export default class Board {
         return ham - 1;
     }
 
+    partialHamming(level) {
+        let ham = 0;
+
+        for (let i = level - 1; i < level; i++) {
+            for (let j = i; j < this.N; j++) {
+                if (this.board[i * this.N + j] && this.board[i * this.N + j] !== this.goal[i * this.N + j]) {
+                    ham += 1;
+                }
+            }
+
+            for (let j = i + 1; j < this.N; j++) {
+                if (this.board[j * this.N + i] && this.board[j * this.N + i] !== this.goal[j * this.N + i]) {
+                    ham += 1;
+                }
+            }
+        }
+        return ham;
+
+    }
+
     /**
-     * Reutrns the manhattan/taxi-cab distance from current board state to
+     * Returns the manhattan/taxi-cab distance from current board state to
      * the goal state. (i.e.) the cumulative distance of every tile to it's
      * final position
      * e.g [8, 1, 3, 4, 0, 2, 7, 6, 5] : 10
@@ -182,6 +229,49 @@ export default class Board {
             man += Math.abs(ix - fx) + Math.abs(iy - fy);
         }
         return man;
+    }
+
+    __manhattan_level_matrix__(level) {
+        let set = new Set();
+
+        for (let i = level - 1; i < level; i++) {
+            for (let j = i; j < this.N; j++) {
+                set.add( this.goal[i * this.N + j] );
+            }
+
+            for (let j = i + 1; j < this.N; j++) {
+                set.add( this.goal[j * this.N + i] );
+            }
+        }
+        return set;
+    }
+
+    partialManhattan(level) {
+        let man = 0;
+        console.log('Current level ' + level + ' ' + this.manhattan_matrix[level - 1]);
+
+        for (let i = 1; i <= this.board.length; i++) {
+            if (this.board[i - 1] == 0)
+                continue;
+
+            if (this.manhattan_matrix[level - 1].has(this.board[i - 1])) {
+
+                // final position of the ith-tile
+                let fy = Math.floor((this.board[i - 1] - 1) / this.N);
+                let fx = Math.floor((this.board[i - 1] - 1) % this.N);
+                console.log();
+
+                // initial position of the ith-tile
+                let iy = Math.floor((i - 1) / this.N);
+                let ix = Math.floor((i - 1) % this.N);
+                console.log(this.board[i - 1] + ' Final State (' + fy + ', '+ fx + '), Initial State (' + iy + ', '+ ix + ')');
+
+                // diff bw the initial and the final position
+                man += Math.abs(ix - fx) + Math.abs(iy - fy);
+            }
+        }
+        return man;
+
     }
 
     // Obselete
@@ -276,17 +366,54 @@ export default class Board {
 /////////////////////// Test \\\\\\\\\\\\\\\\\\\\\\\\\\
 function BoardTest() {
     console.log('Testing Board');
+
     let b = new Board([8, 1, 3, 4, 0, 2, 7, 6, 5]);
     let b1 = new Board([8, 1, 3, 4, 0, 2, 7, 6, 5]);
+
+    console.log('This is what the board looks like');
     console.log(b.toString());
-    console.log(b.N);                 // 9
-    console.log(b.isGoal());          // false
-    console.log(b.hamming());         // 5
-    console.log(b.manhattan());       // 10
+    console.log('Side Length ' + b.N);                 // 9
+    console.log('Is this goal state ' + b.isGoal());          // false
+    console.log('Hamming distance to the goal state ' + b.hamming());         // 5
+    console.log('Manhattan distance to the goal state ' + b.manhattan());       // 10
+    console.log('One of the man twins: ')
     console.log(b.twin().toString());
+    console.log('Comparing it to a similar board: ')
     console.log(b.equals(b1));
 
+    console.log('the goal state');
+    console.log(b.goal);
+
+    console.log('Hamming distance to L1 goal state ' + b.hamming(1));         // 5
+    console.log('Hamming distance to L2 goal state ' + b.hamming(2));         // 5
+    console.log('Hamming distance to L3 goal state ' + b.hamming(3));         // 5
+
+    console.log('Manhattan procedure');
+    console.log(b.__manhattan_level_matrix__(1));
+    console.log(b.__manhattan_level_matrix__(2));
+    console.log(b.__manhattan_level_matrix__(3));
+
+    console.log('Manhattan matrix');
+    console.log(b.manhattan_matrix);
+
+    console.log('Manhattan distance for different levels');
+    console.log('Manhattan distance to L1 goal state ' + b.partialManhattan(1));         // 5
+    console.log('Manhattan distance to L2 goal state ' + b.partialManhattan(2));         // 5
+    console.log('Manhattan distance to L3 goal state ' + b.partialManhattan(3));         // 5
+
+
+    b = new Board([1, 2, 3, 4, 6, 5, 7, 0, 8]);
+    console.log('This is what the board looks like');
+    console.log(b.toString());
+    console.log('Is goal L1');
+    console.log(b.isGoal(1));
+    console.log('Is goal L2');
+    console.log(b.isGoal(2));
+
+
     let fin = new Board([1, 2, 3, 0]);
-    console.log(fin.isGoal());
+    console.log('This is a new board');
+    console.log(fin.toString());
+    console.log('Is this the goal state ' + fin.isGoal());
     console.log('End Test');
 }
