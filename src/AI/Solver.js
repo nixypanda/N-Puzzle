@@ -17,18 +17,18 @@ export default class Solver {
    * required but just in case for future expansion).
    */
   constructor(board) {
-    this.b = board;
+    this.board = board;
     this.solvable = false;
     this.moves = 0;
     this.stack = [];
 
     // starting point for the solution of the actual board
-    let sn = new SearchNode(this.b, null);
+    let sn = new SearchNode(this.board, null);
 
     // priority queue for the actual board
     let pq = new PriorityQueue();
 
-    if (this.b.isSolvable) {
+    if (this.board.isSolvable) {
       this.__aStar__(sn, pq);
     }
   }
@@ -66,10 +66,7 @@ export default class Solver {
   // adds neighbouring boards of a given search-node to the priority-queue
   // that is passed.
   __addNeighbours__(sn, pq) {
-    let neighbours = sn.board.neighbours();
-
-    for (let i = 0; i < neighbours.length; i++) {
-      let board = neighbours[i];
+    for (let board of sn.board.neighbours()) {
       let n = new SearchNode(board, sn);
       if (sn.prev === null || !n.board.equals(sn.prev.board)) {
         pq.push(n, n.priority);

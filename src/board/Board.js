@@ -6,22 +6,11 @@
  */
 export default class Board {
 
-  constructor(arr) {
-    this.N = Math.sqrt(arr.length);
-    this.board = arr;
-
-    let list = new Array(this.N * this.N);
-    for (let i = 1; i < list.length; i++) {
-      list[i - 1] = i;
-    }
-    list[list.length - 1] = 0;
-
-    this.goal = list;
-
-    this.manhattan_matrix = new Array(this.N);
-    for (let i = 0; i < this.N; i++) {
-      this.manhattan_matrix[i] = new Set(this.__manhattan_level_matrix__(i + 1));
-    }
+  constructor(board) {
+    this.N = Math.sqrt(board.length);
+    this.board = board;
+    this.goal = [...Array(this.N * this.N).keys()].map(i => (i + 1) % (this.N * this.N) );
+    this.manhattan_matrix = [...Array(this.N).keys()].map(i => new Set(this.__manhattan_level_matrix__(i + 1)));
   }
 
 
@@ -29,12 +18,9 @@ export default class Board {
    * Check if the board has reached the final goal state
    */
   isGoal() {
-    for (let i = 1; i < this.board.length; i++) {
-      if (i !== this.board[i - 1]) {
-        return false;
-      }
-    }
-    return true;
+    // not and Ideal solution but does reduce the LOC and works perfectly well
+    // in this case.
+    return this.board.toString() === this.goal.toString();
   }
 
   partialIsGoal(level) {
@@ -55,12 +41,7 @@ export default class Board {
   }
 
   equals(that) {
-    for (let i = 0; i < this.board.length; i++) {
-      if (this.board[i] !== that.board[i]) {
-        return false;
-      }
-    }
-    return true;
+    return this.board.toString() === that.board.toString();
   }
 
   //////////////////////////////
@@ -142,17 +123,7 @@ export default class Board {
     let inversions = this.__countInversions__();
     let zeroLoc = this.N - Math.floor(this.board.indexOf(0) / this.N);
 
-    if (this.N % 2 === 1) {
-      return inversions % 2 === 0;
-    }
-    else {
-      if (zeroLoc % 2 === 1) {
-        return (inversions % 2 === 0);
-      }
-      else {
-        return (inversions % 2 === 1);
-      }
-    }
+    return (this.N % 2 === 1 ? inversions % 2 === 0 : zeroLoc % 2 === 1 ? inversions % 2 === 0 : inversions % 2 === 1);
   }
 
   // returns the count of the number of inversions that are present in the board
@@ -176,14 +147,7 @@ export default class Board {
    * e.g [8, 1, 3, 4, 0, 2, 7, 6, 5] : 5
    */
   hamming() {
-    let ham = 0;
-    for (let i = 0; i < this.board.length; i++) {
-      if (this.board[i] != i + 1) {
-        ham += 1;
-      }
-    }
-    // subtract 1 (case of zero)
-    return ham - 1;
+    return this.board.map((x, i) => x !== i + 1).reduce((a, b) => a + b, 0) - 1;
   }
 
   partialHamming(level) {
