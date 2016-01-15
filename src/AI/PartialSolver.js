@@ -1,40 +1,46 @@
-import SearchNode from './SearchNode';
+import Board from '../board/Board';
+// import SearchNode from './SearchNode';
+import PartialSearchNode from './PartialSearchNode';
 import PriorityQueue from '../helpers/PriorityQueue';
 
 /**
- * This is the class that implements the ever popular A* Search. The heuristic
- * that I am using here is the manhattan distance with the current number of
- * moves. The lower the number the more likly is the node next up for
- * exploration.
- */
+* This is the class that implements the ever popular A* Search. The heuristic
+* that I am using here is the manhattan distance with the current number of
+* moves. The lower the number the more likly is the node next up for
+* exploration.
+*/
 export default class Solver {
 
   /**
-   * The constructor initializes the various variables and also calls the
-   * method that runs the A* search. Now here I have gone for a naive
-   * implementation where I am keeping track of both the actual board and its
-   * twin so I can check if the board is solvable or not. (Not that it's
-   * required but just in case for future expansion).
-   */
+  * The constructor initializes the various variables and also calls the
+  * method that runs the A* search. Now here I have gone for a naive
+  * implementation where I am keeping track of both the actual board and its
+  * twin so I can check if the board is solvable or not. (Not that it's
+  * required but just in case for future expansion).
+  */
   constructor(board) {
-    this.b = board;
+    this.b = new Board(board.board.slice(0));
     this.solvable = false;
     this.moves = 0;
+    this.sol = [];
     this.stack = [];
-
-    // starting point for the solution of the actual board
-    let sn = new SearchNode(this.b, null);
-
-    // priority queue for the actual board
-    let pq = new PriorityQueue();
+    this.N = Math.floor(Math.sqrt(this.b.board.length));
 
     if (this.b.isSolvable) {
-      this.__aStar__(sn, pq);
+      for (let level = 1; level < this.N; level++) {
+        // starting point for the solution of the actual board
+        let sn = new PartialSearchNode(this.b, null, level);
+
+        // priority queue for the actual board
+        let pq = new PriorityQueue();
+
+        this.__aStar__(sn, pq, level);
+      }
     }
   }
 
   // Private helper: The A* search algorithm
-  __aStar__(sn, pq) {
+  __aStar__(sn, pq, level) {
     pq.push(sn, sn.priority);
 
     while (true) {
@@ -42,14 +48,14 @@ export default class Solver {
       sn = pq.pop();
 
       // check if already goal then quit
-      if (sn.board.isGoal()) {
+      if (sn.board.partialIsGoal(level)) {
         this.moves = sn.moves;
         this.solvable = true;
         break;
       }
 
       // add neighbours to the priority queue
-      this.__addNeighbours__(sn, pq);
+      this.__addNeighbours__(sn, pq, level);
     }
 
     // if a solution exists retrace it (check docs of search node)
@@ -60,17 +66,24 @@ export default class Solver {
         this.stack.push(sn.board);
         sn = sn.prev;
       }
+      this.b = this.stack[0];
+
+      this.stack.reverse();
+      // this is the cause of the error
+      this.sol = this.sol.concat(this.stack);
+
+      this.stack = [];
     }
   }
 
   // adds neighbouring boards of a given search-node to the priority-queue
   // that is passed.
-  __addNeighbours__(sn, pq) {
+  __addNeighbours__(sn, pq, level) {
     let neighbours = sn.board.neighbours();
 
     for (let i = 0; i < neighbours.length; i++) {
       let board = neighbours[i];
-      let n = new SearchNode(board, sn);
+      let n = new PartialSearchNode(board, sn, level);
       if (sn.prev === null || !n.board.equals(sn.prev.board)) {
         pq.push(n, n.priority);
       }
@@ -78,11 +91,10 @@ export default class Solver {
   }
 
   /**
-   * Returns the solution of the board.
-   */
+  * Returns the solution of the board.
+  */
   solution() {
-    this.stack.reverse();
-    return this.stack;
+    return this.sol;
   }
 }
 
