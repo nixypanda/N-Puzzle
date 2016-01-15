@@ -27,21 +27,11 @@ export default class TopBar extends React.Component {
   render() {
     let N = this.props.N * this.props.N - 1;
     let icon = ( <IconButton><NavigationMenu color={Colors.grey50} /></IconButton> );
-    let iconMenu = (
-      <IconMenu openDirection={'bottom-right'} iconButtonElement={icon} >
-        <MenuItem primaryText="3-Puzzle" onClick={this.props.changeGame.bind(N, 2)} />
-        <MenuItem primaryText="8-Puzzle" onClick={this.props.changeGame.bind(N, 3)} />
-        <MenuItem primaryText="15-Puzzle" onClick={this.props.changeGame.bind(N, 4)} />
-        <MenuItem primaryText="24-Puzzle" onClick={this.props.changeGame.bind(N, 5)} />
-        <MenuItem primaryText="35-Puzzle" onClick={this.props.changeGame.bind(N, 6)} />
-        <MenuItem primaryText="48-Puzzle" onClick={this.props.changeGame.bind(N, 7)} />
-      </IconMenu>
+    let menuItems = [...Array(6).keys()].map(index => (index + 2)**2 - 1).map((value) =>
+      <MenuItem key={value} primaryText={value + '-Puzzle'} onClick={this.props.changeGame.bind(N, value)} />
     );
+    let iconMenu = ( <IconMenu openDirection={'bottom-right'} iconButtonElement={icon} >{menuItems}</IconMenu> );
 
-    return (
-      <AppBar
-        title={ N + '-Puzzle' }
-        iconElementLeft={ iconMenu } />
-    );
+    return ( <AppBar title={ N + '-Puzzle' } iconElementLeft={ iconMenu } /> );
   }
 }

@@ -5,45 +5,16 @@ export default class BoardFactory {
     // Maximum number of moves is thus MAX_MOVES + MIN_MOVES
     let MAX_MOVES = N * N * N * N;
     let MIN_MOVES = 50;
-
-    // Start with a solved board
-    let list = new Array(N * N);
-    for (let i = 1; i < list.length; i++) {
-      list[i - 1] = i;
-    }
-    list[list.length - 1] = 0;
-
-    // let list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0];
-    this.board = new Board(list);
+    this.board = new Board([...Array(N * N).keys()].map(i => (i + 1) % (N * N) ));
 
     // generate a random number this will be the number of moves that the
     // board will make
     let moves = Math.floor((Math.random() * MAX_MOVES) + MIN_MOVES);
+    let move = ['this.board.moveLeft()', 'this.board.moveRight()', 'this.board.moveUp()', 'this.board.moveDown()'];
 
     // randomly choose UP, DOWN, LEFT, RIGHT $(MOVES) number of times
     for (let i = 1; i < moves; i++) {
-      let where = Math.floor((Math.random() * 4) + 1);
-      switch (where) {
-        case 1: {
-          this.board.moveLeft();
-          break;
-        }
-        case 2: {
-          this.board.moveRight();
-          break;
-        }
-        case 3: {
-          this.board.moveUp();
-          break;
-        }
-        case 4: {
-          this.board.moveDown();
-          break;
-        }
-        default: {
-          break;
-        }
-      }
+      eval(move[Math.floor(Math.random() * 4)]);
     }
   }
 
