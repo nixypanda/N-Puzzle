@@ -108,38 +108,3 @@ export default class PriorityQueue {
     return ((this.heap[i].priority - this.heap[j].priority) > 0);
   }
 }
-
-///////////////////   Tests    /////////////////////////////
-// function pqTest() {
-//   console.log('Testing the priority queue');
-//   let queue = new PriorityQueue();
-//
-//   queue.push({p:'two'}, 2);
-//   queue.push({p:'three'}, 3);
-//   queue.push({p:'five'}, 5);
-//   queue.push({p:'1st one'}, 1);
-//   queue.push({p:'zero'}, 0);
-//   queue.push({p:'nine'}, 9);
-//   queue.push({p:'2nd one'}, 1);
-//
-//   console.log(queue.heap.toString()); // => 0,1,1,3,2,9,5
-//
-//   console.log(queue.pop());           // => {p:'zero'}
-//   console.log(queue.pop());           // => {p:'1st one'}
-//   console.log(queue.heap.toString()); // => 1,2,9,3,5
-//
-//   console.log(queue.pop());           // => {p:'2nd one'}
-//   console.log(queue.pop());           // => {p:'two'}
-//   console.log(queue.pop());           // => {p:'three'}
-//
-//   queue.push({p:'one-half'}, 0.5);
-//   console.log(queue.heap.toString()); // => 0.5,2,1,3,5,9
-//
-//   console.log(queue.pop());           // => {p:'one-half'}
-//   console.log(queue.pop());           // => {p:'five'}
-//   console.log(queue.pop());           // => {p:'Nine'}
-//   console.log(queue.heap.toString()); // =>
-//   console.log("Length of the queue is :" + queue.heap.length);
-//   console.log(queue.pop());           // => Underflow
-//   console.log('End Test');
-// }

@@ -82,15 +82,3 @@ export default class Solver {
     return this.stack;
   }
 }
-
-//////////////// Test Cases \\\\\\\\\\\\\\\\\\\\\\\\\
-// function SolverTest() {
-//   let list = [14, 13, 5, 3, 0, 1, 8, 12, 6, 2, 4, 10, 11, 9, 15, 7];
-//   let board = new Board(list);
-//   let solver = new Solver(board);
-//
-//   console.log("The solution is in " + solver.solution().length + "steps");
-//   let solution = solver.solution();
-//   for (let i = 0; i < solution.length; i++)
-//   console.log(solution[i].toString());
-// }

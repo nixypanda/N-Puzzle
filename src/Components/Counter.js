@@ -5,9 +5,9 @@ import Colors from 'material-ui/lib/styles/colors';
 
 
 /**
-* This class displays the counter and the reset button at the top of the
-* board.
-*/
+ * This class displays the counter and the reset button at the top of the
+ * board.
+ */
 export default class Counter extends React.Component {
   static porpTypes = {
     cellWidth: PropTypes.number
@@ -18,9 +18,9 @@ export default class Counter extends React.Component {
   };
 
   /**
-  * Returns the styling for the div enclosing the counter and the reset
-  * button
-  */
+   * Returns the styling for the div enclosing the counter and the reset
+   * button
+   */
   __topFrameStyle__() {
     return {
       width: this.props.N * this.props.cellWidth + 80,
@@ -30,8 +30,8 @@ export default class Counter extends React.Component {
   }
 
   /**
-  * Returns the styling for the counter.
-  */
+   * Returns the styling for the counter.
+   */
   __counterStyle__() {
     return {
       display: 'inline-block',
@@ -42,9 +42,9 @@ export default class Counter extends React.Component {
   }
 
   /**
-  * Returns the markup for the whole component (i.e. the counter and the
-  * reset button).
-  */
+   * Returns the markup for the whole component (i.e. the counter and the
+   * reset button).
+   */
   render() {
 
     return (

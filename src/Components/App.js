@@ -15,9 +15,9 @@ import Solver from '../AI/Solver';
 export default class App extends React.Component {
 
   /**
-  * Initaial state of the game. The board generation is given to factory.
-  * @return {JSON} A dict of key value pairs
-  */
+   * Initaial state of the game. The board generation is given to factory.
+   * @return {JSON} A dict of key value pairs
+   */
   constructor() {
     super();
     let size = 4;
@@ -68,22 +68,13 @@ export default class App extends React.Component {
       return;
     }
 
-    let LEFT = 37, UP = 38, RIGHT = 39, DOWN = 40;
+    // Arrow key codes: LEFT = 37, UP = 38, RIGHT = 39, DOWN = 40;
+    // hence the function to call move on the blank tile is inverted so it
+    // is more natural to the user.
+    let move = ['moveRight()', 'moveDown()', 'moveLeft()', 'moveUp()'];
 
-    if(e.keyCode === LEFT) {
-      this.state.board.moveRight();
-      this.state.count += 1;
-    }
-    else if (e.keyCode === UP) {
-      this.state.board.moveDown();
-      this.state.count += 1;
-    }
-    else if (e.keyCode === RIGHT) {
-      this.state.board.moveLeft();
-      this.state.count += 1;
-    }
-    else if (e.keyCode === DOWN) {
-      this.state.board.moveUp();
+    if (e.keyCode > 36 && e.keyCode < 41) {
+      eval('this.state.board.' + move[e.keyCode - 37]);
       this.state.count += 1;
     }
 
@@ -98,11 +89,11 @@ export default class App extends React.Component {
   }
 
   /**
-  * Calls the move method on the board class when any of the numbers are pressed
-  * on by the mouse.
-  *
-  * @param {Integer} number the number that is pressed
-  */
+   * Calls the move method on the board class when any of the numbers are pressed
+   * on by the mouse.
+   *
+   * @param {Integer} number the number that is pressed
+   */
   handleMouseClick(number) {
     if (this.state.won || this.state.autosolve) {
       return;
@@ -124,8 +115,7 @@ export default class App extends React.Component {
   * The arrangement of tiles is randomised
   */
   reset() {
-    let bf = new BoardFactory(this.state.N);
-    let board = bf.getBoard();
+    let board = new BoardFactory(this.state.N).getBoard();
 
     // VERY IMPORTANT: to clear the setInterval otherwise reseting
     // will have two solutions to pick from and it's not preety
@@ -154,6 +144,7 @@ export default class App extends React.Component {
     this.setState({autosolve: true }, function() {
       // Calling the AI to solve the problem
       let solver = new Solver(this.state.board);
+
       // Scnchronously calll the helper after setting the state with the
       // solution
       this.setState({ solution: solver.solution()}, function() {

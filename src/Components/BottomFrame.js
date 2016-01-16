@@ -20,8 +20,8 @@ class BottomText extends React.Component {
 }
 
 /**
-*  This class handles the button that the app displays
-*/
+ *  This class handles the button that the app displays
+ */
 export default class BottomFrame extends React.Component {
 
   static propTypes = {
@@ -30,9 +30,9 @@ export default class BottomFrame extends React.Component {
   };
 
   /**
-  * Handles the rendering of the button.
-  * @return button The markup for the button
-  */
+   * Handles the rendering of the button.
+   * @return button The markup for the button
+   */
   render() {
 
     if (! this.props.won) {

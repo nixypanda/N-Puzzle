@@ -6,9 +6,9 @@ import Colors from 'material-ui/lib/styles/colors';
 
 
 /**
-* React class to display a top bar that at the moment only displays the name
-* of the application.
-*/
+ * React class to display a top bar that at the moment only displays the name
+ * of the application.
+ */
 export default class TopBar extends React.Component {
 
   constructor(props) {
@@ -20,13 +20,14 @@ export default class TopBar extends React.Component {
   };
 
   /**
-  * The required function for every react class it returns how
-  * the top bar will look like.
-  * @return {AppBar} A react class form material-ui theme
-  */
+   * The required function for every react class it returns how
+   * the top bar will look like.
+   * @return {AppBar} A react class form material-ui theme
+   */
   render() {
     let N = this.props.N * this.props.N - 1;
     let icon = ( <IconButton><NavigationMenu color={Colors.grey50} /></IconButton> );
+
     let menuItems = [...Array(6).keys()].map(index => (index + 2)**2 - 1).map((value) =>
       <MenuItem key={value} primaryText={value + '-Puzzle'} onClick={this.props.changeGame.bind(N, value)} />
     );
