@@ -46,7 +46,6 @@ export default class Counter extends React.Component {
    * reset button).
    */
   render() {
-
     return (
       <Toolbar style={this.__topFrameStyle__()} >
         <ToolbarGroup firstChild={true} float="left">

@@ -34,7 +34,6 @@ export default class BottomFrame extends React.Component {
    * @return button The markup for the button
    */
   render() {
-
     if (! this.props.won) {
       let solver = (
         <div className='col-sm-12'>
@@ -45,7 +44,7 @@ export default class BottomFrame extends React.Component {
       );
 
       let button = this.props.N < 5 ? solver : (<div></div>);
-      let m = ( !this.props.solvable? 'This puzzle is not solvable' : <BottomText N={this.props.N} /> );
+      let m = ( !this.props.solvable ? 'This puzzle is not solvable' : <BottomText N={this.props.N} /> );
 
       return (
         <div className='centered text-center'>
@@ -55,9 +54,7 @@ export default class BottomFrame extends React.Component {
       );
     }
 
-    else {
-      let m = this.props.autosolve ? 'And That\'s how you solve it.' : 'YOU WON!';
-      return (<h2 className='centered text-center'>{m}</h2>);
-    }
+    let m = this.props.autosolve ? 'And That\'s how you solve it.' : 'YOU WON!';
+    return (<h2 className='centered text-center'>{m}</h2>);
   }
 }

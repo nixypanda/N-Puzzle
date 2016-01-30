@@ -14,11 +14,13 @@ export default class BoardLayout extends React.Component {
   */
   componentWillMount() {
     this.layout = range(0, this.props.N * this.props.N).map(n => {
-
       const row = Math.floor(n / this.props.N);
       const col = n % this.props.N;
 
-      return [(this.props.width + 2 * this.props.margin + 2) * col, (this.props.height + 2 * this.props.margin + 2) * row];
+      return [
+        (this.props.width + 2 * this.props.margin + 2) * col,
+        (this.props.height + 2 * this.props.margin + 2) * row
+      ];
     });
   }
 
@@ -26,13 +28,15 @@ export default class BoardLayout extends React.Component {
   * On update also genterate the layout so that when the game changes e.g.
   * 8 -> 16 the layout also changes.(need a better way)
   */
-  componentWillUpdate () {
+  componentWillUpdate() {
     this.layout = range(0, this.props.N * this.props.N).map(n => {
-
       const row = Math.floor(n / this.props.N);
       const col = n % this.props.N;
 
-      return [(this.props.width + 2 * this.props.margin + 2) * col, (this.props.height + 2 * this.props.margin + 2) * row];
+      return [
+        (this.props.width + 2 * this.props.margin + 2) * col,
+        (this.props.height + 2 * this.props.margin + 2) * row
+      ];
     });
   }
 
@@ -95,16 +99,20 @@ export default class BoardLayout extends React.Component {
     // Generating the layout for the board
     var board = this.props.board.map((i, key) => {
       let cellStyle = (key === 0) ? this.__emptyCellStyle__() : this.__cellStyle__();
-      let x, y;
+      let x;
+      let y;
 
       [x, y] = this.layout[this.props.board.indexOf(key)];
       let style = {tX: spring(x), tY: spring(y)};
 
-      return  (
+      return (
         <Motion style={style} key={key}>
           {({tX, tY}) =>
           <div
-            style={{width: _this.props.width + 2 * _this.props.margin, transform: `translate3d(${tX}px,${tY}px,0) scale(1.1)`}}>
+            style={{
+              width: _this.props.width + 2 * _this.props.margin,
+              transform: `translate3d(${tX}px,${tY}px,0) scale(1.1)`
+            }}>
             <Paper style={cellStyle} className='text-center' onClick={_this.props.onMouseClick.bind(null, key)} >
               <p className='center'>{key}</p>
             </Paper>

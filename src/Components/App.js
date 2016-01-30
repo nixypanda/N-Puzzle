@@ -71,10 +71,10 @@ export default class App extends React.Component {
     // Arrow key codes: LEFT = 37, UP = 38, RIGHT = 39, DOWN = 40;
     // hence the function to call move on the blank tile is inverted so it
     // is more natural to the user.
-    let move = ['moveRight()', 'moveDown()', 'moveLeft()', 'moveUp()'];
+    let move = ['moveRight', 'moveDown', 'moveLeft', 'moveUp'];
 
     if (e.keyCode > 36 && e.keyCode < 41) {
-      eval('this.state.board.' + move[e.keyCode - 37]);
+      this.state.board[move[e.keyCode - 37]]();
       this.state.count += 1;
     }
 
@@ -156,21 +156,20 @@ export default class App extends React.Component {
   // Helper: Reads the boards in solution one by one and renders then on to
   // the screen one-by-one.
   __autosolveTheGame__() {
-    let _this = this;
     let i = 1;
     let length = this.state.solution.length;
 
     // display the next board after a second interval
-    _this.AIPlayingTheGame = setInterval(() => {
-      _this.setState({
-        board: _this.state.solution[i],
-        count: _this.state.count + 1
+    this.AIPlayingTheGame = setInterval(() => {
+      this.setState({
+        board: this.state.solution[i],
+        count: this.state.count + 1
       });
 
       // quit on reaching the solved state
       if (++i === length) {
-        _this.setState({ won: true });
-        clearInterval(_this.AIPlayingTheGame);
+        this.setState({ won: true });
+        clearInterval(this.AIPlayingTheGame);
       }
     }, 1000);
   }
@@ -181,7 +180,7 @@ export default class App extends React.Component {
   changeGame(n) {
     this.setState({solvable: this.state.board.isSolvable()});
     // Imediate change in state is trigerred like this (synchronos operation)
-    this.setState({N: n}, function () {
+    this.setState({N: n}, function() {
       this.reset();
     });
   }

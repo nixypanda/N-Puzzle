@@ -1,18 +1,18 @@
-var gulp        = require('gulp');
-var open        = require('gulp-open');
-var concat      = require('gulp-concat');
-var uglify      = require('gulp-uglify');
-var connect     = require('gulp-connect');
-var streamify   = require('gulp-streamify');
+var gulp = require('gulp');
+var open = require('gulp-open');
+var concat = require('gulp-concat');
+var uglify = require('gulp-uglify');
+var connect = require('gulp-connect');
+var streamify = require('gulp-streamify');
 var htmlreplace = require('gulp-html-replace');
 
-var watchify    = require('watchify');
-var babelify    = require('babelify');
-var browserify  = require('browserify');
+var watchify = require('watchify');
+var babelify = require('babelify');
+var browserify = require('browserify');
 
-var source      = require('vinyl-source-stream');
+var source = require('vinyl-source-stream');
 
-var argv        = require('yargs').argv;
+var argv = require('yargs').argv;
 
 
 /** Local development server information */
@@ -39,9 +39,7 @@ var path = {
   ]
 };
 
-///////////////////////////////////////////////
 // Independent of development and production //
-///////////////////////////////////////////////
 
 
 /** Creates a local dev server */
@@ -72,13 +70,10 @@ gulp.task('css', function bundleCSS() {
 });
 
 
-///////////////////////
 // Development Tasks //
-///////////////////////
-
 
 /** Take index.html page and copy it over to dist folder. */
-gulp.task('copy', function(){
+gulp.task('copy', function() {
   gulp.src(path.HTML)
   .pipe(gulp.dest(path.DEST));
 });
@@ -89,14 +84,14 @@ gulp.task('watch', ['copy'], function() {
   gulp.watch(path.HTML, ['copy']);
   gulp.watch(path.CSS, ['css']);
 
-  var watcher  = watchify(browserify({
+  var watcher = watchify(browserify({
     entries: [path.ENTRY_POINT],
     transform: [[babelify, {presets: ['es2015', 'react', 'stage-0'] } ]],
     debug: true,
     cache: {}, packageCache: {}, fullPaths: true
   }));
 
-  return watcher.on('update', function () {
+  return watcher.on('update', function() {
     watcher.bundle()
     .pipe(source(path.OUT))
     .pipe(gulp.dest(path.DEST_SRC));
@@ -112,14 +107,10 @@ gulp.task('watch', ['copy'], function() {
 gulp.task('default', ['watch', 'css', 'open']);
 
 
-
-//////////////////////
 // Production Tasks //
-//////////////////////
-
 
 /** bundle all js to /scripts/build.min.js */
-gulp.task('build', function(){
+gulp.task('build', function() {
   browserify({
     entries: [path.ENTRY_POINT],
     transform: [[babelify, {presets: ['es2015', 'react', 'stage-0'] } ]]
@@ -133,7 +124,7 @@ gulp.task('build', function(){
 /** replaces script tags on the index.html file to point to single minified
 * javascript file
 */
-gulp.task('replaceHTML', function(){
+gulp.task('replaceHTML', function() {
   gulp.src(path.HTML)
   .pipe(htmlreplace({
     'js': 'build/' + path.MINIFIED_OUT
