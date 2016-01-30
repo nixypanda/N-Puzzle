@@ -10,11 +10,11 @@ export default class BoardFactory {
     // generate a random number this will be the number of moves that the
     // board will make
     let moves = Math.floor((Math.random() * MAX_MOVES) + MIN_MOVES);
-    let move = ['this.board.moveLeft()', 'this.board.moveRight()', 'this.board.moveUp()', 'this.board.moveDown()'];
+    let move = ['moveLeft', 'moveRight', 'moveUp', 'moveDown'];
 
     // randomly choose UP, DOWN, LEFT, RIGHT $(MOVES) number of times
     for (let i = 1; i < moves; i++) {
-      eval(move[Math.floor(Math.random() * 4)]);
+      this.board[move[Math.floor(Math.random() * 4)]]();
     }
   }
 

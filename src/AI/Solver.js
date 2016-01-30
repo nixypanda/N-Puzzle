@@ -35,30 +35,31 @@ export default class Solver {
 
   // Private helper: The A* search algorithm
   __aStar__(sn, pq) {
-    pq.push(sn, sn.priority);
+    let searchNode = sn;
+    pq.push(searchNode, searchNode.priority);
 
     while (true) {
       // pop both the queues to get the next highest priority board
-      sn = pq.pop();
+      searchNode = pq.pop();
 
       // check if already goal then quit
-      if (sn.board.isGoal()) {
-        this.moves = sn.moves;
+      if (searchNode.board.isGoal()) {
+        this.moves = searchNode.moves;
         this.solvable = true;
         break;
       }
 
       // add neighbours to the priority queue
-      this.__addNeighbours__(sn, pq);
+      this.__addNeighbours__(searchNode, pq);
     }
 
     // if a solution exists retrace it (check docs of search node)
     // achieved by maintaing a pointer to the board that lead to the
     // current board
     if (this.solvable) {
-      while (sn !== null) {
-        this.stack.push(sn.board);
-        sn = sn.prev;
+      while (searchNode !== null) {
+        this.stack.push(searchNode.board);
+        searchNode = searchNode.prev;
       }
     }
   }

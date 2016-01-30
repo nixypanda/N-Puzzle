@@ -199,8 +199,7 @@ export default class App extends React.Component {
           N={this.state.N} />
         <BoardLayout N={this.state.N} board={this.state.board.board}
           onMouseClick={this.handleMouseClick} />
-        <BottomFrame won={this.state.won}
-          N={this.state.N}
+        <BottomFrame won={this.state.won} N={this.state.N}
           solvable={this.state.solvable}
           activateAI={this.activateAutoSolve}
           autosolve={this.state.autosolve} />

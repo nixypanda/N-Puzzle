@@ -26,9 +26,7 @@ export default class Board {
     return this.board.toString() === that.board.toString();
   }
 
-  //////////////////////////////
-  /// Make move on the Board ///
-  //////////////////////////////
+  // Make move on the Board //
 
   /**
   * Makes a left move on the board
@@ -55,7 +53,7 @@ export default class Board {
    */
   moveRight() {
     let indexZero = this.board.indexOf(0);
-    if (indexZero % this.N != this.N - 1) {
+    if (indexZero % this.N !== this.N - 1) {
       this.__makeMove__(indexZero, indexZero + 1);
     }
   }
@@ -81,21 +79,19 @@ export default class Board {
 
     let diff = Math.abs(indexZero - keyIndex);
 
-    //bugfix:
+    // bugfix:
     if ((Math.min(keyIndex, indexZero) % this.N === this.N - 1) && (Math.max(keyIndex, indexZero) % this.N === 0) ) {
       return false;
     }
 
-    if (diff === 1 || diff === this.N)  {
+    if (diff === 1 || diff === this.N) {
       this.__makeMove__(indexZero, keyIndex);
       return true;
     }
     return false;
   }
 
-  //////////////////////////////
-  /// AI (A*) Helper methods ///
-  /////////////////////////////
+  // AI (A*) Helper methods //
 
   /**
    * Finds if the given board is solvable or not in tiem proportional O(n^4)
@@ -105,7 +101,10 @@ export default class Board {
     let inversions = this.__countInversions__();
     let zeroLoc = this.N - Math.floor(this.board.indexOf(0) / this.N);
 
-    return (this.N % 2 === 1 ? inversions % 2 === 0 : zeroLoc % 2 === 1 ? inversions % 2 === 0 : inversions % 2 === 1);
+    if (this.N % 2 === 1) {
+      return inversions % 2 === 0;
+    }
+    return zeroLoc % 2 === 1 ? inversions % 2 === 0 : inversions % 2 === 1;
   }
 
   // returns the count of the number of inversions that are present in the board
@@ -201,16 +200,14 @@ export default class Board {
 
     // board by exchanging empty tile with the tile to the right of it
     // include if the empty tile is not in last column
-    if (i % this.N != this.N - 1) {
+    if (i % this.N !== this.N - 1) {
       neighbour.push(this.__exchBoard__(i, i + 1));
     }
 
     return neighbour;
   }
 
-  ///////////////////////////////
-  /// Private Helper functions //
-  //////////////////////////////
+  // Private Helper functions //
 
   // swaps the given tiles of the original board and returns the resulting
   // board
