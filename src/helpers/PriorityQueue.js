@@ -42,7 +42,7 @@ export default class PriorityQueue {
   pop() {
     // throw an error if list is [null].
     if (this.heap.length < 2) {
-      throw new 'Underflow';
+      throw new Error('Underflow');
     }
 
     // get the value of the top element

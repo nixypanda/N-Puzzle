@@ -133,6 +133,7 @@
     "camelcase": [2, {               // http://eslint.org/docs/rules/camelcase
       "properties": "never"
     }],
+    quotes: [1, "single"],           // http://eslint.org/docs/rules/quotes.html 
     "comma-spacing": [2, {           // http://eslint.org/docs/rules/comma-spacing
       "before": false,
       "after": true
