@@ -9,12 +9,16 @@ import Colors from 'material-ui/lib/styles/colors';
  * board.
  */
 export default class Counter extends React.Component {
-  static porpTypes = {
-    cellWidth: PropTypes.number
-  };
 
   static defaultProps = {
     cellWidth: 100
+  };
+
+  static propTypes = {
+    N: PropTypes.number.isRequired,
+    reset: PropTypes.func.isRequired,
+    count: PropTypes.numer.isRequired,
+    cellWidth: PropTypes.number
   };
 
   // Returns the styling for the div enclosing the counter and the reset button
@@ -43,7 +47,7 @@ export default class Counter extends React.Component {
         <ToolbarGroup firstChild={true} float="left">
           <RaisedButton label={'Moves: ' + this.props.count} />
         </ToolbarGroup>
-        <ToolbarGroup  float='right' lastChild={true}>
+        <ToolbarGroup float='right' lastChild={true}>
           <RaisedButton
             label='Reset'
             onClick={this.props.reset}

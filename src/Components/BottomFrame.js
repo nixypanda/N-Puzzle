@@ -30,8 +30,11 @@ class BottomText extends React.Component {
 export default class BottomFrame extends React.Component {
 
   static propTypes = {
+    N: PropTypes.number.isRequired,
+    won: PropTypes.bool.isRequired,
     autosolve: PropTypes.bool.isRequired,
-    activateAI: PropTypes.func.isRequired
+    activateAI: PropTypes.func.isRequired,
+    solvable: PropTypes.bool.isRequired
   };
 
   render() {
