@@ -3,7 +3,8 @@ module.exports = {
   env: {
     browser: true,
     node: true,
-    es6: true
+    es6: true,
+    jasmine: true
   },
 
   plugins: [ 'react' ],
@@ -264,7 +265,7 @@ module.exports = {
 
     // 'keyword-spacing': 2,
     // specify the maximum depth callbacks can be nested (off by default)
-    'max-nested-callbacks': [ 1, 3 ],
+    'max-nested-callbacks': [ 1, 4 ],
     // require a capital letter for constructors
     'new-cap': [ 1, { newIsCap: true, capIsNew: false } ],
     // disallow the omission of parentheses when invoking a constructor with no arguments

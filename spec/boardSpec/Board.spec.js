@@ -6,8 +6,13 @@ describe('Board', () => {
   describe('Check if the board is in goal state', () => {
     let board = new Board([ 1, 3, 2, 4, 6, 5, 7, 8, 0 ]);
     let goalBoard = new Board([ 1, 2, 3, 4, 5, 6, 7, 8, 0 ]);
-    it('should return false', () => { expect(board.isGoal()).toBeFalsy(); });
-    it('should return true', () => { expect(goalBoard.isGoal()).toBeTruthy(); });
+
+    it('should return false', () => {
+      expect(board.isGoal()).toBeFalsy();
+    });
+    it('should return true', () => {
+      expect(goalBoard.isGoal()).toBeTruthy();
+    });
   });
   // board.equals
   describe('Compare two boards', () => {
@@ -15,8 +20,12 @@ describe('Board', () => {
     let board2 = new Board([ 1, 3, 2, 4, 6, 5, 7, 8, 0 ]);
     let board3 = new Board([ 1, 2, 3, 4, 5, 6, 7, 8, 0 ]);
 
-    it('should return false', () => { expect(board1.equals(board3)).toBeFalsy(); });
-    it('should return true', () => { expect(board1.equals(board2)).toBeTruthy(); });
+    it('should return false', () => {
+      expect(board1.equals(board3)).toBeFalsy();
+    });
+    it('should return true', () => {
+      expect(board1.equals(board2)).toBeTruthy();
+    });
   });
 
   // board.isSolvable()
@@ -26,10 +35,18 @@ describe('Board', () => {
     let evenSolvable = new Board([ 1, 2, 8, 4, 6, 14, 3, 7, 10, 9, 12, 15, 0, 11, 5, 13 ]);
     let evenUnSolvable = new Board([ 2, 1, 8, 4, 6, 14, 3, 7, 10, 9, 12, 15, 0, 11, 5, 13 ]);
 
-    it('should return true', () => { oddSolvable.isSolvable(); });
-    it('should return false', () => { oddUnSolvable.isSolvable(); });
-    it('should return true', () => { evenSolvable.isSolvable(); });
-    it('should return false', () => { evenUnSolvable.isSolvable(); });
+    it('should return true', () => {
+      oddSolvable.isSolvable();
+    });
+    it('should return false', () => {
+      oddUnSolvable.isSolvable();
+    });
+    it('should return true', () => {
+      evenSolvable.isSolvable();
+    });
+    it('should return false', () => {
+      evenUnSolvable.isSolvable();
+    });
   });
 
   // hamming() and manhattan()
