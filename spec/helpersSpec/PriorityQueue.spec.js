@@ -5,13 +5,13 @@ describe('Priority Queue Specifications', () => {
 
   beforeEach(() => {
     queue = new PriorityQueue();
-    queue.push({p: 'two'}, 2);
-    queue.push({p: 'three'}, 3);
-    queue.push({p: 'five'}, 5);
-    queue.push({p: '1st one'}, 1);
-    queue.push({p: 'zero'}, 0);
-    queue.push({p: 'nine'}, 9);
-    queue.push({p: '2nd one'}, 1);
+    queue.push({ p: 'two' }, 2);
+    queue.push({ p: 'three' }, 3);
+    queue.push({ p: 'five' }, 5);
+    queue.push({ p: '1st one' }, 1);
+    queue.push({ p: 'zero' }, 0);
+    queue.push({ p: 'nine' }, 9);
+    queue.push({ p: '2nd one' }, 1);
   });
 
   describe('Push operations', () => {
@@ -22,8 +22,8 @@ describe('Priority Queue Specifications', () => {
 
   describe('Pop operations', () => {
     it('should have the following state', () => {
-      expect(queue.pop()).toEqual({ p: 'zero'});
-      expect(queue.pop()).toEqual({ p: '1st one'});
+      expect(queue.pop()).toEqual({ p: 'zero' });
+      expect(queue.pop()).toEqual({ p: '1st one' });
       expect(queue.heap.toString()).toEqual(',1,2,9,3,5');
     });
   });
@@ -44,9 +44,9 @@ describe('Priority Queue Specifications', () => {
 
   describe('Push and pop operations', () => {
     it('sholud perform push/pops accordingly', () => {
-      expect(queue.pop()).toEqual({ p: 'zero'});
-      expect(queue.pop()).toEqual({ p: '1st one'});
-      queue.push({ p: 'one-half'}, 0.5);
+      expect(queue.pop()).toEqual({ p: 'zero' });
+      expect(queue.pop()).toEqual({ p: '1st one' });
+      queue.push({ p: 'one-half' }, 0.5);
       expect(queue.heap.toString()).toEqual(',0.5,2,1,3,5,9');
     });
   });

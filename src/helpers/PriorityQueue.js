@@ -19,14 +19,18 @@ class Node {
 */
 export default class PriorityQueue {
   constructor() {
-    this.heap = [null];
+    this.heap = [ null ];
   }
 
   /**
   * Push a data entry(with a given priority) into the priority queue.
   * Takes time equivalent to O(log n) where n is the number of elements
   * currently in the queue.
-  */
+  *
+   * @param  {Object} data     [the content]
+   * @param  {nulber} priority [the priority of the content]
+   * @return {null}          [nothing]
+   */
   push(data, priority) {
     let node = new Node(data, priority);
     // append the element to the end of the list and then __bubble__ it
@@ -35,10 +39,12 @@ export default class PriorityQueue {
   }
 
   /**
-  * Removes and returns the data of highest priority (i.e. one with the
-  * lowest value).
-  * Takes time proportional to O(log n).
-  */
+   * Removes and returns the data of highest priority (i.e. one with the
+   * lowest value).
+   * Takes time proportional to O(log n).
+   *
+   * @return {Object} [the object with the max priority (i.e. the one with the minimum value for priority)]
+   */
   pop() {
     // throw an error if list is [null].
     if (this.heap.length < 2) {
@@ -60,24 +66,18 @@ export default class PriorityQueue {
     return topVal;
   }
 
-  /**
-  * bubbles node i up the binary tree based on
-  * priority until heap conditions are restored
-  */
+  // PRIVATE HELPER: bubbles node i up the binary tree based on priority until heap conditions are restored
   __bubble__(node) {
     let i = node;
     // while the index of the element is greater than 1 and it has
     // higher priority compared to it's parent then exchange them
     while (i > 1 && this.__isHigherPriority__(i >> 1, i)) {
       this.__swap__(i, i >> 1);
-      i = i >> 1;
+      i >>= 1;
     }
   }
 
-  /**
-  * Sinks a low priority element down to it's place until the heap invarient
-  * is restored.
-  */
+  // Sinks a low priority element down to it's place until the heap invarient is restored.
   __sink__(node) {
     let i = node;
     // while ith node has a child
@@ -85,7 +85,7 @@ export default class PriorityQueue {
       let j = 2 * i;
       // pick the child with the higher priority
       if (j < this.heap.length - 1 && this.__isHigherPriority__(j, j + 1)) {
-        j++;
+        j += 1;
       }
       // compare priority to it's parent
       if (!(this.__isHigherPriority__(i, j))) {

@@ -1,5 +1,5 @@
-import React, {PropTypes} from 'react';
-import {RaisedButton, Toolbar, ToolbarGroup} from 'material-ui';
+import React, { PropTypes } from 'react';
+import { RaisedButton, Toolbar, ToolbarGroup } from 'material-ui';
 
 import Colors from 'material-ui/lib/styles/colors';
 
@@ -17,10 +17,7 @@ export default class Counter extends React.Component {
     cellWidth: 100
   };
 
-  /**
-   * Returns the styling for the div enclosing the counter and the reset
-   * button
-   */
+  // Returns the styling for the div enclosing the counter and the reset button
   __topFrameStyle__() {
     return {
       width: this.props.N * this.props.cellWidth + 80,
@@ -29,9 +26,7 @@ export default class Counter extends React.Component {
     };
   }
 
-  /**
-   * Returns the styling for the counter.
-   */
+  // Returns the styling for the counter.
   __counterStyle__() {
     return {
       display: 'inline-block',
@@ -41,18 +36,18 @@ export default class Counter extends React.Component {
     };
   }
 
-  /**
-   * Returns the markup for the whole component (i.e. the counter and the
-   * reset button).
-   */
+  // the rendre method
   render() {
     return (
       <Toolbar style={this.__topFrameStyle__()} >
         <ToolbarGroup firstChild={true} float="left">
           <RaisedButton label={'Moves: ' + this.props.count} />
         </ToolbarGroup>
-        <ToolbarGroup lastChild={true} float="right">
-          <RaisedButton onClick={this.props.reset} label='Reset' primary={true}/>
+        <ToolbarGroup  float='right' lastChild={true}>
+          <RaisedButton
+            label='Reset'
+            onClick={this.props.reset}
+            primary={true} />
         </ToolbarGroup>
       </Toolbar>
     );

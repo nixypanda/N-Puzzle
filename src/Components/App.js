@@ -43,16 +43,12 @@ export default class App extends React.Component {
     this.changeGame = this.changeGame.bind(this);
   }
 
-  /**
-  * Start Polling keydown event
-  */
+  // Start Polling keydown event
   componentDidMount() {
     jQuery(document.body).on('keydown', this.handleKeyDown);
   }
 
-  /**
-  * Stop Polling keydown event
-  */
+  // Stop Polling keydown event
   componentWillUnmount() {
     jQuery(document.body).off('keydown', this.handleKeyDown);
   }
@@ -62,6 +58,7 @@ export default class App extends React.Component {
   * key pressed is one of the arrow keys.
   *
   * @param  {event} e An event object.
+  * @return {null} [nothing]
   */
   handleKeyDown(e) {
     if (this.state.won || this.state.autosolve) {
@@ -71,7 +68,7 @@ export default class App extends React.Component {
     // Arrow key codes: LEFT = 37, UP = 38, RIGHT = 39, DOWN = 40;
     // hence the function to call move on the blank tile is inverted so it
     // is more natural to the user.
-    let move = ['moveRight', 'moveDown', 'moveLeft', 'moveUp'];
+    let move = [ 'moveRight', 'moveDown', 'moveLeft', 'moveUp' ];
 
     if (e.keyCode > 36 && e.keyCode < 41) {
       this.state.board[move[e.keyCode - 37]]();
@@ -84,7 +81,7 @@ export default class App extends React.Component {
     });
 
     if (this.state.board.isGoal()) {
-      this.setState({won: true});
+      this.setState({ won: true });
     }
   }
 
@@ -93,6 +90,7 @@ export default class App extends React.Component {
    * on by the mouse.
    *
    * @param {Integer} number the number that is pressed
+   * @return {null} [nothing]
    */
   handleMouseClick(number) {
     if (this.state.won || this.state.autosolve) {
@@ -106,13 +104,15 @@ export default class App extends React.Component {
     });
 
     if (this.state.board.isGoal()) {
-      this.setState({won: true});
+      this.setState({ won: true });
     }
   }
 
   /**
   * Resets the game to it's original configuration.
   * The arrangement of tiles is randomised
+  *
+  * @return {null} [nothing]
   */
   reset() {
     let board = new BoardFactory(this.state.N).getBoard();
@@ -128,8 +128,8 @@ export default class App extends React.Component {
       autosolve: false,
       solution: null,
       solutionIndex: 1
-    }, function() {
-      this.setState({solvable: this.state.board.isSolvable()});
+    }, function () {
+      this.setState({ solvable: this.state.board.isSolvable() });
     });
 
     this.forceUpdate();
@@ -139,15 +139,17 @@ export default class App extends React.Component {
   * This function autosolves the game on the screen and stores the result in
   * solution (state variable) and then calls the helper to present the moves
   * to the user
+  *
+  * @return {null} [nothing]
   */
   activateAutoSolve() {
-    this.setState({autosolve: true }, function() {
+    this.setState({ autosolve: true }, function () {
       // Calling the AI to solve the problem
       let solver = new Solver(this.state.board);
 
       // Scnchronously calll the helper after setting the state with the
       // solution
-      this.setState({ solution: solver.solution()}, function() {
+      this.setState({ solution: solver.solution() }, function () {
         this.__autosolveTheGame__();
       });
     });
@@ -166,8 +168,9 @@ export default class App extends React.Component {
         count: this.state.count + 1
       });
 
+      i += 1;
       // quit on reaching the solved state
-      if (++i === length) {
+      if (i === length) {
         this.setState({ won: true });
         clearInterval(this.AIPlayingTheGame);
       }
@@ -175,34 +178,39 @@ export default class App extends React.Component {
   }
 
   /**
-  * Changes the game to different n-by-n grid
-  */
+   * Changes the game to different n-by-n grid
+   *
+   * @param  {number} n [governs the size of the board]
+   * @return {null} [nothing]
+   */
   changeGame(n) {
-    this.setState({solvable: this.state.board.isSolvable()});
+    this.setState({ solvable: this.state.board.isSolvable() });
     // Imediate change in state is trigerred like this (synchronos operation)
-    this.setState({N: n}, function() {
+    this.setState({ N: n }, function () {
       this.reset();
     });
   }
 
-  /**
-  * Render method
-  * @return {React class} Returns a react class
-  */
+  // the render method
   render() {
     return (
       <div>
         <TopBar N={this.state.N} changeGame={this.changeGame} />
         <br />
-        <Counter reset={this.reset}
+        <Counter
+          N={this.state.N}
           count={this.state.count}
-          N={this.state.N} />
-        <BoardLayout N={this.state.N} board={this.state.board.board}
+          reset={this.reset}/>
+        <BoardLayout
+          N={this.state.N}
+          board={this.state.board.board}
           onMouseClick={this.handleMouseClick} />
-        <BottomFrame won={this.state.won} N={this.state.N}
-          solvable={this.state.solvable}
+        <BottomFrame
+          N={this.state.N}
           activateAI={this.activateAutoSolve}
-          autosolve={this.state.autosolve} />
+          autosolve={this.state.autosolve}
+          solvable={this.state.solvable}
+          won={this.state.won} />
       </div>
     );
   }

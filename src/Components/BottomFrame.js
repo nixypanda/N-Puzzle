@@ -1,11 +1,16 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 import RaisedButton from 'material-ui/lib/raised-button';
 
 class BottomText extends React.Component {
+
+  static propTypes = {
+    N: PropTypes.number.isRequired
+  };
+
   render() {
     let msg = 'On clicking solve you will get the solution in shortest number of moves.';
     msg = this.props.N < 5 ? msg : null;
-    let instructions = ( <p><b>Instructions:</b> Use the arrow keys to move tiles. {msg} </p> );
+    let instructions = (<p><b>Instructions:</b> Use the arrow keys to move tiles. {msg} </p>);
 
     return (
       <div className='centered text-center'>
@@ -29,22 +34,20 @@ export default class BottomFrame extends React.Component {
     activateAI: PropTypes.func.isRequired
   };
 
-  /**
-   * Handles the rendering of the button.
-   * @return button The markup for the button
-   */
   render() {
-    if (! this.props.won) {
+    if (!this.props.won) {
       let solver = (
         <div className='col-sm-12'>
-          <RaisedButton label='Solve' primary={true}
+          <RaisedButton
             disabled={this.props.autosolve || !this.props.solvable}
-            onClick={this.props.activateAI.bind(null, true)} />
+            label='Solve'
+            onClick={this.props.activateAI.bind(null, true)}
+            primary={true} />
         </div>
       );
 
       let button = this.props.N < 5 ? solver : (<div></div>);
-      let m = ( !this.props.solvable ? 'This puzzle is not solvable' : <BottomText N={this.props.N} /> );
+      let m = (!this.props.solvable ? 'This puzzle is not solvable' : <BottomText N={this.props.N} />);
 
       return (
         <div className='centered text-center'>

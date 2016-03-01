@@ -1,7 +1,7 @@
-import React, {PropTypes} from 'react';
-import {range} from 'lodash';
-import {Motion, spring} from 'react-motion';
-import {Paper} from 'material-ui';
+import React, { PropTypes } from 'react';
+import { range } from 'lodash';
+import { Motion, spring } from 'react-motion';
+import { Paper } from 'material-ui';
 
 export default class BoardLayout extends React.Component {
 
@@ -9,9 +9,7 @@ export default class BoardLayout extends React.Component {
     super(props);
   }
 
-  /**
-  * On mounting create a layout map for transitions.
-  */
+  // On mounting create a layout map for transitions.
   componentWillMount() {
     this.layout = range(0, this.props.N * this.props.N).map(n => {
       const row = Math.floor(n / this.props.N);
@@ -24,10 +22,8 @@ export default class BoardLayout extends React.Component {
     });
   }
 
-  /**
-  * On update also genterate the layout so that when the game changes e.g.
-  * 8 -> 16 the layout also changes.(need a better way)
-  */
+  // On update also genterate the layout so that when the game changes e.g.
+  // 8 -> 16 the layout also changes.(need a better way)
   componentWillUpdate() {
     this.layout = range(0, this.props.N * this.props.N).map(n => {
       const row = Math.floor(n / this.props.N);
@@ -97,23 +93,26 @@ export default class BoardLayout extends React.Component {
     let _this = this;
 
     // Generating the layout for the board
-    var board = this.props.board.map((i, key) => {
+    let board = this.props.board.map((i, key) => {
       let cellStyle = (key === 0) ? this.__emptyCellStyle__() : this.__cellStyle__();
       let x;
       let y;
 
-      [x, y] = this.layout[this.props.board.indexOf(key)];
-      let style = {tX: spring(x), tY: spring(y)};
+      [ x, y ] = this.layout[this.props.board.indexOf(key)];
+      let style = { tX: spring(x), tY: spring(y) };
 
       return (
-        <Motion style={style} key={key}>
-          {({tX, tY}) =>
+        <Motion key={key} style={style}>
+          { ({ tX, tY }) =>
           <div
             style={{
               width: _this.props.width + 2 * _this.props.margin,
               transform: `translate3d(${tX}px,${tY}px,0) scale(1.1)`
             }}>
-            <Paper style={cellStyle} className='text-center' onClick={_this.props.onMouseClick.bind(null, key)} >
+            <Paper
+              className='text-center'
+              onClick={_this.props.onMouseClick.bind(null, key)}
+              style={cellStyle}>
               <p className='center'>{key}</p>
             </Paper>
           </div>}
@@ -121,6 +120,6 @@ export default class BoardLayout extends React.Component {
       );
     });
 
-    return ( <div style={this.__gridStyle__()}>{board}</div> );
+    return (<div style={this.__gridStyle__()}>{board}</div>);
   }
 }

@@ -15,6 +15,9 @@ export default class Solver {
    * implementation where I am keeping track of both the actual board and its
    * twin so I can check if the board is solvable or not. (Not that it's
    * required but just in case for future expansion).
+   *
+   * @param  {[array]} board [the bord object for which the solver is generated]
+   * @return {[null]}       [null]
    */
   constructor(board) {
     this.board = board;
@@ -76,7 +79,8 @@ export default class Solver {
   }
 
   /**
-   * Returns the solution of the board.
+   * Returns the sequence of bords that result in the solution from the start state
+   * @return {[array]} [sequence of bords that result in the solution from the start state]
    */
   solution() {
     this.stack.reverse();

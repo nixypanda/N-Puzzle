@@ -9,12 +9,13 @@ export default class Board {
   constructor(board) {
     this.N = Math.sqrt(board.length);
     this.board = board;
-    this.goal = [...Array(this.N * this.N).keys()].map(i => (i + 1) % (this.N * this.N) );
+    this.goal = [ ...Array(this.N * this.N).keys() ].map(i => (i + 1) % (this.N * this.N));
   }
 
 
   /**
    * Check if the board has reached the final goal state
+   * @return {Boolean} [true if board in final state]
    */
   isGoal() {
     // not and Ideal solution but does reduce the LOC and works perfectly well
@@ -29,8 +30,9 @@ export default class Board {
   // Make move on the Board //
 
   /**
-  * Makes a left move on the board
-  */
+   * Makes a left move on the board
+   * @return {[null]} [nothing]
+   */
   moveLeft() {
     let indexZero = this.board.indexOf(0);
     if (indexZero % this.N !== 0) {
@@ -40,6 +42,7 @@ export default class Board {
 
   /**
    * Makes an upward move on the board
+   * @return {[null]} [nothing]
    */
   moveUp() {
     let indexZero = this.board.indexOf(0);
@@ -50,6 +53,7 @@ export default class Board {
 
   /**
    * Makes a rightward move on the board
+   * @return {[null]} [nothing]
    */
   moveRight() {
     let indexZero = this.board.indexOf(0);
@@ -60,6 +64,7 @@ export default class Board {
 
   /**
    * Makes a downward move on the board
+   * @return {[null]} [nothing]
    */
   moveDown() {
     let indexZero = this.board.indexOf(0);
@@ -71,6 +76,8 @@ export default class Board {
   /**
    * Makes an appropriate move based on the key
    * that is passed to it
+   * @param  {key} key [the key that is supposed to move to the locaation of 0]
+   * @return {boolean}     [true if the move is possible and was made]
    */
   move(key) {
     // Get the index of zero and the clicked number
@@ -80,7 +87,7 @@ export default class Board {
     let diff = Math.abs(indexZero - keyIndex);
 
     // bugfix:
-    if ((Math.min(keyIndex, indexZero) % this.N === this.N - 1) && (Math.max(keyIndex, indexZero) % this.N === 0) ) {
+    if ((Math.min(keyIndex, indexZero) % this.N === this.N - 1) && (Math.max(keyIndex, indexZero) % this.N === 0)) {
       return false;
     }
 
@@ -96,6 +103,8 @@ export default class Board {
   /**
    * Finds if the given board is solvable or not in tiem proportional O(n^4)
    * where n is the size of the board
+   *
+   * @return {[null]} [nothing]
    */
   isSolvable() {
     let inversions = this.__countInversions__();
@@ -110,11 +119,11 @@ export default class Board {
   // returns the count of the number of inversions that are present in the board
   __countInversions__() {
     let invCount = 0;
-    for (let i = 0; i < this.board.length - 1; i++) {
-      for (let j = i + 1; j < this.board.length; j++) {
+    for (let i = 0; i < this.board.length - 1; i += 1) {
+      for (let j = i + 1; j < this.board.length; j += 1) {
         // if i and j are not zero and i is greater than j
         if (this.board[i] && this.board[j] && this.board[i] > this.board[j]) {
-          invCount++;
+          invCount += 1;
         }
       }
     }
@@ -126,6 +135,8 @@ export default class Board {
    * Calculate the hamming distance to the goal state (i.e. the number
    * of tiles out of place)
    * e.g [8, 1, 3, 4, 0, 2, 7, 6, 5] : 5
+   *
+   * @return {number} [the hamming distance from the present board to the goal state]
    */
   hamming() {
     return this.board.map((x, i) => x !== i + 1).reduce((a, b) => a + b, 0) - 1;
@@ -136,10 +147,12 @@ export default class Board {
    * the goal state. (i.e.) the cumulative distance of every tile to it's
    * final position
    * e.g [8, 1, 3, 4, 0, 2, 7, 6, 5] : 10
+   *
+   * @return {number} [the manhattan distance from the present board to the goal state]
    */
   manhattan() {
     let man = 0;
-    for (let i = 0; i < this.board.length; i++) {
+    for (let i = 0; i < this.board.length; i += 1) {
       if (this.board[i] === 0) {
         continue;
       }
@@ -163,6 +176,8 @@ export default class Board {
    * Returns a board that is the copy of the board with two tiles swaped.
    * (tiles belong to the same row)
    * One of the original and twin is solvable the other is not.
+   *
+   * @return {board} [the twin of the present board]
    */
   twin() {
     let condition = (this.board[0] !== 0) && (this.board[1] !== 0);
@@ -175,6 +190,8 @@ export default class Board {
   /**
    * Returns the list of all the configurations that are possible after
    * a single move of the tile.(min 1, max 4)
+   *
+   * @return {[board]} the list of neighbours of the present board
    */
   neighbours() {
     let neighbour = [];
@@ -231,11 +248,13 @@ export default class Board {
 
   /**
    * String representaion of the Board object
+   *
+   * @return {string} [the string representation of the present board]
    */
   toString() {
     let board = '';
-    for (let i = 0; i < this.N; i++) {
-      for (let j = 0; j < this.N; j++) {
+    for (let i = 0; i < this.N; i += 1) {
+      for (let j = 0; j < this.N; j += 1) {
         board += this.board[i * this.N + j];
         board += ' ';
       }

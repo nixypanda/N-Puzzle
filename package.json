@@ -4,7 +4,7 @@
   "description": "Solver to genralised 8-puzzle problem using A* search algorithm",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "karma start"
   },
   "repository": {
     "type": "git",
@@ -45,6 +45,7 @@
     "karma-chrome-launcher": "^0.2.2",
     "karma-coverage": "^0.5.3",
     "karma-jasmine": "^0.3.6",
+    "react-addons-test-utils": "^0.14.7",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.6.1",
     "yargs": "^3.31.0"

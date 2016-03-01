@@ -1,5 +1,5 @@
-import React, {PropTypes} from 'react';
-import {AppBar, IconMenu, IconButton, MenuItem} from 'material-ui';
+import React, { PropTypes } from 'react';
+import { AppBar, IconMenu, IconButton, MenuItem } from 'material-ui';
 
 import NavigationMenu from 'material-ui/lib/svg-icons/navigation/menu';
 import Colors from 'material-ui/lib/styles/colors';
@@ -16,7 +16,8 @@ export default class TopBar extends React.Component {
   }
 
   static propTypes = {
-    N: PropTypes.number.isRequired
+    N: PropTypes.number.isRequired,
+    changeGame: PropTypes.func.isRequired
   };
 
   /**
@@ -31,17 +32,19 @@ export default class TopBar extends React.Component {
         <NavigationMenu color={Colors.grey50} />
       </IconButton>
       );
-
-    let menuItems = [...Array(6).keys()].map(index => index + 2).map((value) =>
-      <MenuItem key={value} primaryText={value + '-Puzzle'} onClick={this.props.changeGame.bind(N, value)} />
+let menuItems = [ ...Array(6).keys() ].map(index => index + 2).map((value) =>
+      <MenuItem
+        key={ value }
+        onClick={ this.props.changeGame.bind(N, value) }
+        primaryText={ value + '-Puzzle' } />
     );
 
     let iconMenu = (
-      <IconMenu openDirection={'bottom-right'} iconButtonElement={icon}>
+      <IconMenu iconButtonElement={icon} openDirection={'bottom-right'} >
         {menuItems}
       </IconMenu>
     );
 
-    return ( <AppBar title={ N + '-Puzzle' } iconElementLeft={ iconMenu } /> );
+    return (<AppBar iconElementLeft={ iconMenu } title={ N + '-Puzzle' } />);
   }
 }

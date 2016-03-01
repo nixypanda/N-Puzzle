@@ -12,7 +12,7 @@ export default class SearchNode {
   constructor(board, node) {
     this.board = board;
     this.prev = node;
-    this.moves = (!node) ? 0 : this.prev.moves + 1;
+    this.moves = !node ? 0 : this.prev.moves + 1;
     this.priority = board.manhattan() + this.moves;
   }
 }
