@@ -1,50 +1,32 @@
 import React, { PropTypes } from 'react';
-import { AppBar, IconMenu, IconButton, MenuItem } from 'material-ui';
+import MUI, { AppBar, IconMenu, IconButton, MenuItem } from 'material-ui';
 
 import NavigationMenu from 'material-ui/lib/svg-icons/navigation/menu';
-import Colors from 'material-ui/lib/styles/colors';
+const Colors = MUI.Styles.Colors;
 
 
-/**
- * React class to display a top bar that at the moment only displays the name
- * of the application.
- */
-export default class TopBar extends React.Component {
+const TopBar = ({ N, changeGame }) => {
+  let icon = (<IconButton><NavigationMenu color={Colors.grey50} /></IconButton>);
 
-  constructor(props) {
-    super(props);
-  }
+  let menuItems = [ ...Array(6).keys() ].map(index => index + 2).map((value) =>
+    <MenuItem
+      key={ value }
+      onClick={ changeGame.bind(N, value) }
+      primaryText={ (value * value - 1) + '-Puzzle' } />
+  );
 
-  static propTypes = {
-    N: PropTypes.number.isRequired,
-    changeGame: PropTypes.func.isRequired
-  };
+  let iconMenu = (
+    <IconMenu iconButtonElement={icon} openDirection={'bottom-right'} >
+      {menuItems}
+    </IconMenu>
+  );
 
-  /**
-   * The required function for every react class it returns how
-   * the top bar will look like.
-   * @return {AppBar} A react class form material-ui theme
-   */
-  render() {
-    let N = this.props.N * this.props.N - 1;
-    let icon = (
-      <IconButton>
-        <NavigationMenu color={Colors.grey50} />
-      </IconButton>
-      );
-    let menuItems = [ ...Array(6).keys() ].map(index => index + 2).map((value) =>
-      <MenuItem
-        key={ value }
-        onClick={ this.props.changeGame.bind(N, value) }
-        primaryText={ value + '-Puzzle' } />
-    );
+  return (<AppBar iconElementLeft={ iconMenu } title={ (N * N - 1) + '-Puzzle' } />);
+};
 
-    let iconMenu = (
-      <IconMenu iconButtonElement={icon} openDirection={'bottom-right'} >
-        {menuItems}
-      </IconMenu>
-    );
+TopBar.propTypes = {
+  N: PropTypes.number.isRequired,
+  changeGame: PropTypes.func.isRequired
+};
 
-    return (<AppBar iconElementLeft={ iconMenu } title={ N + '-Puzzle' } />);
-  }
-}
+export default TopBar;

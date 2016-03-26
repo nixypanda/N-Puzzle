@@ -128,7 +128,7 @@ module.exports = {
     // disallow else after a return in an if (off by default)
     'no-else-return': 2,
     // disallow use of labels for anything other then loops and switches
-    'no-empty-label': 2,
+    'no-labels': 2,
     // disallow comparisons to null without a type-checking operator (off by default)
     'no-eq-null': 2,
     // disallow use of eval()
@@ -243,9 +243,9 @@ module.exports = {
     // These rules are purely matters of style and are quite subjective.
     //
     // this option sets a specific tab width for your code (off by default)
-    indent: [ 1, 2 ],
+    indent: [ 1, 2, { "SwitchCase": 1 } ],
     // enforce one true brace style (off by default)
-    'brace-style': 1,
+    'brace-style': 0,
     // require camel case names
     camelcase: 1,
     // enforce spacing before and after comma
@@ -275,7 +275,7 @@ module.exports = {
     // disallow use of the Array constructor
     'no-array-constructor': 1,
     // disallow comments inline after code (off by default)
-    'no-inline-comments': 1,
+    'no-inline-comments': 0,
     // disallow if as the only statement in an else block (off by default)
     'no-lonely-if': 1,
     // disallow mixed spaces and tabs for indentation
@@ -311,7 +311,7 @@ module.exports = {
     // sort variables within the same declaration block (off by default)
     'sort-vars': 0,
     // require a space after certain keywords (off by default)
-    'space-after-keywords': [ 1, 'always' ],
+    'keyword-spacing': 1,
     // require or disallow space before blocks (off by default)
     'space-before-blocks': [ 1, 'always' ],
     // require or disallow space before function opening parenthesis (off by default)
@@ -375,7 +375,7 @@ module.exports = {
     // Disallow undeclared variables in JSX
     'react/jsx-no-undef': 2,
     // Enforce props alphabetical sorting
-    'react/jsx-sort-props': 1,
+    'react/jsx-sort-props': 0,
     // Prevent React to be incorrectly marked as unused
     'react/jsx-uses-react': 2,
     // Prevent variables used in JSX to be incorrectly marked as unused

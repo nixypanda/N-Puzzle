@@ -1,40 +1,18 @@
 import React, { PropTypes } from 'react';
-import { range } from 'lodash';
 import { Motion, spring } from 'react-motion';
 import { Paper } from 'material-ui';
 
+
 export default class BoardLayout extends React.Component {
 
-  constructor(props) {
-    super(props);
-  }
-
-  // On mounting create a layout map for transitions.
-  componentWillMount() {
-    this.layout = range(0, this.props.N * this.props.N).map(n => {
-      const row = Math.floor(n / this.props.N);
-      const col = n % this.props.N;
-
-      return [
-        (this.props.width + 2 * this.props.margin + 2) * col,
-        (this.props.height + 2 * this.props.margin + 2) * row
-      ];
-    });
-  }
-
-  // On update also genterate the layout so that when the game changes e.g.
-  // 8 -> 16 the layout also changes.(need a better way)
-  componentWillUpdate() {
-    this.layout = range(0, this.props.N * this.props.N).map(n => {
-      const row = Math.floor(n / this.props.N);
-      const col = n % this.props.N;
-
-      return [
-        (this.props.width + 2 * this.props.margin + 2) * col,
-        (this.props.height + 2 * this.props.margin + 2) * row
-      ];
-    });
-  }
+  layout = (value) => {
+    const row = Math.floor(value / this.props.N);
+    const col = value % this.props.N;
+    return [
+      (this.props.width + 2 * this.props.margin + 2) * col,
+      (this.props.height + 2 * this.props.margin + 2) * row
+    ];
+  };
 
   // The default setup for the grid layout
   static defaultProps = {
@@ -54,7 +32,8 @@ export default class BoardLayout extends React.Component {
     height: PropTypes.number,
     padding: PropTypes.number,
     margin: PropTypes.number,
-    fontSize: PropTypes.number
+    fontSize: PropTypes.number,
+    onMouseClick: PropTypes.func.isRequired
   };
 
   // css for the grid (n-by-n)
@@ -83,37 +62,32 @@ export default class BoardLayout extends React.Component {
   }
 
   // css for the cell with 0 in it
-  __emptyCellStyle__() {
-    return {
-      opacity: 0
-    };
-  }
+  __emptyCellStyle__ = () => ({ opacity: 0 })
 
   render() {
-    let _this = this;
-
     // Generating the layout for the board
-    let board = this.props.board.map((i, key) => {
-      let cellStyle = (key === 0) ? this.__emptyCellStyle__() : this.__cellStyle__();
+    let board = this.props.board.map((tile, index) => {
+      let cellStyle = (index === 0) ? this.__emptyCellStyle__() : this.__cellStyle__();
       let x;
       let y;
 
-      [ x, y ] = this.layout[this.props.board.indexOf(key)];
+
+      [ x, y ] = this.layout(this.props.board.indexOf(index));
       let style = { tX: spring(x), tY: spring(y) };
 
       return (
-        <Motion key={key} style={style}>
+        <Motion key={index} style={style}>
           { ({ tX, tY }) =>
           <div
             style={{
-              width: _this.props.width + 2 * _this.props.margin,
+              width: this.props.width + 2 * this.props.margin,
               transform: `translate3d(${tX}px,${tY}px,0) scale(1.1)`
             }}>
             <Paper
               className='text-center'
-              onClick={_this.props.onMouseClick.bind(null, key)}
+              onClick={this.props.onMouseClick.bind(null, index)}
               style={cellStyle}>
-              <p className='center'>{key}</p>
+              <p className='center'>{index}</p>
             </Paper>
           </div>}
         </Motion>

@@ -8,7 +8,8 @@ import BoardLayout from './BoardLayout';
 import BottomFrame from './BottomFrame';
 
 // Logic imports
-import BoardFactory from '../board/BoardFactory';
+// import BoardFactory from '../board/BoardFactory';
+import NewBoard from '../board/BoardFactory';
 import Solver from '../AI/Solver';
 // import Solver from '../AI/PartialSolver';
 
@@ -21,8 +22,9 @@ export default class App extends React.Component {
   constructor() {
     super();
     let size = 4;
-    let bf = new BoardFactory(size);
-    let board = bf.getBoard();
+    // let bf = new BoardFactory(size);
+    // let board = bf.getBoard();
+    let board = NewBoard(size);
 
     this.state = {
       N: size,
@@ -115,7 +117,8 @@ export default class App extends React.Component {
   * @return {null} [nothing]
   */
   reset() {
-    let board = new BoardFactory(this.state.N).getBoard();
+    // let board = new BoardFactory(this.state.N).getBoard();
+    let board = NewBoard(this.state.N);
 
     // VERY IMPORTANT: to clear the setInterval otherwise reseting
     // will have two solutions to pick from and it's not preety

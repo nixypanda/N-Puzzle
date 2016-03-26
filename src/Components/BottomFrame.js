@@ -1,28 +1,24 @@
 import React, { PropTypes } from 'react';
 import RaisedButton from 'material-ui/lib/raised-button';
 
-class BottomText extends React.Component {
 
-  static propTypes = {
-    N: PropTypes.number.isRequired
-  };
+const BottomText = ({ N }) => {
+  let msg = 'On clicking solve you will get the solution in shortest number of moves.';
+  msg = N < 5 ? msg : null;
+  let instructions = (<p><b>Instructions:</b> Use the arrow keys to move tiles. {msg} </p>);
 
-  render() {
-    let msg = 'On clicking solve you will get the solution in shortest number of moves.';
-    msg = this.props.N < 5 ? msg : null;
-    let instructions = (<p><b>Instructions:</b> Use the arrow keys to move tiles. {msg} </p>);
-
-    return (
-      <div className='centered text-center'>
-        <div className='col-sm-3'></div>
-        <div className='col-sm-6'>
-          {instructions}
-        </div>
-        <div className='col-sm-3'></div>
+  return (
+    <div className='container'>
+      <div className='span12'>
+        {instructions}
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
+
+BottomText.propTypes = {
+  N: PropTypes.number.isRequired
+};
 
 /**
  *  This class handles the button that the app displays

@@ -1,5 +1,4 @@
-coverage/*
-build/*
-dist/*
-node_modules/*
-**/node_modules/*
+coverage/
+build/
+dist/
+node_modules/

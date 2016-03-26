@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
-import { RaisedButton, Toolbar, ToolbarGroup } from 'material-ui';
+import MUI, { RaisedButton, Toolbar, ToolbarGroup } from 'material-ui';
 
-import Colors from 'material-ui/lib/styles/colors';
+const Colors = MUI.Styles.Colors;
 
 
 /**
@@ -17,7 +17,7 @@ export default class Counter extends React.Component {
   static propTypes = {
     N: PropTypes.number.isRequired,
     reset: PropTypes.func.isRequired,
-    count: PropTypes.numer.isRequired,
+    count: PropTypes.number.isRequired,
     cellWidth: PropTypes.number
   };
 
