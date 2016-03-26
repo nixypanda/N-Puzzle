@@ -8,10 +8,8 @@ import BoardLayout from './BoardLayout';
 import BottomFrame from './BottomFrame';
 
 // Logic imports
-// import BoardFactory from '../board/BoardFactory';
 import NewBoard from '../board/BoardFactory';
-import Solver from '../AI/Solver';
-// import Solver from '../AI/PartialSolver';
+import SolutionTo from '../AI/Solver';
 
 export default class App extends React.Component {
 
@@ -117,21 +115,18 @@ export default class App extends React.Component {
   * @return {null} [nothing]
   */
   reset() {
-    // let board = new BoardFactory(this.state.N).getBoard();
-    let board = NewBoard(this.state.N);
-
     // VERY IMPORTANT: to clear the setInterval otherwise reseting
     // will have two solutions to pick from and it's not preety
     clearInterval(this.AIPlayingTheGame);
 
     this.setState({
-      board: board,
+      board: NewBoard(this.state.N),
       count: 0,
       won: false,
       autosolve: false,
       solution: null,
       solutionIndex: 1
-    }, function () {
+    }, () => {
       this.setState({ solvable: this.state.board.isSolvable() });
     });
 
@@ -146,13 +141,10 @@ export default class App extends React.Component {
   * @return {null} [nothing]
   */
   activateAutoSolve() {
-    this.setState({ autosolve: true }, function () {
+    this.setState({ autosolve: true }, () => {
       // Calling the AI to solve the problem
-      let solver = new Solver(this.state.board);
-
-      // Scnchronously calll the helper after setting the state with the
-      // solution
-      this.setState({ solution: solver.solution() }, function () {
+      // Scnchronously calll the helper after setting the state with the solution
+      this.setState({ solution: SolutionTo(this.state.board) }, () => {
         this.__autosolveTheGame__();
       });
     });
@@ -189,7 +181,7 @@ export default class App extends React.Component {
   changeGame(n) {
     this.setState({ solvable: this.state.board.isSolvable() });
     // Imediate change in state is trigerred like this (synchronos operation)
-    this.setState({ N: n }, function () {
+    this.setState({ N: n }, () => {
       this.reset();
     });
   }

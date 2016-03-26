@@ -1,89 +1,67 @@
 import SearchNode from './SearchNode';
 import PriorityQueue from '../helpers/PriorityQueue';
 
+// adds neighbouring boards of a given search-node to the priority-queue
+// that is passed.
+const __addNeighbours__ = (searchNode, priorityQueue) => {
+  for (let board of searchNode.board.neighbours()) {
+    let n = new SearchNode(board, searchNode);
+    if (searchNode.prev === null || !n.board.equals(searchNode.prev.board)) {
+      priorityQueue.push(n, n.priority);
+    }
+  }
+};
+
+
 /**
- * This is the class that implements the ever popular A* Search. The heuristic
+ * This is the method that implements the ever popular A* Search. The heuristic
  * that I am using here is the manhattan distance with the current number of
- * moves. The lower the number the more likly is the node next up for
- * exploration.
+ * moves. The lower the number the more likly is the node next up for exploration.
+ *
+ * @param  {[type]} board [the board for which solution is required]
+ * @return {[type]}    [ an array of boards that lead to solution (in reverse order) ]
  */
-export default class Solver {
+const __aStar__ = (board) => {
+  // starting point for the solution of the actual board
+  let searchNode = new SearchNode(board, null);
+  // priority queue for the actual board
+  let pq = new PriorityQueue();
+  let solution = [];
 
-  /**
-   * The constructor initializes the various variables and also calls the
-   * method that runs the A* search. Now here I have gone for a naive
-   * implementation where I am keeping track of both the actual board and its
-   * twin so I can check if the board is solvable or not. (Not that it's
-   * required but just in case for future expansion).
-   *
-   * @param  {[array]} board [the bord object for which the solver is generated]
-   * @return {[null]}       [null]
-   */
-  constructor(board) {
-    this.board = board;
-    this.solvable = false;
-    this.moves = 0;
-    this.stack = [];
+  pq.push(searchNode, searchNode.priority);
 
-    // starting point for the solution of the actual board
-    let sn = new SearchNode(this.board, null);
+  while (!searchNode.board.isGoal()) {
+    // pop both the queues to get the next highest priority board
+    searchNode = pq.pop();
 
-    // priority queue for the actual board
-    let pq = new PriorityQueue();
-
-    if (this.board.isSolvable) {
-      this.__aStar__(sn, pq);
-    }
+    // add neighbours to the priority queue
+    __addNeighbours__(searchNode, pq);
   }
 
-  // Private helper: The A* search algorithm
-  __aStar__(sn, pq) {
-    let searchNode = sn;
-    pq.push(searchNode, searchNode.priority);
-
-    while (true) {
-      // pop both the queues to get the next highest priority board
-      searchNode = pq.pop();
-
-      // check if already goal then quit
-      if (searchNode.board.isGoal()) {
-        this.moves = searchNode.moves;
-        this.solvable = true;
-        break;
-      }
-
-      // add neighbours to the priority queue
-      this.__addNeighbours__(searchNode, pq);
-    }
-
-    // if a solution exists retrace it (check docs of search node)
-    // achieved by maintaing a pointer to the board that lead to the
-    // current board
-    if (this.solvable) {
-      while (searchNode !== null) {
-        this.stack.push(searchNode.board);
-        searchNode = searchNode.prev;
-      }
-    }
+  // if a solution exists retrace it (check docs of search node)
+  // achieved by maintaing a pointer to the board that lead to the
+  // current board
+  while (searchNode !== null) {
+    // push: O*(1), unshift: O(n)
+    solution.push(searchNode.board);
+    searchNode = searchNode.prev;
   }
+  return solution;
+};
 
-  // adds neighbouring boards of a given search-node to the priority-queue
-  // that is passed.
-  __addNeighbours__(sn, pq) {
-    for (let board of sn.board.neighbours()) {
-      let n = new SearchNode(board, sn);
-      if (sn.prev === null || !n.board.equals(sn.prev.board)) {
-        pq.push(n, n.priority);
-      }
-    }
-  }
 
-  /**
-   * Returns the sequence of bords that result in the solution from the start state
-   * @return {[array]} [sequence of bords that result in the solution from the start state]
-   */
-  solution() {
-    this.stack.reverse();
-    return this.stack;
-  }
-}
+/**
+ * This is just a wrapper function around the one that does the A* search.
+ * @param  {[array]} board [the bord object for which the solver is generated]
+ *
+ * @return {[object]}       [array of boards leading to solution]
+ */
+const SolutionTo = (board) => {
+  let stack = board.isSolvable ? __aStar__(board) : [];
+
+  // Why not directly use unshift? effeciency
+  stack.reverse();
+  return stack;
+};
+
+export default SolutionTo;
