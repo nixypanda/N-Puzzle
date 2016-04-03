@@ -1,5 +1,5 @@
 import React from 'react';
-import jQuery from 'jquery';
+import $ from 'jquery';
 
 // Display imports
 import TopBar from '../Common/TopBar';
@@ -45,12 +45,12 @@ export default class App extends React.Component {
 
   // Start Polling keydown event
   componentDidMount() {
-    jQuery(document.body).on('keydown', this.handleKeyDown);
+    $(document.body).on('keydown', this.handleKeyDown);
   }
 
   // Stop Polling keydown event
   componentWillUnmount() {
-    jQuery(document.body).off('keydown', this.handleKeyDown);
+    $(document.body).off('keydown', this.handleKeyDown);
   }
 
   /**
@@ -188,16 +188,23 @@ export default class App extends React.Component {
 
   // the render method
   render() {
+    let dimension = Math.min($(window).width(), $(window).height());
+
     return (
       <div>
         <TopBar N={this.state.N} changeGame={this.changeGame} />
         <br />
         <Counter
           N={this.state.N}
+          cellWidth={ dimension / (2 * this.state.N) }
           count={this.state.count}
           reset={this.reset}/>
         <BoardLayout
           N={this.state.N}
+          width={ dimension / (2 * this.state.N) }
+          height={ dimension / (2 * this.state.N) }
+          margin={ dimension / (40 * this.state.N) }
+          fontSize={ dimension / (8 * this.state.N) }
           board={this.state.board.board}
           onMouseClick={this.handleMouseClick} />
         <BottomFrame
