@@ -117,6 +117,7 @@ export default class Board {
   }
 
   // returns the count of the number of inversions that are present in the board
+  // NOTE: will have to change this QUADRATIC algo to LINEAR_ARITHMATIC
   __countInversions__() {
     let invCount = 0;
     for (let i = 0; i < this.board.length - 1; i += 1) {
@@ -243,23 +244,5 @@ export default class Board {
     let temp = this.board[i];
     this.board[i] = this.board[j];
     this.board[j] = temp;
-  }
-
-
-  /**
-   * String representaion of the Board object
-   *
-   * @return {string} [the string representation of the present board]
-   */
-  toString() {
-    let board = '';
-    for (let i = 0; i < this.N; i += 1) {
-      for (let j = 0; j < this.N; j += 1) {
-        board += this.board[i * this.N + j];
-        board += ' ';
-      }
-      board += '\n';
-    }
-    return board;
   }
 }
