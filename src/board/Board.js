@@ -1,3 +1,5 @@
+import { inversionCount } from '../helpers/Helpers';
+
 /**
  * The board class represents the state of the board at a given
  * point of time it also contains functions compute the neighbours of the
@@ -107,8 +109,9 @@ export default class Board {
    * @return {[null]} [nothing]
    */
   isSolvable() {
-    let inversions = this.__countInversions__();
-    let zeroLoc = this.N - Math.floor(this.board.indexOf(0) / this.N);
+    let zeroIndex = this.board.indexOf(0);
+    let zeroLoc = this.N - Math.floor(zeroIndex / this.N);
+    let inversions = inversionCount(this.board.slice()) - zeroIndex;
 
     if (this.N % 2 === 1) {
       return inversions % 2 === 0;
@@ -118,19 +121,19 @@ export default class Board {
 
   // returns the count of the number of inversions that are present in the board
   // NOTE: will have to change this QUADRATIC algo to LINEAR_ARITHMATIC
-  __countInversions__() {
-    let invCount = 0;
-    for (let i = 0; i < this.board.length - 1; i += 1) {
-      for (let j = i + 1; j < this.board.length; j += 1) {
-        // if i and j are not zero and i is greater than j
-        if (this.board[i] && this.board[j] && this.board[i] > this.board[j]) {
-          invCount += 1;
-        }
-      }
-    }
-
-    return invCount;
-  }
+  // __countInversions__() {
+  //   let invCount = 0;
+  //   for (let i = 0; i < this.board.length - 1; i += 1) {
+  //     for (let j = i + 1; j < this.board.length; j += 1) {
+  //       // if i and j are not zero and i is greater than j
+  //       if (this.board[i] && this.board[j] && this.board[i] > this.board[j]) {
+  //         invCount += 1;
+  //       }
+  //     }
+  //   }
+  //
+  //   return invCount;
+  // }
 
   /**
    * Calculate the hamming distance to the goal state (i.e. the number
