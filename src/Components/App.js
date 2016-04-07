@@ -11,6 +11,15 @@ import BottomFrame from './BottomFrame';
 import NewBoard from '../board/BoardFactory';
 import SolutionTo from '../AI/Solver';
 
+const MAGIC_NUMBERS = {
+  VIEWPORT_WIDTH: 1.5,
+  CELL_WIDTH: 2,
+  WIDTH: 2,
+  HEIGHT: 2,
+  MARGIN: 40,
+  FONT_SIZE: 8
+};
+
 export default class App extends React.Component {
 
   /**
@@ -188,7 +197,7 @@ export default class App extends React.Component {
 
   // the render method
   render() {
-    let dimension = Math.min($(window).width(), $(window).height());
+    let dimension = Math.min(MAGIC_NUMBERS.VIEWPORT_WIDTH * $(window).width(), $(window).height());
 
     return (
       <div>
@@ -196,15 +205,15 @@ export default class App extends React.Component {
         <br />
         <Counter
           N={this.state.N}
-          cellWidth={ dimension / (2 * this.state.N) }
+          cellWidth={ dimension / (MAGIC_NUMBERS.CELL_WIDTH * this.state.N) }
           count={this.state.count}
           reset={this.reset}/>
         <BoardLayout
           N={this.state.N}
-          width={ dimension / (2 * this.state.N) }
-          height={ dimension / (2 * this.state.N) }
-          margin={ dimension / (40 * this.state.N) }
-          fontSize={ dimension / (8 * this.state.N) }
+          width={ dimension / (MAGIC_NUMBERS.WIDTH * this.state.N) }
+          height={ dimension / (MAGIC_NUMBERS.HEIGHT * this.state.N) }
+          margin={ dimension / (MAGIC_NUMBERS.MARGIN * this.state.N) }
+          fontSize={ dimension / (MAGIC_NUMBERS.FONT_SIZE * this.state.N) }
           board={this.state.board.board}
           onMouseClick={this.handleMouseClick} />
         <BottomFrame
