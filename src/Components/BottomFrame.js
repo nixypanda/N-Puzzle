@@ -20,43 +20,39 @@ BottomText.propTypes = {
   N: PropTypes.number.isRequired
 };
 
-/**
- *  This class handles the button that the app displays
- */
-export default class BottomFrame extends React.Component {
+const BottomFrame = (props) => {
+  if (!props.won) {
+    let solver = (
+      <div className='col-sm-12'>
+        <RaisedButton
+          disabled={props.autosolve || !props.solvable}
+          label='Solve'
+          onClick={props.activateAI.bind(null, true)}
+          primary={true} />
+      </div>
+    );
 
-  static propTypes = {
-    N: PropTypes.number.isRequired,
-    won: PropTypes.bool.isRequired,
-    autosolve: PropTypes.bool.isRequired,
-    activateAI: PropTypes.func.isRequired,
-    solvable: PropTypes.bool.isRequired
-  };
+    let button = props.N < 5 ? solver : (<div></div>);
+    let m = (!props.solvable ? 'This puzzle is not solvable' : <BottomText N={props.N} />);
 
-  render() {
-    if (!this.props.won) {
-      let solver = (
-        <div className='col-sm-12'>
-          <RaisedButton
-            disabled={this.props.autosolve || !this.props.solvable}
-            label='Solve'
-            onClick={this.props.activateAI.bind(null, true)}
-            primary={true} />
-        </div>
-      );
-
-      let button = this.props.N < 5 ? solver : (<div></div>);
-      let m = (!this.props.solvable ? 'This puzzle is not solvable' : <BottomText N={this.props.N} />);
-
-      return (
-        <div className='centered text-center'>
-          {m}
-          {button}
-        </div>
-      );
-    }
-
-    let m = this.props.autosolve ? 'And That\'s how you solve it.' : 'YOU WON!';
-    return (<h2 className='centered text-center'>{m}</h2>);
+    return (
+      <div className='centered text-center'>
+        {m}
+        {button}
+      </div>
+    );
   }
-}
+
+  let m = props.autosolve ? 'And That\'s how you solve it.' : 'YOU WON!';
+  return (<h2 className='centered text-center'>{m}</h2>);
+};
+
+BottomFrame.propTypes = {
+  N: PropTypes.number.isRequired,
+  won: PropTypes.bool.isRequired,
+  autosolve: PropTypes.bool.isRequired,
+  activateAI: PropTypes.func.isRequired,
+  solvable: PropTypes.bool.isRequired
+};
+
+export default BottomFrame;

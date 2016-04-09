@@ -24,10 +24,11 @@ export default class App extends React.Component {
 
   /**
    * Initaial state of the game. The board generation is given to factory.
+   * @param {object} props [ the properties null in this case ]
    * @return {JSON} A dict of key value pairs
    */
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     let size = 4;
     // let bf = new BoardFactory(size);
     // let board = bf.getBoard();
@@ -77,16 +78,11 @@ export default class App extends React.Component {
     // Arrow key codes: LEFT = 37, UP = 38, RIGHT = 39, DOWN = 40;
     // hence the function to call move on the blank tile is inverted so it
     // is more natural to the user.
-    let move = [ 'moveRight', 'moveDown', 'moveLeft', 'moveUp' ];
-
-    if (e.keyCode > 36 && e.keyCode < 41) {
-      this.state.board[move[e.keyCode - 37]]();
-      this.state.count += 1;
-    }
+    let moved = this.state.board.moveOnDirection(e.keyCode - 37);
 
     this.setState({
       board: this.state.board,
-      count: this.state.count
+      count: this.state.count + (moved ? 1 : 0)
     });
 
     if (this.state.board.isGoal()) {
@@ -98,15 +94,15 @@ export default class App extends React.Component {
    * Calls the move method on the board class when any of the numbers are pressed
    * on by the mouse.
    *
-   * @param {Integer} number the number that is pressed
+   * @param {Integer} index the index of the number that is pressed
    * @return {null} [nothing]
    */
-  handleMouseClick(number) {
+  handleMouseClick(index) {
     if (this.state.won || this.state.autosolve) {
       return;
     }
 
-    let moved = this.state.board.move(number);
+    let moved = this.state.board.moveOnIndex(index);
     this.setState({
       board: this.state.board,
       count: this.state.count + (moved ? 1 : 0)
@@ -136,7 +132,8 @@ export default class App extends React.Component {
       solution: null,
       solutionIndex: 1
     }, () => {
-      this.setState({ solvable: this.state.board.isSolvable() });
+      // as we are only generating solvable boards
+      this.setState({ solvable: true });
     });
 
     this.forceUpdate();
@@ -188,7 +185,7 @@ export default class App extends React.Component {
    * @return {null} [nothing]
    */
   changeGame(n) {
-    this.setState({ solvable: this.state.board.isSolvable() });
+    this.setState({ solvable: true });
     // Imediate change in state is trigerred like this (synchronos operation)
     this.setState({ N: n }, () => {
       this.reset();

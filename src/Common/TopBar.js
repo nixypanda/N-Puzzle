@@ -8,7 +8,7 @@ const Colors = MUI.Styles.Colors;
 const TopBar = ({ N, changeGame }) => {
   let icon = (<IconButton><NavigationMenu color={Colors.grey50} /></IconButton>);
 
-  let menuItems = [ ...Array(6).keys() ].map(index => index + 2).map((value) =>
+  let menuItems = [ ...Array(5).keys() ].map(index => index + 2).map((value) =>
     <MenuItem
       key={ value }
       onClick={ changeGame.bind(N, value) }

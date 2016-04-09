@@ -1,5 +1,10 @@
 import { inversionCount } from '../helpers/Helpers';
 
+const RIGHT = 0;
+const DOWN = 1;
+const LEFT = 2;
+const UP = 3;
+
 /**
  * The board class represents the state of the board at a given
  * point of time it also contains functions compute the neighbours of the
@@ -11,9 +16,9 @@ export default class Board {
   constructor(board) {
     this.N = Math.sqrt(board.length);
     this.board = board;
-    this.goal = [ ...Array(this.N * this.N).keys() ].map(i => (i + 1) % (this.N * this.N));
+    // tracking index of zero to reduce move operation from O(n) -> O(1)
+    this.zeroIndex = this.board.indexOf(0);
   }
-
 
   /**
    * Check if the board has reached the final goal state
@@ -22,80 +27,66 @@ export default class Board {
   isGoal() {
     // not and Ideal solution but does reduce the LOC and works perfectly well
     // in this case.
-    return this.board.toString() === this.goal.toString();
+    if (this.board[this.board.length - 1] !== 0) {
+      return false;
+    }
+    for (let index = 0; index < this.board.length - 1; index += 1) {
+      if (this.board[index] !== index + 1) {
+        return false;
+      }
+    }
+    return true;
   }
 
   equals(that) {
-    return this.board.toString() === that.board.toString();
-  }
-
-  // Make move on the Board //
-
-  /**
-   * Makes a left move on the board
-   * @return {[null]} [nothing]
-   */
-  moveLeft() {
-    let indexZero = this.board.indexOf(0);
-    if (indexZero % this.N !== 0) {
-      this.__makeMove__(indexZero, indexZero - 1);
+    for (let index = 0; index < this.board.length; index += 1) {
+      if (this.board[index] !== that.board[index]) {
+        return false;
+      }
     }
+    return true;
   }
 
   /**
-   * Makes an upward move on the board
-   * @return {[null]} [nothing]
+   * Moves the board in the specified direction why these number it's keycode(arrow key - left arrow key)
+   * left-right, and up-down are inverted so it's more intutive to operate
+   * 0 -> right
+   * 1 -> downward
+   * 2 -> left
+   * 3 -> up
+   *
+   * @param  {[type]} direction [description]
+   * @return {[type]}           [description]
    */
-  moveUp() {
-    let indexZero = this.board.indexOf(0);
-    if (indexZero > this.N - 1) {
-      this.__makeMove__(indexZero, indexZero - this.N);
+  moveOnDirection(direction) {
+    let tile = -1;
+    switch (direction) {
+      case RIGHT: { tile = this.zeroIndex + 1; break; }
+      case DOWN: { tile = this.zeroIndex + this.N; break; }
+      case LEFT: { tile = this.zeroIndex - 1; break; }
+      case UP: { tile = this.zeroIndex - this.N; break; }
+      default: { break; }
     }
-  }
-
-  /**
-   * Makes a rightward move on the board
-   * @return {[null]} [nothing]
-   */
-  moveRight() {
-    let indexZero = this.board.indexOf(0);
-    if (indexZero % this.N !== this.N - 1) {
-      this.__makeMove__(indexZero, indexZero + 1);
+    if (this.__makeMove__(this.zeroIndex, tile)) {
+      this.zeroIndex = tile;
+      return true;
     }
-  }
-
-  /**
-   * Makes a downward move on the board
-   * @return {[null]} [nothing]
-   */
-  moveDown() {
-    let indexZero = this.board.indexOf(0);
-    if (indexZero < this.board.length - this.N) {
-      this.__makeMove__(indexZero, indexZero + this.N);
-    }
+    return false;
   }
 
   /**
    * Makes an appropriate move based on the key
    * that is passed to it
-   * @param  {key} key [the key that is supposed to move to the locaation of 0]
+   * @param  {number} index [the index of the number that is supposed to move to the locaation of 0]
    * @return {boolean}     [true if the move is possible and was made]
    */
-  move(key) {
-    // Get the index of zero and the clicked number
-    let keyIndex = this.board.indexOf(key);
-    let indexZero = this.board.indexOf(0);
-
-    let diff = Math.abs(indexZero - keyIndex);
-
-    // bugfix:
-    if ((Math.min(keyIndex, indexZero) % this.N === this.N - 1) && (Math.max(keyIndex, indexZero) % this.N === 0)) {
-      return false;
-    }
-
-    if (diff === 1 || diff === this.N) {
-      this.__makeMove__(indexZero, keyIndex);
-      return true;
+  moveOnIndex(index) {
+    for (let zeroIndex of [ 1, -1, this.N, -this.N ].map(i => index + i)) {
+      if (this.zeroIndex === zeroIndex) {
+        this.__makeMove__(this.zeroIndex, index);
+        this.zeroIndex = index;
+        return true;
+      }
     }
     return false;
   }
@@ -118,22 +109,6 @@ export default class Board {
     }
     return zeroLoc % 2 === 1 ? inversions % 2 === 0 : inversions % 2 === 1;
   }
-
-  // returns the count of the number of inversions that are present in the board
-  // NOTE: will have to change this QUADRATIC algo to LINEAR_ARITHMATIC
-  // __countInversions__() {
-  //   let invCount = 0;
-  //   for (let i = 0; i < this.board.length - 1; i += 1) {
-  //     for (let j = i + 1; j < this.board.length; j += 1) {
-  //       // if i and j are not zero and i is greater than j
-  //       if (this.board[i] && this.board[j] && this.board[i] > this.board[j]) {
-  //         invCount += 1;
-  //       }
-  //     }
-  //   }
-  //
-  //   return invCount;
-  // }
 
   /**
    * Calculate the hamming distance to the goal state (i.e. the number
@@ -199,30 +174,29 @@ export default class Board {
    */
   neighbours() {
     let neighbour = [];
-    let i = this.board.indexOf(0);
 
     // board by exchanging empty tile with the tile above it
     // include if the empty tile is not in first row
-    if (i > this.N - 1) {
-      neighbour.push(this.__exchBoard__(i, i - this.N));
+    if (this.zeroIndex > this.N - 1) {
+      neighbour.push(this.__exchBoard__(this.zeroIndex, this.zeroIndex - this.N));
     }
 
     // board by exchanging empty tile with the tile to left it
     // include if the empty tile is not in first column
-    if (i % this.N !== 0) {
-      neighbour.push(this.__exchBoard__(i, i - 1));
+    if (this.zeroIndex % this.N !== 0) {
+      neighbour.push(this.__exchBoard__(this.zeroIndex, this.zeroIndex - 1));
     }
 
     // board by exchanging empty tile with the tile bottom of it
     // include if the empty tile is not in last row
-    if (i < this.board.length - this.N) {
-      neighbour.push(this.__exchBoard__(i, i + this.N));
+    if (this.zeroIndex < this.board.length - this.N) {
+      neighbour.push(this.__exchBoard__(this.zeroIndex, this.zeroIndex + this.N));
     }
 
     // board by exchanging empty tile with the tile to the right of it
     // include if the empty tile is not in last column
-    if (i % this.N !== this.N - 1) {
-      neighbour.push(this.__exchBoard__(i, i + 1));
+    if (this.zeroIndex % this.N !== this.N - 1) {
+      neighbour.push(this.__exchBoard__(this.zeroIndex, this.zeroIndex + 1));
     }
 
     return neighbour;
@@ -235,17 +209,27 @@ export default class Board {
   __exchBoard__(i, j) {
     let newBoard = new Board(this.board.slice(0));
 
-    let temp = newBoard.board[i];
-    newBoard.board[i] = newBoard.board[j];
-    newBoard.board[j] = temp;
-
-    return newBoard;
+    if (i >= 0 && j >= 0 && i < this.board.length && j < this.board.length) {
+      let temp = newBoard.board[i];
+      newBoard.board[i] = newBoard.board[j];
+      newBoard.board[j] = temp;
+      return newBoard;
+    }
+    return null;
   }
 
   // private helper to exchange the board tiles
   __makeMove__(i, j) {
-    let temp = this.board[i];
-    this.board[i] = this.board[j];
-    this.board[j] = temp;
+    // do not make a move for tiles if one is at the edge of a row and another is at the start of the next row
+    if ((Math.min(i, j) % this.N === this.N - 1) && (Math.max(i, j) % this.N === 0)) {
+      return false;
+    }
+    if (i >= 0 && j >= 0 && i < this.board.length && j < this.board.length) {
+      let temp = this.board[i];
+      this.board[i] = this.board[j];
+      this.board[j] = temp;
+      return true;
+    }
+    return false;
   }
 }
