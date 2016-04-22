@@ -22,7 +22,7 @@ const __addNeighbours__ = (searchNode, priorityQueue) => {
  * @return {[type]}    [ an array of boards that lead to solution (in reverse order) ]
  */
 const __aStar__ = (board) => {
-  // starting point for the solution of the actual board
+  // starting point for the solutionof the actual board
   let searchNode = new SearchNode(board, null);
   // priority queue for the actual board
   let pq = new PriorityQueue();

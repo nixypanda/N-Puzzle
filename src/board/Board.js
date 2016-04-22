@@ -206,14 +206,14 @@ export default class Board {
 
   // swaps the given tiles of the original board and returns the resulting
   // board
-  __exchBoard__(i, j) {
-    let newBoard = new Board(this.board.slice(0));
+  __exchBoard__(zi, nzi) {
+    let newBoard = this.board.slice(0);
 
-    if (i >= 0 && j >= 0 && i < this.board.length && j < this.board.length) {
-      let temp = newBoard.board[i];
-      newBoard.board[i] = newBoard.board[j];
-      newBoard.board[j] = temp;
-      return newBoard;
+    if (zi >= 0 && nzi >= 0 && zi < this.board.length && nzi < this.board.length) {
+      let temp = newBoard[zi];
+      newBoard[zi] = newBoard[nzi];
+      newBoard[nzi] = temp;
+      return new Board(newBoard);
     }
     return null;
   }

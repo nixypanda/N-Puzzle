@@ -6,6 +6,7 @@ import TopBar from '../Common/TopBar';
 import Counter from './Counter';
 import BoardLayout from './BoardLayout';
 import BottomFrame from './BottomFrame';
+import Footer from '../Common/Footer';
 
 // Logic imports
 import NewBoard from '../board/BoardFactory';
@@ -197,7 +198,7 @@ export default class App extends React.Component {
     let dimension = Math.min(MAGIC_NUMBERS.VIEWPORT_WIDTH * $(window).width(), $(window).height());
 
     return (
-      <div>
+      <div style={{ display: 'flex', minHeight: '100vh', flexDirection: 'column' }}>
         <TopBar N={this.state.N} changeGame={this.changeGame} />
         <br />
         <Counter
@@ -219,6 +220,8 @@ export default class App extends React.Component {
           autosolve={this.state.autosolve}
           solvable={this.state.solvable}
           won={this.state.won} />
+        <br />
+        <Footer />
       </div>
     );
   }
