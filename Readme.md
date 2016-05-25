@@ -24,7 +24,7 @@ the port in server.js).
 
 ## Usage
 Use the arrow keys to move the tiles and if you can't solve it just hit the solve button the computer will do it for you
-in the lest number of moves.(Then use space to make a move).
+in the least number of moves.(Then use space to make a move).
 
 **How? you ask**
 It uses the [A\* search algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm) for doing so.
