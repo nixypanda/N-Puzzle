@@ -1,13 +1,12 @@
 import React, { PropTypes } from 'react';
 import MUI, { RaisedButton, Toolbar, ToolbarGroup } from 'material-ui';
-
-const Colors = MUI.Styles.Colors;
+import { grey50 } from 'material-ui/styles/colors';
 
 // Returns the styling for the div enclosing the counter and the reset button
 const __topFrameStyle__ = (N, cellWidth) => ({
   width: N * cellWidth + 80,
   margin: 'auto',
-  backgroundColor: Colors.grey50
+  backgroundColor: grey50
 });
 
 /*

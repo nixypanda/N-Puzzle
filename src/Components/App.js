@@ -1,5 +1,4 @@
 import React from 'react';
-import $ from 'jquery';
 
 // Display imports
 import TopBar from '../Common/TopBar';
@@ -56,12 +55,12 @@ export default class App extends React.Component {
 
   // Start Polling keydown event
   componentDidMount() {
-    $(document.body).on('keydown', this.handleKeyDown);
+    // $(document.body).on('keydown', this.handleKeyDown);
   }
 
   // Stop Polling keydown event
   componentWillUnmount() {
-    $(document.body).off('keydown', this.handleKeyDown);
+    // $(document.body).off('keydown', this.handleKeyDown);
   }
 
   /**
@@ -195,7 +194,9 @@ export default class App extends React.Component {
 
   // the render method
   render() {
-    let dimension = Math.min(MAGIC_NUMBERS.VIEWPORT_WIDTH * $(window).width(), $(window).height());
+    const height = window.document.documentElement.clientHeight;
+    const width = window.document.documentElement.clientWidth;
+    let dimension = Math.min(MAGIC_NUMBERS.VIEWPORT_WIDTH * width, height);
 
     return (
       <div style={{ display: 'flex', minHeight: '100vh', flexDirection: 'column' }}>

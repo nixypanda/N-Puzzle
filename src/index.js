@@ -1,9 +1,10 @@
-import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
+// import App from './App';
+import './index.css';
+
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import getMuiTheme from 'material-ui/lib/styles/getMuiTheme';
-import 'bootstrap-webpack';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 import './css/style.css';
 import App from './Components/App';
@@ -33,4 +34,4 @@ class AppWrapper extends React.Component {
   }
 }
 
-ReactDOM.render(<AppWrapper />, document.getElementById('placeholder'));
+ReactDOM.render(<AppWrapper />, document.getElementById('root'));

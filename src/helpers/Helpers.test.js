@@ -1,4 +1,4 @@
-import { inversionCount, shuffle } from '../../src/helpers/Helpers';
+import { inversionCount, shuffle } from './Helpers';
 
 describe('The function inversionCount', () => {
   describe('when invoked with (pathological cases)', () => {

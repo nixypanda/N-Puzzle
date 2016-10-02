@@ -1,4 +1,4 @@
-import Board from '../../src/board/Board';
+import Board from './Board';
 
 // Testing various mehtods of the Board class.
 describe('In the module Board', () => {

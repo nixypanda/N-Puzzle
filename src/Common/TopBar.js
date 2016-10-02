@@ -1,12 +1,12 @@
 import React, { PropTypes } from 'react';
-import MUI, { AppBar, IconMenu, IconButton, MenuItem } from 'material-ui';
+import { AppBar, IconMenu, IconButton, MenuItem } from 'material-ui';
 
-import NavigationMenu from 'material-ui/lib/svg-icons/navigation/menu';
-const Colors = MUI.Styles.Colors;
+import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
+import { grey50 } from 'material-ui/styles/colors';
 
 
 const TopBar = ({ N, changeGame }) => {
-  let icon = (<IconButton><NavigationMenu color={Colors.grey50} /></IconButton>);
+  let icon = (<IconButton><NavigationMenu color={grey50} /></IconButton>);
 
   let menuItems = [ ...Array(5).keys() ].map(index => index + 2).map((value) =>
     <MenuItem

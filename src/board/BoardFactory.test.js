@@ -1,4 +1,4 @@
-import NewBoard from '../../src/board/BoardFactory';
+import NewBoard from './BoardFactory';
 
 describe('Board Factory Test Suite', () => {
   // depends on the correctness of the isSolvabe() method
