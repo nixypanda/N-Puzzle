@@ -1,5 +1,9 @@
 import React, { PropTypes } from 'react';
-import { AppBar, IconMenu, IconButton, MenuItem } from 'material-ui';
+
+import AppBar from 'material-ui/AppBar';
+import IconMenu from 'material-ui/IconMenu';
+import IconButton from 'material-ui/IconButton';
+import MenuItem from 'material-ui/MenuItem';
 
 import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
 import { grey50 } from 'material-ui/styles/colors';

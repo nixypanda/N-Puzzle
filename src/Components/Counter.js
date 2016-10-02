@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react';
-import MUI, { RaisedButton, Toolbar, ToolbarGroup } from 'material-ui';
 import { grey50 } from 'material-ui/styles/colors';
+
+import RaisedButton from 'material-ui/RaisedButton';
+import { Toolbar, ToolbarGroup } from 'material-ui/Toolbar';
 
 // Returns the styling for the div enclosing the counter and the reset button
 const __topFrameStyle__ = (N, cellWidth) => ({

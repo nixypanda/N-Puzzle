@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Motion, spring } from 'react-motion';
-import { Paper } from 'material-ui';
+import Paper from 'material-ui/Paper';
 
 
 const layout = (value, { width, height, margin, N }) => ({
