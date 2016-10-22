@@ -2,9 +2,6 @@ import { inversionCount, shuffle } from './Helpers';
 
 describe('The function inversionCount', () => {
   describe('when invoked with (pathological cases)', () => {
-    it('nothing should return 0', () => {
-      expect(inversionCount()).toEqual(0);
-    });
 
     it('empty array should return 0', () => {
       expect(inversionCount([ ])).toEqual(0);

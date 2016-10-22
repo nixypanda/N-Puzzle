@@ -1,12 +1,14 @@
+/* @flow */
+
 /**
  * This funt merges two sorted arrays and returns inversion count in the arrays.
  *
- * @param  {array} arr   [ the original array ]
- * @param  {array} temp  [ a temprory array with same size as of the original ]
- * @param  {number} left  [ the starting point of the whole array ]
- * @param  {number} mid   [ the middle point of the whole array ]
- * @param  {number} right [ the ending index of the whole array ]
- * @return {number}       [ the total number of split inversions ]
+ * @param  {Array<number>} arr the original array
+ * @param  {Array<number>} temp a temprory array with same size as of the original
+ * @param  {number} left the starting point of the whole array
+ * @param  {number} mid the middle point of the whole array
+ * @param  {number} right the ending index of the whole array
+ * @return {number} the total number of split inversions
  */
 const __merge__ = (arr, temp, left, mid, right) => {
   // start index for left subarray
@@ -51,14 +53,15 @@ const __merge__ = (arr, temp, left, mid, right) => {
   return invCount;
 };
 
+
 /**
  * The recursive routine that calls itself on left part then right part and the calls merge on both.
  *
- * @param  {array}  arr   [ the original array ]
- * @param  {array}  temp  [ a temprory array with same size as of the original ]
- * @param  {number} left  [ the starting point of the whole array ]
- * @param  {number} right [ the ending point of the whole array ]
- * @return {number}       [ the total number of split inversions ]
+ * @param  {Array<number>} arr the original array
+ * @param  {Array<number>} temp a temprory array with same size as of the original
+ * @param  {number} left the starting point of the whole array
+ * @param  {number} right the ending point of the whole array
+ * @return {number} the total number of split inversions
  */
 const __mergeAndCount__ = (arr, temp, left, right) => {
   let mid = 0;
@@ -77,26 +80,32 @@ const __mergeAndCount__ = (arr, temp, left, right) => {
   return invCount;
 };
 
+
 /**
  * This method takes in an array of objects/numbers and returns the number of inversions in it.
  *
- * @param  {array}  array [ the original array ]
- * @return {number}       [ total number of inversions in the original array ]
+ * @param  {Array<number>} arr the original array
+ * @return {number} total number of inversions in the original array
  */
-export const inversionCount = (array) => {
-  if (!array || array.length === 0 || array.length === 1) {
+export const inversionCount = (arr: Array<number>): number => {
+  let array = arr.slice(0);
+
+  if (array.length === 0 || array.length === 1) {
     return 0;
   }
+
   return __mergeAndCount__(array, new Array(array.length), 0, array.length - 1);
 };
 
 
 /**
- * A linear time array randomizer
- * @param  {array} array [ the original array ]
- * @return {array}       [ the shuffled array ]
+ * A linear time array randomizer reutrns a new array.
+ *
+ * @param {Array<number>} arr the original array
+ * @return {Array<number>} the shuffled array
  */
-export const shuffle = (array) => {
+export const shuffle = (arr: Array<number>): Array<number> => {
+  let array = arr.slice(0);
   let m = array.length;
   let t;
   let i;
