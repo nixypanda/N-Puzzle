@@ -144,7 +144,6 @@ export default class Board {
     return (R.sum(R.zipWith(manhattanDistance, initials, finals)) - emptyTileManhattanDistance);
   }
 
-  // Obselete
   /**
    * Returns a board that is the copy of the board with two tiles swaped.
    * (tiles belong to the same row)
@@ -167,52 +166,39 @@ export default class Board {
    * @return {[board]} the list of neighbours of the present board
    */
   neighbours(): Array<Board> {
-    // board by exchanging empty tile with the tile above it
-    // include if the empty tile is not in first row
-    let top = null;
-    let left = null;
-    let bottom = null;
-    let right = null;
+    // The indices to [ top, left, bottom, right ] of zero
+    const relativeIndices = [ -this.N, -1, this.N, 1];
+    // The conditions specifying if it is possible to swap with [ top, left, bottom, right ] indices.
+    const conditions = [
+      this.zeroIndex > this.N - 1,
+      this.zeroIndex % this.N !== 0,
+      this.zeroIndex < this.board.length - this.N,
+      this.zeroIndex % this.N !== this.N - 1
+    ];
 
-    if (this.zeroIndex > this.N - 1) {
-      top = this.__exchBoard__(this.zeroIndex, this.zeroIndex - this.N);
-    }
-
-    // board by exchanging empty tile with the tile to left it
-    // include if the empty tile is not in first column
-    if (this.zeroIndex % this.N !== 0) {
-      left = this.__exchBoard__(this.zeroIndex, this.zeroIndex - 1);
-    }
-
-    // board by exchanging empty tile with the tile bottom of it
-    // include if the empty tile is not in last row
-    if (this.zeroIndex < this.board.length - this.N) {
-      bottom = this.__exchBoard__(this.zeroIndex, this.zeroIndex + this.N);
-    }
-
-    // board by exchanging empty tile with the tile to the right of it
-    // include if the empty tile is not in last column
-    if (this.zeroIndex % this.N !== this.N - 1) {
-      right = this.__exchBoard__(this.zeroIndex, this.zeroIndex + 1);
-    }
-
-    return [top, left, bottom, right].filter(b => b !== null);
+    // start with the relative indices
+    // map then to absolute indices
+    // filter indices based on the if the move is possible or not
+    // map remaning indices to the new boards returned by exchanging with the zero index.
+    return (
+      relativeIndices
+        .map(ri => this.zeroIndex + ri)
+        .filter((_, i) => conditions[i])
+        .map(ai => this.__exchBoard__(this.zeroIndex, ai))
+    );
   }
 
   // Private Helper functions //
 
-  // swaps the given tiles of the original board and returns the resulting
-  // board
+  // swaps the given tiles of the original board and returns the resulting board
+  // ASSUMPTION: This method is always called with valid indices.
   __exchBoard__(zi: number, nzi: number): Board {
     let newBoard = this.board.slice(0);
 
-    // if (zi >= 0 && nzi >= 0 && zi < this.board.length && nzi < this.board.length) {
     let temp = newBoard[zi];
     newBoard[zi] = newBoard[nzi];
     newBoard[nzi] = temp;
     return new Board(newBoard);
-    // }
-    // return null;
   }
 
   // private helper to exchange the board tiles

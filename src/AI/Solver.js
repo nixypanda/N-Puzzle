@@ -10,7 +10,7 @@ import PriorityQueue from "../helpers/PriorityQueue";
 const __addNeighbours__ = (searchNode: SearchNode, priorityQueue: PriorityQueue<SearchNode>): void => {
   searchNode.board.neighbours()
     .map(b => new SearchNode(b, searchNode))
-    .filter(n => searchNode.prev === null || !n.board.equals(searchNode.prev.board))
+    .filter(n => searchNode.prev === undefined || searchNode.prev === null || !n.board.equals(searchNode.prev.board))
     .forEach(n => priorityQueue.push(n, n.priority));
 };
 
@@ -43,7 +43,7 @@ const __aStar__ = (board: Board): Array<Board> => {
   // if a solution exists retrace it (check docs of search node)
   // achieved by maintaing a pointer to the board that lead to the
   // current board
-  while (searchNode !== null) {
+  while (searchNode !== undefined && searchNode !== null) {
     // push: O*(1), unshift: O(n)
     solution.push(searchNode.board);
     searchNode = searchNode.prev;
