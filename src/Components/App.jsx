@@ -1,15 +1,15 @@
-import React from 'react';
-import $ from 'jquery';
+import React from "react";
 
 // Display imports
-import TopBar from '../Common/TopBar';
-import Counter from './Counter';
-import BoardLayout from './BoardLayout';
-import BottomFrame from './BottomFrame';
+import TopBar from "../Common/TopBar";
+import TopFrame from "./TopFrame";
+import BoardLayout from "./BoardLayout";
+import BottomFrame from "./BottomFrame";
+import Footer from "../Common/Footer";
 
 // Logic imports
-import NewBoard from '../board/BoardFactory';
-import SolutionTo from '../AI/Solver';
+import NewBoard from "../board/BoardFactory";
+import SolutionTo from "../AI/Solver";
 
 const MAGIC_NUMBERS = {
   VIEWPORT_WIDTH: 1.5,
@@ -55,12 +55,12 @@ export default class App extends React.Component {
 
   // Start Polling keydown event
   componentDidMount() {
-    $(document.body).on('keydown', this.handleKeyDown);
+    window.addEventListener("keydown", this.handleKeyDown);
   }
 
   // Stop Polling keydown event
   componentWillUnmount() {
-    $(document.body).off('keydown', this.handleKeyDown);
+    window.removeEventListener("keydown", this.handleKeyDown);
   }
 
   /**
@@ -194,17 +194,20 @@ export default class App extends React.Component {
 
   // the render method
   render() {
-    let dimension = Math.min(MAGIC_NUMBERS.VIEWPORT_WIDTH * $(window).width(), $(window).height());
+    const height = window.document.documentElement.clientHeight;
+    const width = window.document.documentElement.clientWidth;
+    let dimension = Math.min(MAGIC_NUMBERS.VIEWPORT_WIDTH * width, height);
 
     return (
-      <div>
+      <div id="top-container">
         <TopBar N={this.state.N} changeGame={this.changeGame} />
         <br />
-        <Counter
+        <TopFrame
           N={this.state.N}
           cellWidth={ dimension / (MAGIC_NUMBERS.CELL_WIDTH * this.state.N) }
           count={this.state.count}
-          reset={this.reset}/>
+          reset={this.reset}
+        />
         <BoardLayout
           N={this.state.N}
           width={ dimension / (MAGIC_NUMBERS.WIDTH * this.state.N) }
@@ -212,13 +215,17 @@ export default class App extends React.Component {
           margin={ dimension / (MAGIC_NUMBERS.MARGIN * this.state.N) }
           fontSize={ dimension / (MAGIC_NUMBERS.FONT_SIZE * this.state.N) }
           board={this.state.board.board}
-          onMouseClick={this.handleMouseClick} />
+          onMouseClick={this.handleMouseClick}
+        />
         <BottomFrame
           N={this.state.N}
           activateAI={this.activateAutoSolve}
           autosolve={this.state.autosolve}
           solvable={this.state.solvable}
-          won={this.state.won} />
+          won={this.state.won}
+        />
+        <br />
+        <Footer />
       </div>
     );
   }

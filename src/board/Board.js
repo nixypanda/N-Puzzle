@@ -1,9 +1,17 @@
-import { inversionCount } from '../helpers/Helpers';
+/* @flow */
+
+import {
+  inversionCount,
+  manhattanDistance,
+  toPoint
+} from "../helpers/Helpers";
+import R from "ramda";
 
 const RIGHT = 0;
 const DOWN = 1;
 const LEFT = 2;
 const UP = 3;
+
 
 /**
  * The board class represents the state of the board at a given
@@ -12,39 +20,35 @@ const UP = 3;
  * state.
  */
 export default class Board {
+  board: Array<number>;
+  goalBoard: Array<number>;
+  N: number;
+  zeroIndex: number;
 
-  constructor(board) {
+  constructor(board: Array<number>): void {
     this.N = Math.sqrt(board.length);
     this.board = board;
     // tracking index of zero to reduce move operation from O(n) -> O(1)
     this.zeroIndex = this.board.indexOf(0);
+    this.goalBoard = R.range(0, this.N * this.N).map(i => (i + 1) % (this.N * this.N));
   }
 
   /**
    * Check if the board has reached the final goal state
-   * @return {Boolean} [true if board in final state]
+   * @return {boolean} true if board in final state
    */
-  isGoal() {
-    // not and Ideal solution but does reduce the LOC and works perfectly well
-    // in this case.
-    if (this.board[this.board.length - 1] !== 0) {
-      return false;
-    }
-    for (let index = 0; index < this.board.length - 1; index += 1) {
-      if (this.board[index] !== index + 1) {
-        return false;
-      }
-    }
-    return true;
+  isGoal(): boolean {
+    return (
+      R.zipWith((a, b) => a === b, this.board, this.goalBoard)
+        .reduce((a, b) => a && b, true)
+    );
   }
 
-  equals(that) {
-    for (let index = 0; index < this.board.length; index += 1) {
-      if (this.board[index] !== that.board[index]) {
-        return false;
-      }
-    }
-    return true;
+  equals(that: Board): boolean {
+    return (
+      R.zipWith((a, b) => a === b, this.board, that.board)
+        .reduce((a, b) => a && b, true)
+    );
   }
 
   /**
@@ -55,10 +59,10 @@ export default class Board {
    * 2 -> left
    * 3 -> up
    *
-   * @param  {[type]} direction [description]
-   * @return {[type]}           [description]
+   * @param  {number} direction description
+   * @return {boolean} description
    */
-  moveOnDirection(direction) {
+  moveOnDirection(direction: number): boolean {
     let tile = -1;
     switch (direction) {
       case RIGHT: { tile = this.zeroIndex + 1; break; }
@@ -77,10 +81,10 @@ export default class Board {
   /**
    * Makes an appropriate move based on the key
    * that is passed to it
-   * @param  {number} index [the index of the number that is supposed to move to the locaation of 0]
-   * @return {boolean}     [true if the move is possible and was made]
+   * @param  {number} index the index of the number that is supposed to move to the locaation of 0
+   * @return {boolean} true if the move is possible and was made
    */
-  moveOnIndex(index) {
+  moveOnIndex(index: number): boolean {
     for (let zeroIndex of [ 1, -1, this.N, -this.N ].map(i => index + i)) {
       if (this.zeroIndex === zeroIndex) {
         this.__makeMove__(this.zeroIndex, index);
@@ -97,9 +101,9 @@ export default class Board {
    * Finds if the given board is solvable or not in tiem proportional O(n^4)
    * where n is the size of the board
    *
-   * @return {[null]} [nothing]
+   * @return {boolean} true/false depending on if the board is solvable or not.
    */
-  isSolvable() {
+  isSolvable(): boolean {
     let zeroIndex = this.board.indexOf(0);
     let zeroLoc = this.N - Math.floor(zeroIndex / this.N);
     let inversions = inversionCount(this.board.slice()) - zeroIndex;
@@ -115,10 +119,10 @@ export default class Board {
    * of tiles out of place)
    * e.g [8, 1, 3, 4, 0, 2, 7, 6, 5] : 5
    *
-   * @return {number} [the hamming distance from the present board to the goal state]
+   * @return {number} the hamming distance from the present board to the goal state
    */
-  hamming() {
-    return this.board.map((x, i) => x !== i + 1).reduce((a, b) => a + b, 0) - 1;
+  hamming(): number {
+    return (R.sum(this.board.map((x, i) => x !== i + 1)) - 1);
   }
 
   /**
@@ -127,30 +131,19 @@ export default class Board {
    * final position
    * e.g [8, 1, 3, 4, 0, 2, 7, 6, 5] : 10
    *
-   * @return {number} [the manhattan distance from the present board to the goal state]
+   * @return {number} the manhattan distance from the present board to the goal state
    */
-  manhattan() {
-    let man = 0;
-    for (let i = 0; i < this.board.length; i += 1) {
-      if (this.board[i] === 0) {
-        continue;
-      }
+  manhattan(): number {
+    // starting (x, y) coords of the tiles.
+    const initials = this.board.map((p) => toPoint(this.N, p - 1));
+    // final (x, y) coords of the tiles.
+    const finals = this.board.map((_, i) => toPoint(this.N, i));
+    const emptyTileManhattanDistance = manhattanDistance(toPoint(this.N, -1), toPoint(this.N, this.N - 1))
 
-      // final position of the ith-tile
-      let fy = Math.floor(i / this.N);
-      let fx = Math.floor(i % this.N);
-
-      // initial position of the ith-tile
-      let iy = Math.floor((this.board[i] - 1) / this.N);
-      let ix = Math.floor((this.board[i] - 1) % this.N);
-
-      // diff bw the initial and the final position
-      man += Math.abs(ix - fx) + Math.abs(iy - fy);
-    }
-    return man;
+    // Calculate the manhattan distance for each tile then subtract the manhattanDistance for the empty tile.
+    return (R.sum(R.zipWith(manhattanDistance, initials, finals)) - emptyTileManhattanDistance);
   }
 
-  // Obselete
   /**
    * Returns a board that is the copy of the board with two tiles swaped.
    * (tiles belong to the same row)
@@ -158,10 +151,10 @@ export default class Board {
    *
    * @return {board} [the twin of the present board]
    */
-  twin() {
-    let condition = (this.board[0] !== 0) && (this.board[1] !== 0);
-    let x = condition ? 0 : this.N;
-    let y = condition ? 1 : this.N + 1;
+  twin(): Board {
+    const condition = (this.board[0] !== 0) && (this.board[1] !== 0);
+    const x = condition ? 0 : this.N;
+    const y = condition ? 1 : this.N + 1;
 
     return this.__exchBoard__(x, y);
   }
@@ -172,54 +165,44 @@ export default class Board {
    *
    * @return {[board]} the list of neighbours of the present board
    */
-  neighbours() {
-    let neighbour = [];
+  neighbours(): Array<Board> {
+    // The indices to [ top, left, bottom, right ] of zero
+    const relativeIndices = [ -this.N, -1, this.N, 1];
+    // The conditions specifying if it is possible to swap with [ top, left, bottom, right ] indices.
+    const conditions = [
+      this.zeroIndex > this.N - 1,
+      this.zeroIndex % this.N !== 0,
+      this.zeroIndex < this.board.length - this.N,
+      this.zeroIndex % this.N !== this.N - 1
+    ];
 
-    // board by exchanging empty tile with the tile above it
-    // include if the empty tile is not in first row
-    if (this.zeroIndex > this.N - 1) {
-      neighbour.push(this.__exchBoard__(this.zeroIndex, this.zeroIndex - this.N));
-    }
-
-    // board by exchanging empty tile with the tile to left it
-    // include if the empty tile is not in first column
-    if (this.zeroIndex % this.N !== 0) {
-      neighbour.push(this.__exchBoard__(this.zeroIndex, this.zeroIndex - 1));
-    }
-
-    // board by exchanging empty tile with the tile bottom of it
-    // include if the empty tile is not in last row
-    if (this.zeroIndex < this.board.length - this.N) {
-      neighbour.push(this.__exchBoard__(this.zeroIndex, this.zeroIndex + this.N));
-    }
-
-    // board by exchanging empty tile with the tile to the right of it
-    // include if the empty tile is not in last column
-    if (this.zeroIndex % this.N !== this.N - 1) {
-      neighbour.push(this.__exchBoard__(this.zeroIndex, this.zeroIndex + 1));
-    }
-
-    return neighbour;
+    // start with the relative indices
+    // map then to absolute indices
+    // filter indices based on the if the move is possible or not
+    // map remaning indices to the new boards returned by exchanging with the zero index.
+    return (
+      relativeIndices
+        .map(ri => this.zeroIndex + ri)
+        .filter((_, i) => conditions[i])
+        .map(ai => this.__exchBoard__(this.zeroIndex, ai))
+    );
   }
 
   // Private Helper functions //
 
-  // swaps the given tiles of the original board and returns the resulting
-  // board
-  __exchBoard__(i, j) {
-    let newBoard = new Board(this.board.slice(0));
+  // swaps the given tiles of the original board and returns the resulting board
+  // ASSUMPTION: This method is always called with valid indices.
+  __exchBoard__(zi: number, nzi: number): Board {
+    let newBoard = this.board.slice(0);
 
-    if (i >= 0 && j >= 0 && i < this.board.length && j < this.board.length) {
-      let temp = newBoard.board[i];
-      newBoard.board[i] = newBoard.board[j];
-      newBoard.board[j] = temp;
-      return newBoard;
-    }
-    return null;
+    let temp = newBoard[zi];
+    newBoard[zi] = newBoard[nzi];
+    newBoard[nzi] = temp;
+    return new Board(newBoard);
   }
 
   // private helper to exchange the board tiles
-  __makeMove__(i, j) {
+  __makeMove__(i: number, j: number): boolean {
     // do not make a move for tiles if one is at the edge of a row and another is at the start of the next row
     if ((Math.min(i, j) % this.N === this.N - 1) && (Math.max(i, j) % this.N === 0)) {
       return false;

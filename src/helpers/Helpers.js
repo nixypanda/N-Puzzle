@@ -1,12 +1,14 @@
+/* @flow */
+
 /**
  * This funt merges two sorted arrays and returns inversion count in the arrays.
  *
- * @param  {array} arr   [ the original array ]
- * @param  {array} temp  [ a temprory array with same size as of the original ]
- * @param  {number} left  [ the starting point of the whole array ]
- * @param  {number} mid   [ the middle point of the whole array ]
- * @param  {number} right [ the ending index of the whole array ]
- * @return {number}       [ the total number of split inversions ]
+ * @param  {Array<number>} arr the original array
+ * @param  {Array<number>} temp a temprory array with same size as of the original
+ * @param  {number} left the starting point of the whole array
+ * @param  {number} mid the middle point of the whole array
+ * @param  {number} right the ending index of the whole array
+ * @return {number} the total number of split inversions
  */
 const __merge__ = (arr, temp, left, mid, right) => {
   // start index for left subarray
@@ -54,11 +56,11 @@ const __merge__ = (arr, temp, left, mid, right) => {
 /**
  * The recursive routine that calls itself on left part then right part and the calls merge on both.
  *
- * @param  {array}  arr   [ the original array ]
- * @param  {array}  temp  [ a temprory array with same size as of the original ]
- * @param  {number} left  [ the starting point of the whole array ]
- * @param  {number} right [ the ending point of the whole array ]
- * @return {number}       [ the total number of split inversions ]
+ * @param  {Array<number>} arr the original array
+ * @param  {Array<number>} temp a temprory array with same size as of the original
+ * @param  {number} left the starting point of the whole array
+ * @param  {number} right the ending point of the whole array
+ * @return {number} the total number of split inversions
  */
 const __mergeAndCount__ = (arr, temp, left, right) => {
   let mid = 0;
@@ -80,23 +82,28 @@ const __mergeAndCount__ = (arr, temp, left, right) => {
 /**
  * This method takes in an array of objects/numbers and returns the number of inversions in it.
  *
- * @param  {array}  array [ the original array ]
- * @return {number}       [ total number of inversions in the original array ]
+ * @param  {Array<number>} arr the original array
+ * @return {number} total number of inversions in the original array
  */
-export const inversionCount = (array) => {
-  if (!array || array.length === 0 || array.length === 1) {
+export const inversionCount = (arr: Array<number>): number => {
+  let array = arr.slice(0);
+
+  if (array.length === 0 || array.length === 1) {
     return 0;
   }
+
   return __mergeAndCount__(array, new Array(array.length), 0, array.length - 1);
 };
 
 
 /**
- * A linear time array randomizer
- * @param  {array} array [ the original array ]
- * @return {array}       [ the shuffled array ]
+ * A linear time array randomizer reutrns a new array.
+ *
+ * @param {Array<number>} arr the original array
+ * @return {Array<number>} the shuffled array
  */
-export const shuffle = (array) => {
+export const shuffle = (arr: Array<number>): Array<number> => {
+  let array = arr.slice(0);
   let m = array.length;
   let t;
   let i;
@@ -115,3 +122,32 @@ export const shuffle = (array) => {
 
   return array;
 };
+
+
+type Point = {
+  x: number,
+  y: number
+}
+
+/**
+ * Calculates the manhattan distance between two points
+ *
+ * @param {Point} initial The starting point.
+ * @param {Point} final The ending point.
+ * @return {number} The manhattan distance between initial and final
+ */
+export const manhattanDistance = (initial: Point, final: Point): number => {
+  return Math.abs(initial.x - final.x) + Math.abs(initial.y - final.y);
+};
+
+/**
+ * Converts a given value and the block size to a 2-d coordinate.
+ *
+ * @param {number} block The size of the 2-d grid.
+ * @param {number} p The location on the 1-d grid.
+ * @return {Point} The location on the 2-d grid.
+ */
+export const toPoint = (block: number, p: number): Point => ({
+  y: Math.floor(p / block),
+  x: Math.floor(p % block)
+});

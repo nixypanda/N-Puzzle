@@ -1,6 +1,11 @@
 *~
+
 *.swp
+
 node_modules/
-dist/
-src/extras
+
+build/
+
 coverage/
+
+npm-debug*.log*
