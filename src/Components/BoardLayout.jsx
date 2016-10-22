@@ -57,11 +57,13 @@ const BoardLayout = (props) => {
           style={{
             width: props.width + 2 * props.margin,
             transform: `translate3d(${tX}px,${tY}px,0) scale(1.1)`
-          }}>
+          }}
+        >
           <Paper
             className='text-center'
             onClick={props.onMouseClick.bind(null, index)}
-            style={cellStyle}>
+            style={cellStyle}
+          >
             <p className='center'>{tile}</p>
           </Paper>
         </div>}

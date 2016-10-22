@@ -206,7 +206,8 @@ export default class App extends React.Component {
           N={this.state.N}
           cellWidth={ dimension / (MAGIC_NUMBERS.CELL_WIDTH * this.state.N) }
           count={this.state.count}
-          reset={this.reset}/>
+          reset={this.reset}
+        />
         <BoardLayout
           N={this.state.N}
           width={ dimension / (MAGIC_NUMBERS.WIDTH * this.state.N) }
@@ -214,13 +215,15 @@ export default class App extends React.Component {
           margin={ dimension / (MAGIC_NUMBERS.MARGIN * this.state.N) }
           fontSize={ dimension / (MAGIC_NUMBERS.FONT_SIZE * this.state.N) }
           board={this.state.board.board}
-          onMouseClick={this.handleMouseClick} />
+          onMouseClick={this.handleMouseClick}
+        />
         <BottomFrame
           N={this.state.N}
           activateAI={this.activateAutoSolve}
           autosolve={this.state.autosolve}
           solvable={this.state.solvable}
-          won={this.state.won} />
+          won={this.state.won}
+        />
         <br />
         <Footer />
       </div>

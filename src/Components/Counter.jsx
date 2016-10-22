@@ -16,22 +16,25 @@ const __topFrameStyle__ = (N, cellWidth) => ({
  * board.
  */
 const TopFrame = (props) => (
-    <Toolbar style={__topFrameStyle__(props.N, props.cellWidth)} >
-      <ToolbarGroup firstChild={true} float="left">
-        <RaisedButton label={'Moves: ' + props.count} />
-      </ToolbarGroup>
-      <ToolbarGroup float='right' lastChild={true}>
-        <RaisedButton
-          label='Reset'
-          onClick={props.reset}
-          primary={true} />
-      </ToolbarGroup>
-    </Toolbar>
-  );
+  <Toolbar style={__topFrameStyle__(props.N, props.cellWidth)}>
+    <ToolbarGroup firstChild={true} float="left">
+      <RaisedButton label={'Moves: ' + props.count} />
+    </ToolbarGroup>
+    <ToolbarGroup float='right' lastChild={true}>
+      <RaisedButton
+        label='Reset'
+        onClick={props.reset}
+        primary={true}
+      />
+    </ToolbarGroup>
+  </Toolbar>
+);
+
 
 TopFrame.defaultProps = {
   cellWidth: 100
 };
+
 
 TopFrame.propTypes = {
   N: PropTypes.number.isRequired,
