@@ -1,6 +1,6 @@
 /* @flow */
 
-import Board from '../board/Board';
+import Board from "../board/Board";
 
 /**
  * The Search node class consists of the board and the search node that led

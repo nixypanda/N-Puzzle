@@ -1,15 +1,15 @@
-import React from 'react';
+import React from "react";
 
 // Display imports
-import TopBar from '../Common/TopBar';
-import TopFrame from './TopFrame';
-import BoardLayout from './BoardLayout';
-import BottomFrame from './BottomFrame';
-import Footer from '../Common/Footer';
+import TopBar from "../Common/TopBar";
+import TopFrame from "./TopFrame";
+import BoardLayout from "./BoardLayout";
+import BottomFrame from "./BottomFrame";
+import Footer from "../Common/Footer";
 
 // Logic imports
-import NewBoard from '../board/BoardFactory';
-import SolutionTo from '../AI/Solver';
+import NewBoard from "../board/BoardFactory";
+import SolutionTo from "../AI/Solver";
 
 const MAGIC_NUMBERS = {
   VIEWPORT_WIDTH: 1.5,
@@ -199,7 +199,7 @@ export default class App extends React.Component {
     let dimension = Math.min(MAGIC_NUMBERS.VIEWPORT_WIDTH * width, height);
 
     return (
-      <div style={{ display: 'flex', minHeight: '100vh', flexDirection: 'column' }}>
+      <div id="top-container">
         <TopBar N={this.state.N} changeGame={this.changeGame} />
         <br />
         <TopFrame

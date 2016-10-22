@@ -5,6 +5,12 @@ body {
   background-color: #fafafa;
 }
 
+#top-container {
+   display: flex;
+   min-height: 100vh;
+   flex-direction: column;
+}
+
 .center {
   position: relative;
   top: 50%;

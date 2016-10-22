@@ -9,15 +9,15 @@ import {
   pinkA200,
   teal400,
   white
-} from 'material-ui/styles/colors';
+} from "material-ui/styles/colors";
 
-import Spacing from 'material-ui/styles/spacing';
-import zIndex from 'material-ui/styles/zIndex';
+import Spacing from "material-ui/styles/spacing";
+import zIndex from "material-ui/styles/zIndex";
 
 export default {
   spacing: Spacing,
   zIndex: zIndex,
-  fontFamily: 'Roboto, sans-serif',
+  fontFamily: "Roboto, sans-serif",
   palette: {
     primary1Color: blue400,
     primary2Color: teal400,

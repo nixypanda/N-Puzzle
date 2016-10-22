@@ -4,6 +4,7 @@ import Board from "../board/Board";
 import SearchNode from "./SearchNode";
 import PriorityQueue from "../helpers/PriorityQueue";
 
+
 // adds neighbouring boards of a given search-node to the priority-queue
 // that is passed.
 const __addNeighbours__ = (searchNode: SearchNode, priorityQueue: PriorityQueue<SearchNode>): void => {
@@ -19,8 +20,8 @@ const __addNeighbours__ = (searchNode: SearchNode, priorityQueue: PriorityQueue<
  * that I am using here is the manhattan distance with the current number of
  * moves. The lower the number the more likly is the node next up for exploration.
  *
- * @param  {[type]} board [the board for which solution is required]
- * @return {[type]}    [ an array of boards that lead to solution (in reverse order) ]
+ * @param  {Board} board The board for which solution is required
+ * @return {Array<Board>} An array of boards that lead to solution (in reverse order)
  */
 const __aStar__ = (board: Board): Array<Board> => {
   // starting point for the solutionof the actual board

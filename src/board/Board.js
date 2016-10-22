@@ -4,8 +4,8 @@ import {
   inversionCount,
   manhattanDistance,
   toPoint
-} from '../helpers/Helpers';
-import R from 'ramda';
+} from "../helpers/Helpers";
+import R from "ramda";
 
 const RIGHT = 0;
 const DOWN = 1;
