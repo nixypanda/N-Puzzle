@@ -53,7 +53,6 @@ const __merge__ = (arr, temp, left, mid, right) => {
   return invCount;
 };
 
-
 /**
  * The recursive routine that calls itself on left part then right part and the calls merge on both.
  *
@@ -79,7 +78,6 @@ const __mergeAndCount__ = (arr, temp, left, right) => {
   }
   return invCount;
 };
-
 
 /**
  * This method takes in an array of objects/numbers and returns the number of inversions in it.
@@ -124,3 +122,32 @@ export const shuffle = (arr: Array<number>): Array<number> => {
 
   return array;
 };
+
+
+type Point = {
+  x: number,
+  y: number
+}
+
+/**
+ * Calculates the manhattan distance between two points
+ *
+ * @param {Point} initial The starting point.
+ * @param {Point} final The ending point.
+ * @return {number} The manhattan distance between initial and final
+ */
+export const manhattanDistance = (initial: Point, final: Point): number => {
+  return Math.abs(initial.x - final.x) + Math.abs(initial.y - final.y);
+};
+
+/**
+ * Converts a given value and the block size to a 2-d coordinate.
+ *
+ * @param {number} block The size of the 2-d grid.
+ * @param {number} p The location on the 1-d grid.
+ * @return {Point} The location on the 2-d grid.
+ */
+export const toPoint = (block: number, p: number): Point => ({
+  y: Math.floor(p / block),
+  x: Math.floor(p % block)
+});

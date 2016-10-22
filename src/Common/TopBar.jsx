@@ -1,4 +1,7 @@
-import React, { PropTypes } from 'react';
+/* @flow */
+
+import React from 'react';
+import R from 'ramda';
 
 import AppBar from 'material-ui/AppBar';
 import IconMenu from 'material-ui/IconMenu';
@@ -8,30 +11,32 @@ import MenuItem from 'material-ui/MenuItem';
 import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
 import { grey50 } from 'material-ui/styles/colors';
 
+type TopBarProps = {
+  N: number,
+  changeGame: (n: number) => void
+};
 
-const TopBar = ({ N, changeGame }) => {
-  let icon = (
-    <IconButton>
-      <NavigationMenu
-        color={grey50}
-      />
-    </IconButton>
-  );
 
-  let menuItems = [ ...Array(5).keys() ].map(index => index + 2).map((value) =>
-    <MenuItem
-      key={ value }
-      onClick={ changeGame.bind(N, value) }
-      primaryText={ (value * value - 1) + '-Puzzle' }
-    />
-  );
-
-  let iconMenu = (
+/**
+ * The bar to display at the top.
+ * @param {TopBarProps} props The props passed to our top bar.
+ * @return {React.Element<*>} Render information of the top bar.
+ */
+const TopBar = ({ N, changeGame }: TopBarProps): React.Element<*> => {
+  const iconMenu = (
     <IconMenu
-      iconButtonElement={icon}
+      iconButtonElement={<IconButton><NavigationMenu color={grey50} /></IconButton>}
       openDirection={'bottom-right'}
     >
-      {menuItems}
+      {
+        R.range(2, 7).map((value) =>
+          <MenuItem
+            key={value}
+            onClick={changeGame.bind(N, value)}
+            primaryText={ (value * value - 1) + '-Puzzle' }
+          />
+        )
+      }
     </IconMenu>
   );
 
@@ -41,11 +46,6 @@ const TopBar = ({ N, changeGame }) => {
       title={(N * N - 1) + '-Puzzle'}
     />
   );
-};
-
-TopBar.propTypes = {
-  N: PropTypes.number.isRequired,
-  changeGame: PropTypes.func.isRequired
 };
 
 export default TopBar;

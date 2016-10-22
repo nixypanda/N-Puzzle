@@ -1,6 +1,10 @@
 /* @flow */
 
-import { inversionCount } from '../helpers/Helpers';
+import {
+  inversionCount,
+  manhattanDistance,
+  toPoint
+} from '../helpers/Helpers';
 import R from 'ramda';
 
 const RIGHT = 0;
@@ -31,7 +35,7 @@ export default class Board {
 
   /**
    * Check if the board has reached the final goal state
-   * @return {Boolean} [true if board in final state]
+   * @return {boolean} true if board in final state
    */
   isGoal(): boolean {
     return (
@@ -55,8 +59,8 @@ export default class Board {
    * 2 -> left
    * 3 -> up
    *
-   * @param  {[type]} direction [description]
-   * @return {[type]}           [description]
+   * @param  {number} direction description
+   * @return {boolean} description
    */
   moveOnDirection(direction: number): boolean {
     let tile = -1;
@@ -77,8 +81,8 @@ export default class Board {
   /**
    * Makes an appropriate move based on the key
    * that is passed to it
-   * @param  {number} index [the index of the number that is supposed to move to the locaation of 0]
-   * @return {boolean}     [true if the move is possible and was made]
+   * @param  {number} index the index of the number that is supposed to move to the locaation of 0
+   * @return {boolean} true if the move is possible and was made
    */
   moveOnIndex(index: number): boolean {
     for (let zeroIndex of [ 1, -1, this.N, -this.N ].map(i => index + i)) {
@@ -97,7 +101,7 @@ export default class Board {
    * Finds if the given board is solvable or not in tiem proportional O(n^4)
    * where n is the size of the board
    *
-   * @return {[null]} [nothing]
+   * @return {boolean} true/false depending on if the board is solvable or not.
    */
   isSolvable(): boolean {
     let zeroIndex = this.board.indexOf(0);
@@ -115,14 +119,10 @@ export default class Board {
    * of tiles out of place)
    * e.g [8, 1, 3, 4, 0, 2, 7, 6, 5] : 5
    *
-   * @return {number} [the hamming distance from the present board to the goal state]
+   * @return {number} the hamming distance from the present board to the goal state
    */
   hamming(): number {
-    return (
-      this.board
-        .map((x, i) => x !== i + 1)
-        .reduce((a, b) => a + b, 0) - 1
-    );
+    return (R.sum(this.board.map((x, i) => x !== i + 1)) - 1);
   }
 
   /**
@@ -131,31 +131,17 @@ export default class Board {
    * final position
    * e.g [8, 1, 3, 4, 0, 2, 7, 6, 5] : 10
    *
-   * @return {number} [the manhattan distance from the present board to the goal state]
+   * @return {number} the manhattan distance from the present board to the goal state
    */
   manhattan(): number {
-    const manhattanOfTile = (value, index) => {
-      if (value === 0) {
-        return 0;
-      }
+    // starting (x, y) coords of the tiles.
+    const initials = this.board.map((p) => toPoint(this.N, p - 1));
+    // final (x, y) coords of the tiles.
+    const finals = this.board.map((_, i) => toPoint(this.N, i));
+    const emptyTileManhattanDistance = manhattanDistance(toPoint(this.N, -1), toPoint(this.N, this.N - 1))
 
-      // final position of the ith-tile
-      let fy = Math.floor(index / this.N);
-      let fx = Math.floor(index % this.N);
-
-      // initial position of the ith-tile
-      let iy = Math.floor((value - 1) / this.N);
-      let ix = Math.floor((value - 1) % this.N);
-
-      // diff bw the initial and the final position
-      return Math.abs(ix - fx) + Math.abs(iy - fy);
-    };
-
-    return (
-      this.board
-        .map(manhattanOfTile)
-        .reduce((a, b) => a + b, 0)
-    );
+    // Calculate the manhattan distance for each tile then subtract the manhattanDistance for the empty tile.
+    return (R.sum(R.zipWith(manhattanDistance, initials, finals)) - emptyTileManhattanDistance);
   }
 
   // Obselete
@@ -167,9 +153,9 @@ export default class Board {
    * @return {board} [the twin of the present board]
    */
   twin(): Board {
-    let condition = (this.board[0] !== 0) && (this.board[1] !== 0);
-    let x = condition ? 0 : this.N;
-    let y = condition ? 1 : this.N + 1;
+    const condition = (this.board[0] !== 0) && (this.board[1] !== 0);
+    const x = condition ? 0 : this.N;
+    const y = condition ? 1 : this.N + 1;
 
     return this.__exchBoard__(x, y);
   }

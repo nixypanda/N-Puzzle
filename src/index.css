@@ -14,3 +14,25 @@ body {
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
 }
+
+#footer {
+  background: #404040;
+  color: #999;
+  font-size: .85em;
+  text-align: center;
+  padding: 2rem;
+}
+
+.flex {
+  display: flex;
+}
+
+.left-flex {
+  flex: 1;
+  text-align: left;
+}
+
+.right-flex {
+  flex: 1;
+  text-align: right;
+}

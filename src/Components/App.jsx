@@ -2,7 +2,7 @@ import React from 'react';
 
 // Display imports
 import TopBar from '../Common/TopBar';
-import Counter from './Counter';
+import TopFrame from './TopFrame';
 import BoardLayout from './BoardLayout';
 import BottomFrame from './BottomFrame';
 import Footer from '../Common/Footer';
@@ -55,12 +55,12 @@ export default class App extends React.Component {
 
   // Start Polling keydown event
   componentDidMount() {
-    // $(document.body).on('keydown', this.handleKeyDown);
+    window.addEventListener("keydown", this.handleKeyDown);
   }
 
   // Stop Polling keydown event
   componentWillUnmount() {
-    // $(document.body).off('keydown', this.handleKeyDown);
+    window.removeEventListener("keydown", this.handleKeyDown);
   }
 
   /**
@@ -202,7 +202,7 @@ export default class App extends React.Component {
       <div style={{ display: 'flex', minHeight: '100vh', flexDirection: 'column' }}>
         <TopBar N={this.state.N} changeGame={this.changeGame} />
         <br />
-        <Counter
+        <TopFrame
           N={this.state.N}
           cellWidth={ dimension / (MAGIC_NUMBERS.CELL_WIDTH * this.state.N) }
           count={this.state.count}

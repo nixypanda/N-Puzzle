@@ -1,18 +1,16 @@
+/* @flow */
+
 import React from 'react';
 
-const Footer = () => (
-  <footer>
-    <div
-      style={{ background: '#404040', color: '#999', fontSize: '.85em', textAlign: 'center', padding: '2rem' }}
-    >
-      <div >
-        <span >Created and maintained by Sherub Thakur. </span>
-        <span >Source code released under the MIT license.</span>
-      </div>
-      <div>
-        <a href='https://github.com/random-apps-inc/story-shot' >
-        </a>
-      </div>
+/**
+* Returns render information of the footer component.
+* @return {Reac.Element<*>} render info of footer
+*/
+const Footer = (): React.Element<*> => (
+  <footer id="footer">
+    <div className="container flex">
+      <div className="left-flex">N-Puzzle</div>
+      <div className="right-flex">by <a href='https://github.com/jckdrpr' >Sherub Thakur</a></div>
     </div>
   </footer>
 );

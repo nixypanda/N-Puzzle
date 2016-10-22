@@ -1,16 +1,16 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
 
-import injectTapEventPlugin from 'react-tap-event-plugin';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import injectTapEventPlugin from "react-tap-event-plugin";
+import getMuiTheme from "material-ui/styles/getMuiTheme";
 
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/css/bootstrap-theme.css';
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap/dist/css/bootstrap-theme.css";
 
-import App from './Components/App';
-import MyRawTheme from './Common/theme';
+import App from "./Components/App";
+import MyRawTheme from "./Common/theme";
 
-import './index.css';
+import "./index.css";
 
 // Needed for onTouchTap
 // Can go away when react 1.0 release
@@ -36,4 +36,4 @@ class AppWrapper extends React.Component {
   }
 }
 
-ReactDOM.render(<AppWrapper />, document.getElementById('root'));
+ReactDOM.render(<AppWrapper />, document.getElementById("root"));
