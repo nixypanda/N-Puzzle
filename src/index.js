@@ -1,13 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-import './css/style.css';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/css/bootstrap-theme.css';
+
 import App from './Components/App';
 import MyRawTheme from './Common/theme';
+
+import './index.css';
 
 // Needed for onTouchTap
 // Can go away when react 1.0 release

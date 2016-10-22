@@ -1,15 +1,16 @@
-import SearchNode from './SearchNode';
-import PriorityQueue from '../helpers/PriorityQueue';
+/* @flow */
+
+import Board from "../board/Board";
+import SearchNode from "./SearchNode";
+import PriorityQueue from "../helpers/PriorityQueue";
 
 // adds neighbouring boards of a given search-node to the priority-queue
 // that is passed.
-const __addNeighbours__ = (searchNode, priorityQueue) => {
-  for (let board of searchNode.board.neighbours()) {
-    let n = new SearchNode(board, searchNode);
-    if (searchNode.prev === null || !n.board.equals(searchNode.prev.board)) {
-      priorityQueue.push(n, n.priority);
-    }
-  }
+const __addNeighbours__ = (searchNode: SearchNode, priorityQueue: PriorityQueue<SearchNode>): void => {
+  searchNode.board.neighbours()
+    .map(b => new SearchNode(b, searchNode))
+    .filter(n => searchNode.prev === null || !n.board.equals(searchNode.prev.board))
+    .forEach(n => priorityQueue.push(n, n.priority));
 };
 
 
@@ -21,7 +22,7 @@ const __addNeighbours__ = (searchNode, priorityQueue) => {
  * @param  {[type]} board [the board for which solution is required]
  * @return {[type]}    [ an array of boards that lead to solution (in reverse order) ]
  */
-const __aStar__ = (board) => {
+const __aStar__ = (board: Board): Array<Board> => {
   // starting point for the solutionof the actual board
   let searchNode = new SearchNode(board, null);
   // priority queue for the actual board
@@ -46,17 +47,18 @@ const __aStar__ = (board) => {
     solution.push(searchNode.board);
     searchNode = searchNode.prev;
   }
+
   return solution;
 };
 
 
 /**
  * This is just a wrapper function around the one that does the A* search.
- * @param  {[array]} board [the bord object for which the solver is generated]
  *
- * @return {[object]}       [array of boards leading to solution]
+ * @param  {Board} board the bord object for which the solver is generated
+ * @return {Array<Board>} array of boards leading to solution
  */
-const SolutionTo = (board) => {
+const SolutionTo = (board: Board): Array<Board> => {
   let stack = board.isSolvable ? __aStar__(board) : [];
 
   // Why not directly use unshift? effeciency
