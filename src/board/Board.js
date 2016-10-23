@@ -45,6 +45,7 @@ export default class Board {
   }
 
   equals(that: Board): boolean {
+    if (this.N !== that.N) return false;
     return (
       R.zipWith((a, b) => a === b, this.board, that.board)
         .reduce((a, b) => a && b, true)
@@ -62,20 +63,22 @@ export default class Board {
    * @param  {number} direction description
    * @return {boolean} description
    */
-  moveOnDirection(direction: number): boolean {
+  moveOnDirection(direction: number): Board {
     let tile = -1;
+    let b = new Board(this.board.slice(0));
+
     switch (direction) {
-      case RIGHT: { tile = this.zeroIndex + 1; break; }
-      case DOWN: { tile = this.zeroIndex + this.N; break; }
-      case LEFT: { tile = this.zeroIndex - 1; break; }
-      case UP: { tile = this.zeroIndex - this.N; break; }
+      case RIGHT: { tile = b.zeroIndex + 1; break; }
+      case DOWN: { tile = b.zeroIndex + b.N; break; }
+      case LEFT: { tile = b.zeroIndex - 1; break; }
+      case UP: { tile = b.zeroIndex - b.N; break; }
       default: { break; }
     }
-    if (this.__makeMove__(this.zeroIndex, tile)) {
-      this.zeroIndex = tile;
-      return true;
+    if (b.__makeMove__(b.zeroIndex, tile)) {
+      b.zeroIndex = tile;
+      return b;
     }
-    return false;
+    return this;
   }
 
   /**
@@ -84,15 +87,17 @@ export default class Board {
    * @param  {number} index the index of the number that is supposed to move to the locaation of 0
    * @return {boolean} true if the move is possible and was made
    */
-  moveOnIndex(index: number): boolean {
-    for (let zeroIndex of [ 1, -1, this.N, -this.N ].map(i => index + i)) {
-      if (this.zeroIndex === zeroIndex) {
-        this.__makeMove__(this.zeroIndex, index);
-        this.zeroIndex = index;
-        return true;
+  moveOnIndex(index: number): Board {
+    let b = new Board(this.board.slice(0));
+
+    for (let zeroIndex of [ 1, -1, b.N, -b.N ].map(i => index + i)) {
+      if (b.zeroIndex === zeroIndex) {
+        b.__makeMove__(b.zeroIndex, index);
+        b.zeroIndex = index;
+        return b;
       }
     }
-    return false;
+    return this;
   }
 
   // AI (A*) Helper methods //

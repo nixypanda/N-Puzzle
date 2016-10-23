@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 
 // Display imports
 import TopBar from "../Common/TopBar";
@@ -8,8 +9,15 @@ import BottomFrame from "./BottomFrame";
 import Footer from "../Common/Footer";
 
 // Logic imports
-import NewBoard from "../board/BoardFactory";
-import SolutionTo from "../AI/Solver";
+// import NewBoard from "../board/BoardFactory";
+// import SolutionTo from "../AI/Solver";
+import {
+  changeGame,
+  resetGame,
+  autosolveGame,
+  moveOnKeyPress,
+  moveOnIndexClick
+} from "../actions";
 
 const MAGIC_NUMBERS = {
   VIEWPORT_WIDTH: 1.5,
@@ -20,177 +28,19 @@ const MAGIC_NUMBERS = {
   FONT_SIZE: 8
 };
 
-export default class App extends React.Component {
-
-  /**
-   * Initaial state of the game. The board generation is given to factory.
-   * @param {object} props [ the properties null in this case ]
-   * @return {JSON} A dict of key value pairs
-   */
-  constructor(props) {
-    super(props);
-    let size = 4;
-    // let bf = new BoardFactory(size);
-    // let board = bf.getBoard();
-    let board = NewBoard(size);
-
-    this.state = {
-      N: size,
-      board: board,
-      count: 0,
-      won: false,
-      autosolve: false,
-      solution: null,
-      solvable: true,
-      processing: false
-    };
-
-    // In es6 there is no autobinding
-    this.handleKeyDown = this.handleKeyDown.bind(this);
-    this.handleMouseClick = this.handleMouseClick.bind(this);
-    this.reset = this.reset.bind(this);
-    this.activateAutoSolve = this.activateAutoSolve.bind(this);
-    this.changeGame = this.changeGame.bind(this);
-  }
+class App extends React.Component {
 
   // Start Polling keydown event
   componentDidMount() {
-    window.addEventListener("keydown", this.handleKeyDown);
+    window.addEventListener("keydown", (e) => this.props.moveOnKeyPress(this.props.board, e));
   }
 
   // Stop Polling keydown event
   componentWillUnmount() {
-    window.removeEventListener("keydown", this.handleKeyDown);
+    window.removeEventListener("keydown", (e) => this.props.moveOnKeyPress(this.prosp.board, e));
   }
 
-  /**
-  * Calls the appropriate method in board class on keydown event if the
-  * key pressed is one of the arrow keys.
-  *
-  * @param  {event} e An event object.
-  * @return {null} [nothing]
-  */
-  handleKeyDown(e) {
-    if (this.state.won || this.state.autosolve) {
-      return;
-    }
 
-    // Arrow key codes: LEFT = 37, UP = 38, RIGHT = 39, DOWN = 40;
-    // hence the function to call move on the blank tile is inverted so it
-    // is more natural to the user.
-    let moved = this.state.board.moveOnDirection(e.keyCode - 37);
-
-    this.setState({
-      board: this.state.board,
-      count: this.state.count + (moved ? 1 : 0)
-    });
-
-    if (this.state.board.isGoal()) {
-      this.setState({ won: true });
-    }
-  }
-
-  /**
-   * Calls the move method on the board class when any of the numbers are pressed
-   * on by the mouse.
-   *
-   * @param {Integer} index the index of the number that is pressed
-   * @return {null} [nothing]
-   */
-  handleMouseClick(index) {
-    if (this.state.won || this.state.autosolve) {
-      return;
-    }
-
-    let moved = this.state.board.moveOnIndex(index);
-    this.setState({
-      board: this.state.board,
-      count: this.state.count + (moved ? 1 : 0)
-    });
-
-    if (this.state.board.isGoal()) {
-      this.setState({ won: true });
-    }
-  }
-
-  /**
-  * Resets the game to it's original configuration.
-  * The arrangement of tiles is randomised
-  *
-  * @return {null} [nothing]
-  */
-  reset() {
-    // VERY IMPORTANT: to clear the setInterval otherwise reseting
-    // will have two solutions to pick from and it's not preety
-    clearInterval(this.AIPlayingTheGame);
-
-    this.setState({
-      board: NewBoard(this.state.N),
-      count: 0,
-      won: false,
-      autosolve: false,
-      solution: null,
-      solutionIndex: 1
-    }, () => {
-      // as we are only generating solvable boards
-      this.setState({ solvable: true });
-    });
-
-    this.forceUpdate();
-  }
-
-  /**
-  * This function autosolves the game on the screen and stores the result in
-  * solution (state variable) and then calls the helper to present the moves
-  * to the user
-  *
-  * @return {null} [nothing]
-  */
-  activateAutoSolve() {
-    this.setState({ autosolve: true }, () => {
-      // Calling the AI to solve the problem
-      // Scnchronously calll the helper after setting the state with the solution
-      this.setState({ solution: SolutionTo(this.state.board) }, () => {
-        this.__autosolveTheGame__();
-      });
-    });
-  }
-
-  // Helper: Reads the boards in solution one by one and renders then on to
-  // the screen one-by-one.
-  __autosolveTheGame__() {
-    let i = 1;
-    let length = this.state.solution.length;
-
-    // display the next board after a second interval
-    this.AIPlayingTheGame = setInterval(() => {
-      this.setState({
-        board: this.state.solution[i],
-        count: this.state.count + 1
-      });
-
-      i += 1;
-      // quit on reaching the solved state
-      if (i === length) {
-        this.setState({ won: true });
-        clearInterval(this.AIPlayingTheGame);
-      }
-    }, 1000);
-  }
-
-  /**
-   * Changes the game to different n-by-n grid
-   *
-   * @param  {number} n [governs the size of the board]
-   * @return {null} [nothing]
-   */
-  changeGame(n) {
-    this.setState({ solvable: true });
-    // Imediate change in state is trigerred like this (synchronos operation)
-    this.setState({ N: n }, () => {
-      this.reset();
-    });
-  }
 
   // the render method
   render() {
@@ -200,29 +50,27 @@ export default class App extends React.Component {
 
     return (
       <div id="top-container">
-        <TopBar N={this.state.N} changeGame={this.changeGame} />
+        <TopBar N={this.props.N} changeGame={this.props.changeGame} />
         <br />
         <TopFrame
-          N={this.state.N}
-          cellWidth={ dimension / (MAGIC_NUMBERS.CELL_WIDTH * this.state.N) }
-          count={this.state.count}
-          reset={this.reset}
+          N={this.props.N}
+          cellWidth={ dimension / (MAGIC_NUMBERS.CELL_WIDTH * this.props.N) }
+          count={this.props.count}
+          reset={this.props.resetGame}
         />
         <BoardLayout
-          N={this.state.N}
-          width={ dimension / (MAGIC_NUMBERS.WIDTH * this.state.N) }
-          height={ dimension / (MAGIC_NUMBERS.HEIGHT * this.state.N) }
-          margin={ dimension / (MAGIC_NUMBERS.MARGIN * this.state.N) }
-          fontSize={ dimension / (MAGIC_NUMBERS.FONT_SIZE * this.state.N) }
-          board={this.state.board.board}
-          onMouseClick={this.handleMouseClick}
+          N={this.props.N}
+          width={ dimension / (MAGIC_NUMBERS.WIDTH * this.props.N) }
+          height={ dimension / (MAGIC_NUMBERS.HEIGHT * this.props.N) }
+          margin={ dimension / (MAGIC_NUMBERS.MARGIN * this.props.N) }
+          fontSize={ dimension / (MAGIC_NUMBERS.FONT_SIZE * this.props.N) }
+          board={this.props.board.board}
+          onMouseClick={(index) => this.props.moveOnIndexClick(this.props.board, index)}
         />
         <BottomFrame
-          N={this.state.N}
-          activateAI={this.activateAutoSolve}
-          autosolve={this.state.autosolve}
-          solvable={this.state.solvable}
-          won={this.state.won}
+          N={this.props.N}
+          activateAI={this.props.autosolveGame.bind(null, this.props.board)}
+          gameState={this.props.gameState}
         />
         <br />
         <Footer />
@@ -230,3 +78,21 @@ export default class App extends React.Component {
     );
   }
 }
+
+const mapStateToProps = ({ app }) => ({
+  N: app.N,
+  board: app.board,
+  count: app.count,
+  gameState: app.gameState,
+  solution: app.solution
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  changeGame: (n) => dispatch(changeGame(n)),
+  resetGame: () => dispatch(resetGame()),
+  autosolveGame: (board) => dispatch(autosolveGame(board)),
+  moveOnKeyPress: (board, e) => dispatch(moveOnKeyPress(board, e)),
+  moveOnIndexClick: (board, index) => dispatch(moveOnIndexClick(board, index))
+});
+
+export default connect(mapStateToProps , mapDispatchToProps)(App);
