@@ -7,6 +7,18 @@ import React from "react";
 import RaisedButton from "material-ui/RaisedButton";
 import CircularProgress from 'material-ui/CircularProgress';
 
+import {
+  SOLVED_AI,
+  SOLVING_AI,
+  UNSOLVABLE,
+  SOLVED_USER,
+  SOLVING_USER,
+  SHOWED_SOLUTION,
+  SHOWING_SOLUTION,
+  SOLVING_FAILED_AI
+} from "../types";
+
+
 type BottomFramePropsType = {
   N: number,
   gameState: GameState,
@@ -22,82 +34,45 @@ type BottomFramePropsType = {
 const BottomFrame = ({ gameState, N, activateAI }: BottomFramePropsType): React.Element<*> => {
   let frame = (<div></div>);
   switch (gameState) {
-    case "SOLVED_AI": {
-      frame = (
-        <h2 className="centered text-center">
-          Solved (Initiating presentation)
-        </h2>
-      );
+    case SOLVED_AI: {
+      frame = "Solved (Initiating presentation)"
       break;
     }
-    case "SOLVING_AI": {
+    case SOLVING_AI: {
+      frame = (<CircularProgress size={60} thickness={7} />);
+      break;
+    }
+    case UNSOLVABLE: {
+      frame = "This one can't be solved"
+      break;
+    }
+    case SOLVED_USER: {
+      frame = "YOU WON!!"
+      break;
+    }
+    case SOLVING_USER: {
       frame = (
-        <div className="container">
-          <div className="span12">
-            <CircularProgress size={60} thickness={7} />
-          </div>
+        <div>
+          <p>
+            <b>Instructions:</b>
+            Use the arrow keys to move tiles.
+            {N < 4 ? "On clicking solve you will get the solution in shortest number of moves." : null}
+          </p>
+          {N < 4 ? (<RaisedButton label="Solve" onClick={activateAI.bind(null, true)} secondary />) : (<div></div>)}
         </div>
       );
       break;
     }
-    case "UNSOLVABLE": {
-      frame = (
-        <h2 className="centered text-center">
-          This one can't be solved
-        </h2>
-      );
+    case SHOWED_SOLUTION: {
+      frame = "And that's how you solve it"
       break;
     }
-    case "SOLVED_USER": {
-      frame = (
-        <h2 className="centered text-center">
-          YOU WON!!
-        </h2>
-      );
+    case SHOWING_SOLUTION: {
+      frame = "Look and Learn"
       break;
     }
-    case "SOLVING_USER": {
-      const msg = N < 4 ? "On clicking solve you will get the solution in shortest number of moves." : null;
-      frame = (
-        <div className="centered text-center">
-          <div className="container">
-            <div className="span12">
-              <p><b>Instructions:</b> Use the arrow keys to move tiles. {msg} </p>
-            </div>
-          </div>
-          <div className="col-sm-12">
-            <RaisedButton
-              label="Solve"
-              onClick={activateAI.bind(null, true)}
-              secondary
-            />
-          </div>
-        </div>
-      );
-      break;
-    }
-    case "SHOWED_SOLUTION": {
-      frame = (
-        <h2 className="centered text-center">
-          And that's how you solve it
-        </h2>
-      );
-      break;
-    }
-    case "SHOWING_SOLUTION": {
-      frame = (
-        <h2 className="centered text-center">
-          Look and Learn
-        </h2>
-      );
-      break;
-    }
-    case "SOLVING_FAILED_AI": {
-      frame = (
-        <h2 className="centered text-center">
-          Ha..Can't do it :P
-        </h2>
-      );
+    case SOLVING_FAILED_AI: {
+      frame = "Ha..Can't do it :P"
       break;
     }
     default: {
@@ -105,7 +80,11 @@ const BottomFrame = ({ gameState, N, activateAI }: BottomFramePropsType): React.
       break;
     }
   }
-  return frame;
+  return (
+    <div className="centered text-center">
+      {frame}
+    </div>
+  );
 };
 
 

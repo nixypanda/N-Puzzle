@@ -8,9 +8,6 @@ import BoardLayout from "./BoardLayout";
 import BottomFrame from "./BottomFrame";
 import Footer from "../Common/Footer";
 
-// Logic imports
-// import NewBoard from "../board/BoardFactory";
-// import SolutionTo from "../AI/Solver";
 import {
   changeGame,
   resetGame,
@@ -32,14 +29,13 @@ class App extends React.Component {
 
   // Start Polling keydown event
   componentDidMount() {
-    window.addEventListener("keydown", (e) => this.props.moveOnKeyPress(this.props.board, e));
+    window.addEventListener("keydown", (e) => this.props.moveOnKeyPress(this.props.board, e.keyCode));
   }
 
   // Stop Polling keydown event
   componentWillUnmount() {
-    window.removeEventListener("keydown", (e) => this.props.moveOnKeyPress(this.prosp.board, e));
+    window.removeEventListener("keydown", (e) => this.props.moveOnKeyPress(this.prosp.board, e.keyCode));
   }
-
 
 
   // the render method

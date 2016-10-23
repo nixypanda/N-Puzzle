@@ -4,14 +4,13 @@ import Board from "./board/Board";
 import autoSolve from "./AI/Solver";
 
 import type {
-  AutosolvedAction,
   ChangeGameAction,
-  ResetGameAction
+  ResetGameAction,
+  MakeMoveAction
 } from "./types";
 
 import {
   WON_GAME_AI,
-  WON_GAME_USER,
   MAKE_MOVE,
   RESET_GAME,
   CHANGE_GAME,
@@ -27,8 +26,7 @@ import {
  * @return {ActionType} Action to chage the game
  */
 export const resetGame = (): ResetGameAction => ({
-  type: RESET_GAME,
-  payload: null
+  type: RESET_GAME
 });
 
 /**
@@ -39,7 +37,7 @@ export const resetGame = (): ResetGameAction => ({
 export const autosolveGame = (board: Board) =>
   (dispatch: Function) => {
     // Signifies start of autosolving.
-    dispatch({ type: START_AUTOSOLVING_THE_GAME, payload: null });
+    dispatch({ type: START_AUTOSOLVING_THE_GAME });
 
     // Call in the autoSolve method with the board to be solved.
     // NOTE: make it async or atleast put a timeout.
@@ -51,7 +49,7 @@ export const autosolveGame = (board: Board) =>
     // Generate actions after a one second gap.
     let i = 1;
     const length = solution.length;
-    dispatch({ type: PRESENT_SOLUTION, payload: null });
+    dispatch({ type: PRESENT_SOLUTION });
 
     // start dispatching actions per second towards the goal board
     const aiPlaying = setInterval(() => {
@@ -61,7 +59,7 @@ export const autosolveGame = (board: Board) =>
       i += 1;
       if (i === length) {
         // when we reach the end of the solution then dispatch an action saying game was won
-        dispatch({ type: WON_GAME_AI, payload: null })
+        dispatch({ type: WON_GAME_AI })
         clearInterval(aiPlaying);
       }
     }, 1000);
@@ -74,7 +72,7 @@ export const autosolveGame = (board: Board) =>
  * @param {number} index the index of the number that is pressed
  * @return {MakeMoveAction} Action to move board.
  */
-export const moveOnIndexClick = (board, index) => ({
+export const moveOnIndexClick = (board: Board, index: number): MakeMoveAction => ({
   type: MAKE_MOVE,
   payload: board.moveOnIndex(index)
 });
@@ -84,14 +82,14 @@ export const moveOnIndexClick = (board, index) => ({
 * key pressed is one of the arrow keys.
 *
 * @param  {event} e An event object.
-* @return {null} [nothing]
+* @return {MakeMoveAction} Make a MakeMoveAction
 */
-export const moveOnKeyPress = (board, e) => {
+export const moveOnKeyPress = (board: Board, keyCode: number): MakeMoveAction => {
 
   // Arrow key codes: LEFT = 37, UP = 38, RIGHT = 39, DOWN = 40;
   // hence the function to call move on the blank tile is inverted so it
   // is more natural to the user.
-  let moved = board.moveOnDirection(e.keyCode - 37);
+  let moved = board.moveOnDirection(keyCode);
   return { type: MAKE_MOVE, payload: moved };
 }
 
