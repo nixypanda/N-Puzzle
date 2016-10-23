@@ -23,7 +23,9 @@ type TopFramePropsType = {
  */
 const __topFrameStyle__ = (N: number, cellWidth: number) => ({
   width: N * cellWidth + 80,
-  margin: 'auto',
+  height: 55,
+  marginLeft: 'auto',
+  marginRight: 'auto',
   backgroundColor: grey50
 });
 

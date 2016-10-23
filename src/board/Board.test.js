@@ -91,33 +91,33 @@ describe("In the module Board", () => {
     });
 
     it("0 should move to the left", () => {
-      board.moveOnDirection(LEFT);
-      expect(board.equals(new Board([ 1, 3, 2, 0, 6, 5, 7, 8, 4 ]))).toBeTruthy();
+      const newBoard = board.moveOnDirection(LEFT);
+      expect(newBoard.equals(new Board([ 1, 3, 2, 0, 6, 5, 7, 8, 4 ]))).toBeTruthy();
     });
 
     it("0 should move to the right", () => {
-      board.moveOnDirection(RIGHT);
-      expect(board.equals(new Board([ 1, 3, 2, 6, 5, 0, 7, 8, 4 ]))).toBeTruthy();
+      const newBoard = board.moveOnDirection(RIGHT);
+      expect(newBoard.equals(new Board([ 1, 3, 2, 6, 5, 0, 7, 8, 4 ]))).toBeTruthy();
     });
 
     it("0 should move up", () => {
-      board.moveOnDirection(UP);
-      expect(board.equals(new Board([ 1, 0, 2, 6, 3, 5, 7, 8, 4 ]))).toBeTruthy();
+      const newBoard = board.moveOnDirection(UP);
+      expect(newBoard.equals(new Board([ 1, 0, 2, 6, 3, 5, 7, 8, 4 ]))).toBeTruthy();
     });
 
     it("0 should move to the right", () => {
-      board.moveOnDirection(DOWN);
-      expect(board.equals(new Board([ 1, 3, 2, 6, 8, 5, 7, 0, 4 ]))).toBeTruthy();
+      const newBoard = board.moveOnDirection(DOWN);
+      expect(newBoard.equals(new Board([ 1, 3, 2, 6, 8, 5, 7, 0, 4 ]))).toBeTruthy();
     });
 
     it("0 should move left", () => {
-      board.moveOnIndex(3);
-      expect(board.equals(new Board([ 1, 3, 2, 0, 6, 5, 7, 8, 4 ]))).toBeTruthy();
+      const newBoard = board.moveOnIndex(3);
+      expect(newBoard.equals(new Board([ 1, 3, 2, 0, 6, 5, 7, 8, 4 ]))).toBeTruthy();
     });
 
     it("0 should not move", () => {
-      board.moveOnIndex(0);
-      expect(board.equals(new Board([ 1, 3, 2, 6, 0, 5, 7, 8, 4 ]))).toBeTruthy();
+      const newBoard = board.moveOnIndex(0);
+      expect(newBoard.equals(new Board([ 1, 3, 2, 6, 0, 5, 7, 8, 4 ]))).toBeTruthy();
     });
   });
 

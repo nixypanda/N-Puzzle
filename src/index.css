@@ -11,6 +11,13 @@ body {
    flex-direction: column;
 }
 
+#game-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+}
+
 .center {
   position: relative;
   top: 50%;
@@ -19,6 +26,12 @@ body {
   -webkit-transform: translateY(-50%);
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
+}
+
+#bottom-frame {
+  height: 150px !important;
+  padding: 2rem;
+  text-align: center;
 }
 
 #footer {

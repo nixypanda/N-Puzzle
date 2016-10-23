@@ -5,7 +5,6 @@ import Board from "./board/Board";
 /* ACTION TYPE DECLARATIONS */
 
 export type MakeMoveActionType = "MAKE_MOVE";
-export type ResetGameActionType = "RESET_GAME";
 export type WonGameAIActionType = "WON_GAME_AI";
 export type ChangeGameActionType = "CHANGE_GAME";
 export type WonGameUserActionType = "WON_GAME_USER";
@@ -14,7 +13,6 @@ export type PresentSolutionActionType = "PRESENT_SOLUTION";
 export type StartAutosolveActionType = "START_AUTOSOLVE_GAME";
 
 export const MAKE_MOVE: MakeMoveActionType = "MAKE_MOVE";
-export const RESET_GAME: ResetGameActionType = "RESET_GAME";
 export const WON_GAME_AI: WonGameAIActionType = "WON_GAME_AI";
 export const CHANGE_GAME: ChangeGameActionType = "CHANGE_GAME";
 export const WON_GAME_USER: WonGameUserActionType = "WON_GAME_USER";
@@ -25,7 +23,6 @@ export const START_AUTOSOLVING_THE_GAME: StartAutosolveActionType = "START_AUTOS
 
 /* THE ACTIONS */
 
-export type ResetGameAction = { type: ResetGameActionType };
 export type WonGameAIAction = { type: WonGameAIActionType };
 export type WonGameUserAction = { type: WonGameAIActionType };
 export type PresentSolutionAction = { type: PresentSolutionActionType };
@@ -43,7 +40,6 @@ export type ActionType =
     WonGameAIAction
   | WonGameUserAction
   | MakeMoveAction
-  | ResetGameAction
   | ChangeGameAction
   | AutosolvedAction
   | StartAutosolveAction

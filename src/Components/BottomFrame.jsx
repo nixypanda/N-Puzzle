@@ -68,7 +68,7 @@ const BottomFrame = ({ gameState, N, activateAI }: BottomFramePropsType): React.
       break;
     }
     case SHOWING_SOLUTION: {
-      frame = "Look and Learn"
+      frame = (<CircularProgress size={60} thickness={7} />);
       break;
     }
     case SOLVING_FAILED_AI: {
@@ -81,7 +81,7 @@ const BottomFrame = ({ gameState, N, activateAI }: BottomFramePropsType): React.
     }
   }
   return (
-    <div className="centered text-center">
+    <div id="bottom-frame">
       {frame}
     </div>
   );

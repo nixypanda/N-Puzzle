@@ -1,5 +1,4 @@
 import { createStore, applyMiddleware, compose } from 'redux';
-import thunk from 'redux-thunk';
 
 import IndexReducer from '../IndexReducer';
 import reduxImmutableStateInvariant from 'redux-immutable-state-invariant';
@@ -7,7 +6,7 @@ import DevTools from '../utils/ReduxDevtools';
 
 const enhancer = compose(
   // Middleware you want to use in development:
-  applyMiddleware(thunk, reduxImmutableStateInvariant()),
+  applyMiddleware(reduxImmutableStateInvariant()),
   // Required! Enable Redux DevTools with the monitors you chose
   window.devToolsExtension ? window.devToolsExtension() : DevTools.instrument()
 );
