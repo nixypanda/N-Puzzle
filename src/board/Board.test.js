@@ -1,3 +1,4 @@
+/* @flow */
 import Board from "./Board";
 
 // Testing various mehtods of the Board class.
@@ -26,10 +27,10 @@ describe("In the module Board", () => {
     let board3 = new Board([ 1, 2, 3, 4, 5, 6, 7, 8, 0 ]);
 
     it("should return false (dissimilar)", () => {
-      expect(board1.equals(board3)).toBeFalsy();
+      expect(board1).not.toEqual(board3)
     });
     it("should return true (similar)", () => {
-      expect(board1.equals(board2)).toBeTruthy();
+      expect(board1).toEqual(board2)
     });
   });
 
@@ -92,32 +93,32 @@ describe("In the module Board", () => {
 
     it("0 should move to the left", () => {
       const newBoard = board.moveOnDirection(LEFT);
-      expect(newBoard.equals(new Board([ 1, 3, 2, 0, 6, 5, 7, 8, 4 ]))).toBeTruthy();
+      expect(newBoard).toEqual(new Board([ 1, 3, 2, 0, 6, 5, 7, 8, 4 ]));
     });
 
     it("0 should move to the right", () => {
       const newBoard = board.moveOnDirection(RIGHT);
-      expect(newBoard.equals(new Board([ 1, 3, 2, 6, 5, 0, 7, 8, 4 ]))).toBeTruthy();
+      expect(newBoard).toEqual(new Board([ 1, 3, 2, 6, 5, 0, 7, 8, 4 ]));
     });
 
     it("0 should move up", () => {
       const newBoard = board.moveOnDirection(UP);
-      expect(newBoard.equals(new Board([ 1, 0, 2, 6, 3, 5, 7, 8, 4 ]))).toBeTruthy();
+      expect(newBoard).toEqual(new Board([ 1, 0, 2, 6, 3, 5, 7, 8, 4 ]));
     });
 
     it("0 should move to the right", () => {
       const newBoard = board.moveOnDirection(DOWN);
-      expect(newBoard.equals(new Board([ 1, 3, 2, 6, 8, 5, 7, 0, 4 ]))).toBeTruthy();
+      expect(newBoard).toEqual(new Board([ 1, 3, 2, 6, 8, 5, 7, 0, 4 ]));
     });
 
     it("0 should move left", () => {
       const newBoard = board.moveOnIndex(3);
-      expect(newBoard.equals(new Board([ 1, 3, 2, 0, 6, 5, 7, 8, 4 ]))).toBeTruthy();
+      expect(newBoard).toEqual(new Board([ 1, 3, 2, 0, 6, 5, 7, 8, 4 ]));
     });
 
     it("0 should not move", () => {
       const newBoard = board.moveOnIndex(0);
-      expect(newBoard.equals(new Board([ 1, 3, 2, 6, 0, 5, 7, 8, 4 ]))).toBeTruthy();
+      expect(newBoard).toEqual(new Board([ 1, 3, 2, 6, 0, 5, 7, 8, 4 ]));
     });
   });
 
@@ -130,10 +131,10 @@ describe("In the module Board", () => {
 
     it("shold return 4 neighbours (0<->3, 0<->6, 0<->5, 0<->8)", () => {
       let neighbours = board.neighbours();
-      expect(up.equals(neighbours[0])).toBeTruthy();
-      expect(left.equals(neighbours[1])).toBeTruthy();
-      expect(down.equals(neighbours[2])).toBeTruthy();
-      expect(right.equals(neighbours[3])).toBeTruthy();
+      expect(up).toEqual(neighbours[0]);
+      expect(left).toEqual(neighbours[1]);
+      expect(down).toEqual(neighbours[2]);
+      expect(right).toEqual(neighbours[3]);
     });
   });
 });

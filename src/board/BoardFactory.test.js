@@ -1,3 +1,5 @@
+/* @flow */
+
 import NewBoard from "./BoardFactory";
 
 describe("Board Factory Test Suite", () => {

@@ -1,36 +1,35 @@
-import { inversionCount, shuffle } from './Helpers';
+/* @flow */
 
-describe('The function inversionCount', () => {
-  describe('when invoked with (pathological cases)', () => {
+import R from "ramda";
+import { inversionCount, shuffle } from "./Helpers";
 
-    it('empty array should return 0', () => {
+describe("The function inversionCount", () => {
+  describe("when invoked with (pathological cases)", () => {
+
+    it("empty array should return 0", () => {
       expect(inversionCount([ ])).toEqual(0);
     });
 
-    it('array of length 1 should return 0', () => {
+    it("array of length 1 should return 0", () => {
       expect(inversionCount([ 1 ])).toEqual(0);
     });
   });
 
-  describe('when invoked with (general cases)', () => {
-    it('[ 1, 3, 2 ] should return 1', () => {
+  describe("when invoked with (general cases)", () => {
+    it("[ 1, 3, 2 ] should return 1", () => {
       expect(inversionCount([ 1, 3, 2 ])).toEqual(1);
     });
 
-    it('[3, 4, 10, 8, 5, 2, 90, 1] should return ', () => {
+    it("[3, 4, 10, 8, 5, 2, 90, 1] should return ", () => {
       expect(inversionCount([ 3, 4, 1, 8, 5, 2, 90, 1 ])).toEqual(13);
     });
   });
 });
 
-describe('The function shuffle', () => {
-  it('should preserve the elements of the original array', () => {
-    let original = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ];
-    let originalSet = new Set(original);
-    let shuffledSet = new Set(shuffle(original));
-
+describe("The function shuffle", () => {
+  it("should preserve the elements of the original array", () => {
     // comparison of two sets
-    const eqSet = (ass, bs) => {
+    const eqSet = (ass: Set<number>, bs: Set<number>): boolean => {
       if (ass.size !== bs.size) {
         return false;
       }
@@ -42,6 +41,14 @@ describe('The function shuffle', () => {
       return true;
     };
 
-    expect(eqSet(originalSet, shuffledSet)).toBeTruthy();
+    for (let i = 0; i < 10; i++) {
+      const a = Math.floor((Math.random() * 100) + 1);
+      const b = Math.floor((Math.random() * 100) + 1);
+      const original = R.range(a, b)
+      const originalSet = new Set(original);
+      const shuffledSet = new Set(shuffle(original));
+
+      expect(eqSet(originalSet, shuffledSet)).toBeTruthy();
+    }
   });
 });

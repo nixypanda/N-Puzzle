@@ -1,3 +1,5 @@
+/* @flow */
+
 import PriorityQueue from "../../src/helpers/PriorityQueue";
 
 describe("Priority Queue Specifications", () => {

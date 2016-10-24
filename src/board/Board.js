@@ -127,7 +127,7 @@ export default class Board {
    * @return {number} the hamming distance from the present board to the goal state
    */
   hamming(): number {
-    return (R.sum(this.board.map((x, i) => x !== i + 1)) - 1);
+    return (R.sum(this.board.map((x, i) => x !== i + 1 ? 1 : 0)) - 1);
   }
 
   /**
