@@ -1,3 +1,5 @@
+/* @flow */
+
 import React from 'react';
 
 // Exported from redux-devtools

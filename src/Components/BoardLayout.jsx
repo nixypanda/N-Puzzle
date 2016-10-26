@@ -86,7 +86,7 @@ const BoardLayout = (props: BoardLayoutPropsType): React.Element<*> => {
 
     return (
       <Motion key={tile} style={style}>
-        { ({ tX, tY }) =>
+        { ({ tX, tY }: { tX: number, tY: number }) =>
         <div
           style={{
             width: props.width + 2 * props.margin,

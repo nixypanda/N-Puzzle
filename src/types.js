@@ -1,5 +1,7 @@
 /* @flow */
 
+import type { Store as ReduxStore, Dispatch as ReduxDispatch } from "redux";
+
 import Board from "./board/Board";
 
 /* ACTION TYPE DECLARATIONS */
@@ -94,3 +96,7 @@ export type ModelType = {
   gameState: GameState,
   solution: ?Array<Board>
 };
+
+export type Store = ReduxStore<ModelType, ActionType>;
+
+export type Dispatch = ReduxDispatch<ActionType>;
