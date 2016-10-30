@@ -27,10 +27,10 @@ describe("In the module Board", () => {
     let board3 = new Board([ 1, 2, 3, 4, 5, 6, 7, 8, 0 ]);
 
     it("should return false (dissimilar)", () => {
-      expect(board1).not.toEqual(board3)
+      expect(board1).not.toEqual(board3);
     });
     it("should return true (similar)", () => {
-      expect(board1).toEqual(board2)
+      expect(board1).toEqual(board2);
     });
   });
 

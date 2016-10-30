@@ -45,7 +45,9 @@ export default class Board {
   }
 
   equals(that: Board): boolean {
-    if (this.N !== that.N) return false;
+    if (this.N !== that.N) {
+      return false;
+    }
     return (
       R.zipWith((a, b) => a === b, this.board, that.board)
         .reduce((a, b) => a && b, true)
@@ -68,11 +70,11 @@ export default class Board {
     let b = new Board(this.board.slice(0));
 
     switch (direction) {
-      case RIGHT: { tile = b.zeroIndex + 1; break; }
-      case DOWN: { tile = b.zeroIndex + b.N; break; }
-      case LEFT: { tile = b.zeroIndex - 1; break; }
-      case UP: { tile = b.zeroIndex - b.N; break; }
-      default: { break; }
+    case RIGHT: { tile = b.zeroIndex + 1; break; }
+    case DOWN: { tile = b.zeroIndex + b.N; break; }
+    case LEFT: { tile = b.zeroIndex - 1; break; }
+    case UP: { tile = b.zeroIndex - b.N; break; }
+    default: { break; }
     }
     if (b.__makeMove__(b.zeroIndex, tile)) {
       b.zeroIndex = tile;
@@ -127,7 +129,7 @@ export default class Board {
    * @return {number} the hamming distance from the present board to the goal state
    */
   hamming(): number {
-    return (R.sum(this.board.map((x, i) => x !== i + 1 ? 1 : 0)) - 1);
+    return R.sum(this.board.map((x, i) => x !== i + 1 ? 1 : 0)) - 1;
   }
 
   /**
@@ -143,10 +145,10 @@ export default class Board {
     const initials = this.board.map((p) => toPoint(this.N, p - 1));
     // final (x, y) coords of the tiles.
     const finals = this.board.map((_, i) => toPoint(this.N, i));
-    const emptyTileManhattanDistance = manhattanDistance(toPoint(this.N, -1), toPoint(this.N, this.N - 1))
+    const emptyTileManhattanDistance = manhattanDistance(toPoint(this.N, -1), toPoint(this.N, this.N - 1));
 
     // Calculate the manhattan distance for each tile then subtract the manhattanDistance for the empty tile.
-    return (R.sum(R.zipWith(manhattanDistance, initials, finals)) - emptyTileManhattanDistance);
+    return R.sum(R.zipWith(manhattanDistance, initials, finals)) - emptyTileManhattanDistance;
   }
 
   /**
@@ -157,7 +159,7 @@ export default class Board {
    * @return {board} [the twin of the present board]
    */
   twin(): Board {
-    const condition = (this.board[0] !== 0) && (this.board[1] !== 0);
+    const condition = this.board[0] !== 0 && this.board[1] !== 0;
     const x = condition ? 0 : this.N;
     const y = condition ? 1 : this.N + 1;
 
@@ -172,7 +174,7 @@ export default class Board {
    */
   neighbours(): Array<Board> {
     // The indices to [ top, left, bottom, right ] of zero
-    const relativeIndices = [ -this.N, -1, this.N, 1];
+    const relativeIndices = [ -this.N, -1, this.N, 1 ];
     // The conditions specifying if it is possible to swap with [ top, left, bottom, right ] indices.
     const conditions = [
       this.zeroIndex > this.N - 1,
@@ -209,7 +211,7 @@ export default class Board {
   // private helper to exchange the board tiles
   __makeMove__(i: number, j: number): boolean {
     // do not make a move for tiles if one is at the edge of a row and another is at the start of the next row
-    if ((Math.min(i, j) % this.N === this.N - 1) && (Math.max(i, j) % this.N === 0)) {
+    if (Math.min(i, j) % this.N === this.N - 1 && Math.max(i, j) % this.N === 0) {
       return false;
     }
     if (i >= 0 && j >= 0 && i < this.board.length && j < this.board.length) {

@@ -1,13 +1,13 @@
 /* @flow */
 
 // type imports
-import type { ModelType, ActionType, Store } from "../types";
+import type { ModelType, Store } from "../types";
 
 // library imports
-import { createStore } from 'redux';
+import { createStore } from "redux";
 
 // file imports
-import rootReducer from '../IndexReducer';
+import rootReducer from "../IndexReducer";
 
 
 export default function configureStore(initialState: ModelType): Store {

@@ -74,10 +74,10 @@ export const makeMove = (board: Board): MakeMoveAction => ({
 /**
  * Generate an action to changes the game to different n-by-n grid
  *
- * @param  {number} n governs the size of the board
+ * @param  {number} size governs the size of the board
  * @return {ActionType} Action to chage the game
  */
 export const changeGame = (size: number): ChangeGameAction => ({
   type: CHANGE_GAME,
   payload: size
-})
+});

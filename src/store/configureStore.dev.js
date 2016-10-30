@@ -1,13 +1,13 @@
 /* @flow */
 
 // type imports
-import type { ModelType, ActionType, Store } from "../types";
+import type { ModelType, Store } from "../types";
 
-import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore, applyMiddleware, compose } from "redux";
 
-import IndexReducer from '../IndexReducer';
-import reduxImmutableStateInvariant from 'redux-immutable-state-invariant';
-import DevTools from '../utils/ReduxDevtools';
+import IndexReducer from "../IndexReducer";
+import reduxImmutableStateInvariant from "redux-immutable-state-invariant";
+import DevTools from "../utils/ReduxDevtools";
 
 const enhancer = compose(
   // Middleware you want to use in development:
@@ -28,9 +28,9 @@ export default function configureStore(initialState: ModelType) {
 
   // Hot reload reducers (requires Webpack or Browserify HMR to be enabled)
   if (module.hot) {
-    module.hot.accept('../IndexReducer', () =>
+    module.hot.accept("../IndexReducer", () =>
       /* .default if you use Babel 6+ */
-      store.replaceReducer(require('../IndexReducer'))
+      store.replaceReducer(require("../IndexReducer"))
    );
   }
 

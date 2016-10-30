@@ -5,7 +5,6 @@ import { inversionCount, shuffle } from "./Helpers";
 
 describe("The function inversionCount", () => {
   describe("when invoked with (pathological cases)", () => {
-
     it("empty array should return 0", () => {
       expect(inversionCount([ ])).toEqual(0);
     });
@@ -41,10 +40,10 @@ describe("The function shuffle", () => {
       return true;
     };
 
-    for (let i = 0; i < 10; i++) {
-      const a = Math.floor((Math.random() * 100) + 1);
-      const b = Math.floor((Math.random() * 100) + 1);
-      const original = R.range(a, b)
+    for (let i = 0; i < 10; i += 1) {
+      const a = Math.floor(Math.random() * 100 + 1);
+      const b = Math.floor(Math.random() * 100 + 1);
+      const original = R.range(a, b);
       const originalSet = new Set(original);
       const shuffledSet = new Set(shuffle(original));
 

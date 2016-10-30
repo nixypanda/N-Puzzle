@@ -17,7 +17,6 @@ describe("Priority Queue Specifications", () => {
   });
 
   describe("Push operations", () => {
-
     it("should succed when pushing one element", () => {
       let q = new PriorityQueue();
       q.push({ p: "two" }, 2);
@@ -54,7 +53,9 @@ describe("Priority Queue Specifications", () => {
       queue.pop();
       queue.pop();
 
-      expect(() => { queue.pop(); }).toThrow();
+      expect(() => {
+        queue.pop();
+      }).toThrow("Underflow");
     });
   });
 
@@ -66,5 +67,4 @@ describe("Priority Queue Specifications", () => {
       expect(queue.heap.toString()).toEqual("0.5,2,1,3,5,9");
     });
   });
-
 });

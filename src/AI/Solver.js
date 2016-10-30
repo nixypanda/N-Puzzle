@@ -1,4 +1,5 @@
 /* @flow */
+/* eslint-disable no-undefined */
 
 import Board from "../board/Board";
 import SearchNode from "./SearchNode";
