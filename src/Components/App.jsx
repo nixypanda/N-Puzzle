@@ -1,5 +1,5 @@
 /* @flow */
-import type { Dispatch, Store, GameState } from "../types";
+import type { Dispatch, GameState } from "../types";
 
 import React from "react";
 import { connect } from "react-redux";
@@ -183,4 +183,4 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   makeMove: (board: Board) => dispatch(makeMove(board))
 });
 
-export default connect(mapStateToProps , mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
