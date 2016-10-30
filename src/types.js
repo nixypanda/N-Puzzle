@@ -97,6 +97,14 @@ export type ModelType = {
   solution: ?Array<Board>
 };
 
+
+/**
+ * The complete store of our application
+ */
 export type Store = ReduxStore<ModelType, ActionType>;
 
+
+/**
+ * The Dispatch
+ */
 export type Dispatch = ReduxDispatch<ActionType>;

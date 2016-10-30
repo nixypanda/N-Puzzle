@@ -54,9 +54,7 @@ describe("Priority Queue Specifications", () => {
       queue.pop();
       queue.pop();
 
-      expect(() => {
-        queue.pop();
-      }).toThrow(new Error("Underflow"));
+      expect(() => { queue.pop(); }).toThrow();
     });
   });
 

@@ -51,7 +51,8 @@ const reducer = (state: ModelType = baseState(4), action: ActionType): ModelType
 
       if (state.board.equals(payload)) {
         return state;
-      } else if (payload.isGoal()) {
+      }
+      else if (payload.isGoal()) {
         return {
           ...state,
           board: payload,
@@ -59,7 +60,8 @@ const reducer = (state: ModelType = baseState(4), action: ActionType): ModelType
           // A way to generate WON_GAME_USER action.
           gameState: state.gameState === SOLVING_USER ? SOLVED_USER : state.gameState
         };
-      } else {
+      }
+      else {
         return {
           ...state,
           board: payload,

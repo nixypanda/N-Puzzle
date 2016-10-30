@@ -151,6 +151,7 @@ class App extends React.Component {
             margin={dimension / (MAGIC_NUMBERS.MARGIN * this.props.N)}
             fontSize={dimension / (MAGIC_NUMBERS.FONT_SIZE * this.props.N)}
             board={this.props.board.board}
+            padding={10}
             onMouseClick={(index) => this.props.makeMove(this.props.board.moveOnIndex(index))}
           />
           <BottomFrame
@@ -165,7 +166,7 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = ({ app }: Store) => ({
+const mapStateToProps = ({ app }) => ({
   N: app.N,
   board: app.board,
   count: app.count,
