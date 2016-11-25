@@ -1,5 +1,7 @@
 /* @flow */
 
+import type { Dispatch } from "../types";
+
 import React from "react";
 import { Motion, spring } from "react-motion";
 import Paper from "material-ui/Paper";
@@ -13,7 +15,7 @@ type BoardLayoutPropsType = {
   padding: number,
   margin: number,
   fontSize: number,
-  onMouseClick: (n: number) => void
+  onMouseClick: (n: number) => Dispatch
 };
 
 
@@ -86,7 +88,7 @@ const BoardLayout = (props: BoardLayoutPropsType): React.Element<*> => {
 
     return (
       <Motion key={tile} style={style}>
-        { ({ tX, tY }) =>
+        { ({ tX, tY }: { tX: number, tY: number }) =>
         <div
           style={{
             width: props.width + 2 * props.margin,

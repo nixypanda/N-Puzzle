@@ -1,8 +1,9 @@
 // flow-typed signature: 323fcc1a3353d5f7a36c5f1edcd963ef
 // flow-typed version: 41f45a7d8c/react-addons-test-utils_v15.x.x/flow_>=v0.23.x
+/* eslint-disable max-len */
 
 declare type ReactAddonTest$FunctionOrComponentClass = React$Component<any, any, any> | Function;
-declare module 'react-addons-test-utils' {
+declare module "react-addons-test-utils" {
   declare var Simulate: {
     [eventName: string]: (element: Element, eventData?: Object) => void;
   };

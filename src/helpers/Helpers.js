@@ -19,14 +19,14 @@ const __merge__ = (arr, temp, left, mid, right) => {
   let k = left;
   let invCount = 0;
 
-  while ((i <= mid - 1) && (j <= right)) {
+  while (i <= mid - 1 && j <= right) {
     if (arr[i] <= arr[j]) {
       temp[k] = arr[i];
       i += 1;
     } else {
       temp[k] = arr[j];
       j += 1;
-      invCount += (mid - i);
+      invCount += mid - i;
     }
     k += 1;
   }

@@ -56,7 +56,7 @@ export default class PriorityQueue<T> {
   pop(): T {
     // throw an error if list is [null].
     if (this.heap.length < 1) {
-      throw new Error('Underflow');
+      throw new Error("Underflow");
     }
 
     // get the value of the top element
@@ -101,7 +101,7 @@ export default class PriorityQueue<T> {
         higherPriorityChild += 1;
       }
       // compare priority to it's parent
-      if (!(this.__isLowerPriority__(present, higherPriorityChild))) {
+      if (!this.__isLowerPriority__(present, higherPriorityChild)) {
         break;
       }
       // swap if parent has low priority
@@ -119,7 +119,7 @@ export default class PriorityQueue<T> {
 
   // returns true if node i is higher priority than j
   __isLowerPriority__(i: number, j: number): boolean {
-    return ((this.heap[i].priority - this.heap[j].priority) > 0);
+    return this.heap[i].priority - this.heap[j].priority > 0;
   }
 
 }

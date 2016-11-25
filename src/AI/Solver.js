@@ -1,4 +1,5 @@
 /* @flow */
+/* eslint-disable no-undefined */
 
 import Board from "../board/Board";
 import SearchNode from "./SearchNode";
@@ -60,7 +61,7 @@ const __aStar__ = (board: Board): Array<Board> => {
  * @return {Array<Board>} array of boards leading to solution
  */
 const SolutionTo = (board: Board): Array<Board> => {
-  let stack = board.isSolvable ? __aStar__(board) : [];
+  let stack = board.isSolvable() ? __aStar__(board) : [];
 
   // Why not directly use unshift? effeciency
   stack.reverse();

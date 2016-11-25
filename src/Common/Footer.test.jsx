@@ -1,3 +1,5 @@
+/* #flow */
+
 import React from "react";
 import TestUtils from "react-addons-test-utils";
 import Footer from "../../src/Common/Footer";

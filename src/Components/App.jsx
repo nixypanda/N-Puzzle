@@ -1,3 +1,6 @@
+/* @flow */
+import type { Dispatch, GameState } from "../types";
+
 import React from "react";
 import { connect } from "react-redux";
 
@@ -12,6 +15,7 @@ import Footer from "../Common/Footer";
 import MyRawTheme from "../Common/theme";
 
 import autoSolve from "../AI/Solver";
+import Board from "../board/Board";
 
 import {
   changeGame,
@@ -33,6 +37,21 @@ const MAGIC_NUMBERS = {
 };
 
 class App extends React.Component {
+  aiPlaying: number;
+
+  props: {
+    N: number,
+    board: Board,
+    count: number,
+    gameState: GameState,
+    solution: Array<Board>,
+    changeGame: (n: number) => Dispatch,
+    startAutosolving: () => Dispatch,
+    autoSolved: () => Dispatch,
+    presentSolution: () => Dispatch,
+    donePresenting: () => Dispatch,
+    makeMove: (b: Board) => Dispatch
+  };
 
   // Start Polling keydown event
   componentDidMount() {
@@ -101,8 +120,8 @@ class App extends React.Component {
 
   // the render method
   render() {
-    const height = window.document.documentElement.clientHeight;
-    const width = window.document.documentElement.clientWidth;
+    const height: number = window.document.documentElement.clientHeight;
+    const width: number = window.document.documentElement.clientWidth;
     let dimension = Math.min(MAGIC_NUMBERS.VIEWPORT_WIDTH * width, height);
 
     return (
@@ -132,6 +151,7 @@ class App extends React.Component {
             margin={dimension / (MAGIC_NUMBERS.MARGIN * this.props.N)}
             fontSize={dimension / (MAGIC_NUMBERS.FONT_SIZE * this.props.N)}
             board={this.props.board.board}
+            padding={10}
             onMouseClick={(index) => this.props.makeMove(this.props.board.moveOnIndex(index))}
           />
           <BottomFrame
@@ -154,8 +174,8 @@ const mapStateToProps = ({ app }) => ({
   solution: app.solution
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  changeGame: (n) => dispatch(changeGame(n)),
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  changeGame: (n: number) => dispatch(changeGame(n)),
   startAutosolving: () => dispatch(startAutosolving()),
   autoSolved: (solution: Array<Board>) => dispatch(autoSolved(solution)),
   presentSolution: () => dispatch(presentSolution()),
@@ -163,4 +183,4 @@ const mapDispatchToProps = (dispatch) => ({
   makeMove: (board: Board) => dispatch(makeMove(board))
 });
 
-export default connect(mapStateToProps , mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
