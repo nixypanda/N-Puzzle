@@ -1,10 +1,9 @@
 // flow-typed signature: e0de1bae8e4653952fd0d24ea3610669
 // flow-typed version: c4bbd91cfc/react-redux_v4.x.x/flow_>=v0.30.x
 
-import type { Dispatch, Store } from 'redux'
+import type { Dispatch, Store } from "redux";
 
-declare module 'react-redux' {
-
+declare module "react-redux" {
   /*
 
     S = State
@@ -85,5 +84,4 @@ declare module 'react-redux' {
     mergeProps: MergeProps<SP, DP, OP, P>,
     options?: ConnectOptions
   ): Connector<OP, P>;
-
 }

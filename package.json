@@ -4,8 +4,8 @@
   "private": true,
   "homepage": "http://jckdrpr.github.io/N-Puzzle",
   "devDependencies": {
-    "flow-bin": "^0.33.0",
-    "react-addons-test-utils": "^15.3.2",
+    "flow-bin": "^0.36.0",
+    "react-addons-test-utils": "^15.4.1",
     "react-scripts": "0.7.0",
     "redux-devtools": "^3.3.1",
     "redux-devtools-dock-monitor": "^1.1.1",
@@ -14,14 +14,14 @@
   },
   "dependencies": {
     "bootstrap": "^3.3.7",
-    "flow-bin": "^0.34.0",
-    "material-ui": "^0.16.1",
+    "eslint-plugin-flowtype": "^2.25.0",
+    "material-ui": "^0.16.4",
     "ramda": "^0.22.1",
-    "react": "^15.3.2",
-    "react-dom": "^15.3.2",
+    "react": "^15.4.1",
+    "react-dom": "^15.4.1",
     "react-motion": "^0.4.5",
-    "react-redux": "^4.4.5",
-    "react-tap-event-plugin": "^1.0.0",
+    "react-redux": "^4.4.6",
+    "react-tap-event-plugin": "^2.0.1",
     "redux": "^3.6.0"
   },
   "eslintConfig": {

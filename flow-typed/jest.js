@@ -44,7 +44,8 @@ declare function expect(value: any): JestExpectType;
 declare var jest: {
   autoMockOff(): void;
   autoMockOn(): void;
-  enableAutomock(): void; // should this be there? not on the docs page
+  // should this be there? not on the docs page
+  enableAutomock(): void;
   clearAllTimers(): void;
   currentTestPath(): void;
   fn(implementation?: Function): JestMockFn;

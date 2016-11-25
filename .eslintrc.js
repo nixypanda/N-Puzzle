@@ -10,7 +10,7 @@ module.exports = {
     jasmine: true
   },
 
-  plugins: [ "react" ],
+  plugins: [ "react", "flowtype" ],
 
   ecmaFeatures: {
     arrowFunctions: true,
@@ -36,6 +36,8 @@ module.exports = {
     globalReturn: true,
     jsx: true
   },
+
+  extends: [ "eslint:recommended", "plugin:react/recommended", "plugin:flowtype/recommended" ],
 
   rules: {
 
@@ -364,13 +366,16 @@ module.exports = {
     // disallow use of unary operators, ++ and -- (off by default)
     "no-plusplus": 2,
 
-    //
     // eslint-plugin-react
-    //
+
     // React specific linting rules for ESLint
-    //
+
     // Prevent missing displayName in a React component definition
     "react/display-name": 0,
+    // Forbid certain props on Components
+    "react/forbid-component-props": 0,
+    // Forbid certain propTypes
+    "react/forbid-prop-types": 0,
     // Enforce quote style for JSX attributes
     // "react/jsx-quotes": [2, "double", "avoid-escape"],
     // Disallow undeclared variables in JSX

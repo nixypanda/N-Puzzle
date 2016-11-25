@@ -20,9 +20,9 @@ describe("The solver", () => {
       const board = newBoard(3);
       const possibleValues = new Set([ 1, -1, 3, -3 ]);
       const solution = autoSolve(board);
-      const offset = R.tail(solution);
+      const offset: Array<number> = R.tail(solution);
 
-      const zipi = R.zipWith((a, b) => possibleValues.has(a.zeroIndex - b.zeroIndex), solution, offset);
+      const zipi: Array<boolean> = R.zipWith((a, b) => possibleValues.has(a.zeroIndex - b.zeroIndex), solution, offset);
 
       expect(R.all(a => a, zipi)).toBeTruthy();
       expect(solution[solution.length - 1]).toEqual(new Board([ 1, 2, 3, 4, 5, 6, 7, 8, 0 ]));

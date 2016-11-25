@@ -1,8 +1,8 @@
 // flow-typed signature: ba132c96664f1a05288f3eb2272a3c35
 // flow-typed version: c4bbd91cfc/redux_v3.x.x/flow_>=v0.33.x
+/* eslint-disable max-len */
 
-declare module 'redux' {
-
+declare module "redux" {
   /*
 
     S = State
@@ -52,5 +52,4 @@ declare module 'redux' {
   declare function combineReducers<O: Object, A>(reducers: O): Reducer<$ObjMap<O, <S>(r: Reducer<S, any>) => S>, A>;
 
   declare function compose<S, A>(...fns: Array<StoreEnhancer<S, A>>): Function;
-
 }
