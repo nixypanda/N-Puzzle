@@ -13,7 +13,7 @@
     "redux-immutable-state-invariant": "^1.2.4"
   },
   "dependencies": {
-    "bootstrap": "^3.3.7",
+    "bootstrap": "^3.4.1",
     "eslint-plugin-flowtype": "^2.25.0",
     "material-ui": "^0.16.4",
     "ramda": "^0.22.1",
